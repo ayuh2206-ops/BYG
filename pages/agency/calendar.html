@@ -275,7 +275,7 @@ hr {
 <span class="material-icons-outlined text-[20px]">map</span>
 <span class="font-medium hidden lg:block">Tours</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="../../pages/shared/payment-status.html">
 <span class="material-icons-outlined text-[20px]">payments</span>
 <span class="font-medium hidden lg:block">Finance</span>
 </a>
@@ -652,11 +652,6 @@ hr {
 
 
     <!-- BeforeYouGo Mobile Bottom Nav -->
-    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
-        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
-            <a href="../../pages/agency/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/agency/tour-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">map</span><span style="font-size:10px;margin-top:2px">Tours</span></a><a href="../../pages/agency/participants.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">groups</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/agency/analytics.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">analytics</span><span style="font-size:10px;margin-top:2px">Analytics</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
-        </div>
-    </nav>
     <style>
         @media (max-width: 768px) {
             #byg-mobile-nav { display: flex !important; }
@@ -707,5 +702,6 @@ hr {
         });
     </script>
 
+    <script src="../../js/navigation.js"></script>
     <script src="../../js/brand-enforcer.js"></script>
 </body></html>

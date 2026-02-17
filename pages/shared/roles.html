@@ -278,12 +278,12 @@ hr {
 <span class="truncate">Subscription &amp; Billing</span>
 </a>
 <!-- Payment Methods -->
-<a class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 hover:text-primary hover:bg-primary/5 dark:text-slate-300 dark:hover:text-primary transition-all" href="#">
+<a class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-700 hover:text-primary hover:bg-primary/5 dark:text-slate-300 dark:hover:text-primary transition-all" href="../../pages/shared/payment-status.html">
 <span class="material-icons mr-3 text-slate-400 group-hover:text-primary transition-colors text-lg">payments</span>
 <span class="truncate">Payment Methods</span>
 </a>
 <!-- Role Management (Active) -->
-<a class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary dark:bg-primary/20 transition-all border-l-4 border-primary" href="#">
+<a class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary dark:bg-primary/20 transition-all border-l-4 border-primary" href="../../pages/shared/roles.html">
 <span class="material-icons mr-3 text-primary text-lg">manage_accounts</span>
 <span class="truncate">Role Management</span>
 </a>
@@ -361,7 +361,7 @@ hr {
 <section>
 <div class="flex items-center justify-between mb-4">
 <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Available Professional Roles</h2>
-<a class="text-sm text-primary hover:text-primary/80 font-medium" href="#">Why switch roles?</a>
+<a class="text-sm text-primary hover:text-primary/80 font-medium" href="../../pages/shared/roles.html">Why switch roles?</a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <!-- Local Guide Card -->
@@ -438,11 +438,6 @@ hr {
 
 
     <!-- BeforeYouGo Mobile Bottom Nav -->
-    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
-        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
-            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">arrow_back</span><span style="font-size:10px;margin-top:2px">Back</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Account</span></a><a href="../../pages/shared/roles.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">manage_accounts</span><span style="font-size:10px;margin-top:2px">Roles</span></a><a href="../../pages/shared/subscription.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">credit_card</span><span style="font-size:10px;margin-top:2px">Billing</span></a><a href="../../pages/shared/security.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">security</span><span style="font-size:10px;margin-top:2px">Security</span></a>
-        </div>
-    </nav>
     <style>
         @media (max-width: 768px) {
             #byg-mobile-nav { display: flex !important; }
@@ -493,5 +488,6 @@ hr {
         });
     </script>
 
+    <script src="../../js/navigation.js"></script>
     <script src="../../js/brand-enforcer.js"></script>
 </body></html>

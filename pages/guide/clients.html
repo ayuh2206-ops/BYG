@@ -256,14 +256,14 @@ hr {
 <div class="flex justify-between items-center h-16">
 <div class="flex items-center gap-8">
 <!-- Logo -->
-<a class="flex items-center gap-2" href="#">
+<a class="flex items-center gap-2" href="../../pages/guide/dashboard.html">
 <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xl">G</div>
 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Guide</span>
 </a>
 <!-- Main Nav -->
 <div class="hidden md:flex items-center gap-1">
 <a class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Dashboard</a>
-<a class="px-3 py-2 rounded-lg text-sm font-medium text-primary bg-primary/10" href="#">Portfolio &amp; CRM</a>
+<a class="px-3 py-2 rounded-lg text-sm font-medium text-primary bg-primary/10" href="../../pages/guide/clients.html">Portfolio &amp; CRM</a>
 <a class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/traveler/past-trips.html">Trips</a>
 </div>
 </div>
@@ -680,11 +680,6 @@ hr {
 
 
     <!-- BeforeYouGo Mobile Bottom Nav -->
-    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
-        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
-            <a href="../../pages/guide/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/guide/clients.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">people</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/guide/availability.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">calendar_today</span><span style="font-size:10px;margin-top:2px">Calendar</span></a><a href="../../pages/guide/profile-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Profile</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
-        </div>
-    </nav>
     <style>
         @media (max-width: 768px) {
             #byg-mobile-nav { display: flex !important; }
@@ -735,5 +730,6 @@ hr {
         });
     </script>
 
+    <script src="../../js/navigation.js"></script>
     <script src="../../js/brand-enforcer.js"></script>
 </body></html>

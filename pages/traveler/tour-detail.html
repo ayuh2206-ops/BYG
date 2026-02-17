@@ -239,7 +239,7 @@ hr {
 <div class="hidden md:flex items-center space-x-8">
 <a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Explore</a>
 <a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="../../pages/traveler/past-trips.html">My Trips</a>
-<a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Community</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="../../pages/public/about.html">Community</a>
 </div>
 <div class="flex items-center space-x-4">
 <button class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
@@ -261,11 +261,11 @@ hr {
 <nav aria-label="Breadcrumb" class="flex mb-6 text-sm text-slate-500 dark:text-slate-400">
 <ol class="inline-flex items-center space-x-1 md:space-x-3">
 <li class="inline-flex items-center">
-<a class="hover:text-primary" href="#">Asia</a>
+<a class="hover:text-primary" href="../../pages/traveler/home.html">Asia</a>
 </li>
 <li><span class="material-icons text-base">chevron_right</span></li>
 <li>
-<a class="hover:text-primary" href="#">Indonesia</a>
+<a class="hover:text-primary" href="../../pages/traveler/home.html">Indonesia</a>
 </li>
 <li><span class="material-icons text-base">chevron_right</span></li>
 <li aria-current="page">
@@ -616,7 +616,7 @@ hr {
 <span class="material-icons text-primary">support_agent</span>
 <div>
 <p class="font-bold text-slate-900 dark:text-white text-sm">Need help?</p>
-<a class="text-xs text-primary hover:underline" href="#">Chat with a travel expert</a>
+<a class="text-xs text-primary hover:underline" href="../../pages/traveler/dashboard.html">Chat with a travel expert</a>
 </div>
 </div>
 </div>
@@ -637,11 +637,6 @@ hr {
 
 
     <!-- BeforeYouGo Mobile Bottom Nav -->
-    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
-        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
-            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
-        </div>
-    </nav>
     <style>
         @media (max-width: 768px) {
             #byg-mobile-nav { display: flex !important; }
@@ -692,5 +687,6 @@ hr {
         });
     </script>
 
+    <script src="../../js/navigation.js"></script>
     <script src="../../js/brand-enforcer.js"></script>
 </body></html>

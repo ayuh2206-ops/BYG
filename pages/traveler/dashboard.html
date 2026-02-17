@@ -492,12 +492,6 @@ hr {
     <script src="../../js/env.config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="../../js/shared.js"></script>
-
-
-    
-    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
-        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;"><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a></div>
-    </nav>
     <style>@media(max-width:768px){#byg-mobile-nav{display:flex!important}body{padding-bottom:72px}#byg-ai-buddy{bottom:80px!important}}</style>
     <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
         <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);">
@@ -511,5 +505,6 @@ hr {
     </div>
     <script>document.addEventListener("click",function(e){var el=e.target.closest("a,button");if(el){var t=(el.textContent||"").toLowerCase();if(t.includes("switch role")||t.includes("manage role")){e.preventDefault();document.getElementById("byg-role-modal").style.display="flex"}}});</script>
 
+    <script src="../../js/navigation.js"></script>
     <script src="../../js/brand-enforcer.js"></script>
 </body></html>

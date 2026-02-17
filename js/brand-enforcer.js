@@ -106,9 +106,12 @@ function fixSidebarLogo() {
 
 
 function fixTopbarLogo() {
+    // Skip the navigation.js-injected topbar (it handles its own branding)
     // Find header elements
     var headers = document.querySelectorAll("header, [class*='sticky'][class*='top-0'], [class*='fixed'][class*='top-0']");
     headers.forEach(function(header) {
+        // Skip if this is the navigation.js topbar
+        if (header.id === "byg-topbar" || header.closest("#byg-topbar")) return;
         // Find flex container that likely holds logo
         var logoContainers = header.querySelectorAll('[class*="flex"][class*="items-center"]');
         logoContainers.forEach(function(container) {
