@@ -82,14 +82,15 @@ async function initFirebase() {
             signIn: () => Promise.reject(new Error("Start a local server for Firebase auth")),
             signUp: () => Promise.reject(new Error("Start a local server for Firebase auth")),
             signOut: () => Promise.resolve(),
-            signInAnon: () => Promise.resolve()
+            signInAnon: () => Promise.resolve(),
+            signInWithGoogle: () => Promise.reject(new Error("Start a local server for Google auth"))
         };
         BYG.db = null;
         return;
     }
     try {
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
-        const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInAnonymously }
+        const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInAnonymously, GoogleAuthProvider, signInWithPopup }
             = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
         const { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs }
             = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
@@ -110,7 +111,8 @@ async function initFirebase() {
             signIn: (e, p) => signInWithEmailAndPassword(firebaseAuth, e, p),
             signUp: (e, p) => createUserWithEmailAndPassword(firebaseAuth, e, p),
             signOut: () => signOut(firebaseAuth),
-            signInAnon: () => signInAnonymously(firebaseAuth)
+            signInAnon: () => signInAnonymously(firebaseAuth),
+            signInWithGoogle: () => signInWithPopup(firebaseAuth, new GoogleAuthProvider())
         };
         BYG.db = {
             doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs,
@@ -822,6 +824,65 @@ function setupAuthForms() {
                     }
                 }
                 if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Sign In"; }
+            });
+        }
+    });
+
+    // Wire up social auth buttons (Google, etc.)
+    setupSocialAuthButtons();
+}
+
+function setupSocialAuthButtons() {
+    // Find all buttons/links containing "Google" text
+    document.querySelectorAll("button, a").forEach(btn => {
+        const text = (btn.textContent || "").trim().toLowerCase();
+        
+        if (text.includes("google")) {
+            btn.style.cursor = "pointer";
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                
+                if (IS_FILE_PROTOCOL || !BYG.auth?.signInWithGoogle) {
+                    localStorage.setItem("byg_user_email", "google-user@demo.com");
+                    localStorage.setItem("byg_role", "traveler");
+                    window.location.href = getPageUrl("dashboard");
+                    return;
+                }
+                
+                try {
+                    btn.style.opacity = "0.6";
+                    btn.style.pointerEvents = "none";
+                    await BYG.auth.signInWithGoogle();
+                    window.location.href = getPageUrl("dashboard");
+                } catch(err) {
+                    console.error("Google sign-in failed:", err);
+                    btn.style.opacity = "1";
+                    btn.style.pointerEvents = "auto";
+                    // Show error near the button
+                    const errEl = btn.closest("form, div")?.querySelector("[class*='error'], [class*='red']");
+                    if (errEl) {
+                        errEl.textContent = err.message;
+                        errEl.style.display = "block";
+                    } else {
+                        alert("Google sign-in failed: " + err.message);
+                    }
+                }
+            });
+        }
+        
+        // Facebook placeholder (not implemented yet)
+        if (text.includes("facebook") || text.includes("meta")) {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                alert("Facebook sign-in coming soon! Use Google or email for now.");
+            });
+        }
+        
+        // Apple placeholder
+        if (text.includes("apple")) {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                alert("Apple sign-in coming soon! Use Google or email for now.");
             });
         }
     });
