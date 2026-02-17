@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guide Dashboard | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "primary-hover": "#0d9488",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c2a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for kanban area */
+        .kanban-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .kanban-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .kanban-scroll::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen flex flex-col">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 px-6 py-3 shadow-sm">
+<div class="flex items-center justify-between max-w-8xl mx-auto">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-xl">
+<span class="material-icons text-lg">explore</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">GuidePro</span>
+</div>
+<div class="hidden md:flex items-center gap-1">
+<a class="px-4 py-2 rounded-lg bg-primary/10 text-primary font-medium" href="../../pages/guide/dashboard.html">Dashboard</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Trips</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/traveler/notifications.html">Inbox</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/guide/dashboard.html">Earnings</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-background-dark"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Elena R.</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Master Guide</p>
+</div>
+<img alt="Profile photo of a female guide" class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-700 shadow-sm object-cover" data-alt="Professional headshot of a smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyib8SbMVMl6EyyV1Xo4t6A3UQ9o84YD3bkHPaRTMdNf-6gxAU6zw2FR69HvgVmKUZ8hVPZ7EbJlVRADuOAl43ahn-6srFpphYYfPVgCL06j3Et7u--880OFoS1n1q1H_uj9yve26T76NmnjcEq1gxDSdNDK_gQM62qqTXqEkO9EMUilD1g9Q7b4ueagL3J3EWXwXBUhrTcEVa1ZuuHYsZm_RnXlR7OzV_emoxwwGD-IFhdlgaMqf-7qZuk2g6-oqAbqAoNOFCkKxw"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 max-w-8xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left Section: Stats & Kanban (Spans 9 columns) -->
+<div class="lg:col-span-9 flex flex-col gap-6 h-full overflow-hidden">
+<!-- Header & Stats -->
+<div class="flex flex-col gap-4 flex-shrink-0">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Guide Dashboard</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Here's what's happening with your trips today.</p>
+</div>
+<button class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-medium shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+<span class="material-icons text-sm">add</span> New Manual Quote
+                    </button>
+</div>
+<!-- Stats Ribbon -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Stat 1 -->
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+<div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-lg">
+<span class="material-icons">star</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Rating</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">4.92</p>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+<div class="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+<span class="material-icons">flight_takeoff</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Total Trips</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">124</p>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4 relative overflow-hidden group">
+<div class="absolute right-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="p-3 bg-primary/10 text-primary rounded-lg">
+<span class="material-icons">payments</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Month's Earnings</p>
+<p class="text-xl font-bold text-primary group-hover:scale-105 transition-transform origin-left">$4,250</p>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+<div class="p-3 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg">
+<span class="material-icons">pending_actions</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Pending Quotes</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">3</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Kanban Board -->
+<div class="flex-1 overflow-x-auto kanban-scroll pb-2">
+<div class="flex gap-4 min-w-[1000px] h-full">
+<!-- Column 1: New Requests -->
+<div class="flex-1 flex flex-col min-w-[240px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h3 class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span> New Requests
+                            </h3>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">2</span>
+</div>
+<div class="flex-1 bg-slate-100/50 dark:bg-slate-800/30 rounded-xl p-2 flex flex-col gap-3 overflow-y-auto">
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing group">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<img alt="Traveler avatar" class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of a young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyPzLxMgxK64NniXACkODIYAd1MpcTdqJtDAWGu0INRh_pZgNlmZqZaDPtCtKCKyWFXhqseB00OLOtsKptkKPpvgIlqPbIyZOjl7kGpyyk_dD7Y7lBNH1IBLxg8tSlEA24Jkyd3sn53ItAlBv22hdeomtlnnEixHOlKBz6vaqs_mEnd376yQRZ1LdxjPF48M1pVtN7OwD7DWebP1_c-eXoyGh2gVS1JHBTf3XfLZwCAQa_STMJ_AnSvyU7dwwttFcLognWPl5IZ9jm"/>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Sarah J.</p>
+<p class="text-xs text-slate-500">Bali Retreat</p>
+</div>
+</div>
+<span class="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[10px] px-1.5 py-0.5 rounded font-medium">NEW</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-2">
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">calendar_today</span> Oct 12-19
+                                    </div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">people</span> 2 Adults
+                                    </div>
+</div>
+<div class="flex justify-between items-center border-t border-slate-100 dark:border-slate-700 pt-2 mt-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">$2.5k - $3k</span>
+<div class="flex items-center gap-1 text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded">
+<span class="material-icons text-[10px]">auto_awesome</span> 98% Match
+                                    </div>
+</div>
+</div>
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-300 text-xs font-bold">MK</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Matt K.</p>
+<p class="text-xs text-slate-500">Tuscany Food Tour</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-2">
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">calendar_today</span> Nov 05-12
+                                    </div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">people</span> 4 Adults
+                                    </div>
+</div>
+<div class="flex justify-between items-center border-t border-slate-100 dark:border-slate-700 pt-2 mt-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">$5k+</span>
+<div class="flex items-center gap-1 text-[10px] font-medium text-slate-500 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">
+<span class="material-icons text-[10px]">auto_awesome</span> 75% Match
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Quoted -->
+<div class="flex-1 flex flex-col min-w-[240px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h3 class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-yellow-500"></span> Quoted
+                            </h3>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">1</span>
+</div>
+<div class="flex-1 bg-slate-100/50 dark:bg-slate-800/30 rounded-xl p-2 flex flex-col gap-3 overflow-y-auto">
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border-l-4 border-l-yellow-400 border-y border-r border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<img alt="Traveler avatar" class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of a man with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSwXzXPP2QJP2v005bCEiRib84gMCGTU1V7vjlLt0RSrOToQj74ifxXPf_tkeGNCsa9z8YrSm7py-rnv1xWzugE3BF3B_j6jvMyJ3K0-RBg8vIVmy2BriLYfWG3rG0p8zTJ9ssk-yCTiX12x3rw9HlWQjWyPpajg3By-SZKuickm4977VqC4xRzUmChYuyTWMmysbbYxHS6V3q7do1g6yL9zQvMBh3vL5cEyCBLtmVB-7V9meyCM3QE8gHELAWGtTx-Cp9pUh9SwDA"/>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Mike T.</p>
+<p class="text-xs text-slate-500">Japan Ski Trip</p>
+</div>
+</div>
+<span class="text-[10px] text-slate-400">2d ago</span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded mb-2 border border-slate-100 dark:border-slate-700">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-500">Quote Total</span>
+<span class="font-bold text-slate-800 dark:text-slate-200">$4,850</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-1">
+<div class="flex -space-x-1">
+<div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[8px]">MT</div>
+<div class="w-5 h-5 rounded-full bg-slate-300 flex items-center justify-center text-[8px]">+2</div>
+</div>
+<button class="text-[10px] font-medium text-primary hover:text-primary-hover uppercase tracking-wide">Follow Up</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Negotiating -->
+<div class="flex-1 flex flex-col min-w-[240px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h3 class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-orange-500"></span> Negotiating
+                            </h3>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">1</span>
+</div>
+<div class="flex-1 bg-slate-100/50 dark:bg-slate-800/30 rounded-xl p-2 flex flex-col gap-3 overflow-y-auto">
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-700 dark:text-teal-300 font-bold text-xs">SF</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Smith Family</p>
+<p class="text-xs text-slate-500">Italy Grand Tour</p>
+</div>
+</div>
+<span class="material-icons text-orange-400 text-base">chat_bubble</span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 bg-orange-50 dark:bg-orange-900/20 p-2 rounded mb-2 border border-orange-100 dark:border-orange-800/30 italic">
+                                    "Can we adjust the Florence hotel option to be closer to..."
+                                </p>
+<div class="flex justify-between items-center border-t border-slate-100 dark:border-slate-700 pt-2 mt-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">$12,400</span>
+<span class="text-[10px] text-slate-400">Waiting on you</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 4: Booked -->
+<div class="flex-1 flex flex-col min-w-[240px]">
+<div class="flex items-center justify-between mb-3 px-1">
+<h3 class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Booked
+                            </h3>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">3</span>
+</div>
+<div class="flex-1 bg-slate-100/50 dark:bg-slate-800/30 rounded-xl p-2 flex flex-col gap-3 overflow-y-auto relative">
+<!-- Dashed outline to indicate drop zone if empty, not empty here -->
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing border-l-4 border-l-primary relative overflow-hidden">
+<div class="absolute right-0 top-0 p-1 opacity-10">
+<span class="material-icons text-6xl text-primary">check_circle</span>
+</div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold">CR</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Corp Retreat</p>
+<p class="text-xs text-slate-500">Austin, TX</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-2 relative z-10">
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">calendar_today</span> Dec 10-14
+                                    </div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-icons text-[14px]">paid</span> Paid
+                                    </div>
+</div>
+<button class="w-full mt-1 text-center text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-white py-1 border border-slate-200 dark:border-slate-600 rounded bg-slate-50 dark:bg-slate-800 transition-colors">
+                                    View Itinerary
+                                </button>
+</div>
+<!-- Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md cursor-grab active:cursor-grabbing border-l-4 border-l-primary opacity-75">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<img alt="Traveler avatar" class="w-8 h-8 rounded-full object-cover grayscale" data-alt="Portrait of a serious woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyNG3iJcvTyU42xQIo25ypDn5Ks-fGGLD4D1IItgB6kKvu57kEyhBMMzUR-j-e95gaNOwLjYgsch1d1KSxvqPdPcmGyLBxijqAIbxnM2IrFGz6qBucJLW7GM7_xA_s9HXKx-sJ4boP8uNGN_A7P9iPVtUovboWHc8DIyZEMlMYwu0yTSn6nTtiWfmi54pFvVEWaSF62bd80mWdJJRC-SbxdKDO7pAtQwjuH_t9oWIILufSpoElphAvDwCq1O6DejATLTDKEfW77keu"/>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Amanda L.</p>
+<p class="text-xs text-slate-500">Iceland Tour</p>
+</div>
+</div>
+</div>
+<div class="text-xs text-slate-400 mt-1 italic">Trip Completed</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Section: Sidebar / Availability (Spans 3 columns) -->
+<aside class="lg:col-span-3 bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-full overflow-hidden">
+<div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+<h2 class="font-bold text-slate-900 dark:text-white">Schedule</h2>
+<button class="text-primary hover:text-primary-hover text-sm font-medium">Edit</button>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<!-- Mini Calendar Header -->
+<div class="flex justify-between items-center mb-4">
+<span class="font-semibold text-slate-700 dark:text-slate-300">October 2023</span>
+<div class="flex gap-2">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-slate-700"><span class="material-icons text-sm">chevron_left</span></button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-slate-700"><span class="material-icons text-sm">chevron_right</span></button>
+</div>
+</div>
+<!-- Days of Week -->
+<div class="grid grid-cols-7 text-center mb-2">
+<span class="text-[10px] text-slate-400 font-bold">M</span>
+<span class="text-[10px] text-slate-400 font-bold">T</span>
+<span class="text-[10px] text-slate-400 font-bold">W</span>
+<span class="text-[10px] text-slate-400 font-bold">T</span>
+<span class="text-[10px] text-slate-400 font-bold">F</span>
+<span class="text-[10px] text-slate-400 font-bold">S</span>
+<span class="text-[10px] text-slate-400 font-bold">S</span>
+</div>
+<!-- Calendar Grid (Simplified Visual) -->
+<div class="grid grid-cols-7 gap-1 mb-6 text-center text-xs">
+<span class="text-slate-300 dark:text-slate-600">25</span>
+<span class="text-slate-300 dark:text-slate-600">26</span>
+<span class="text-slate-300 dark:text-slate-600">27</span>
+<span class="text-slate-300 dark:text-slate-600">28</span>
+<span class="text-slate-300 dark:text-slate-600">29</span>
+<span class="text-slate-300 dark:text-slate-600">30</span>
+<span class="text-slate-500">1</span>
+<span class="text-slate-700 dark:text-slate-300">2</span>
+<span class="text-slate-700 dark:text-slate-300">3</span>
+<span class="text-slate-700 dark:text-slate-300">4</span>
+<span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mx-auto shadow-sm shadow-primary/40">5</span>
+<span class="text-slate-700 dark:text-slate-300">6</span>
+<span class="text-slate-700 dark:text-slate-300">7</span>
+<span class="text-slate-700 dark:text-slate-300">8</span>
+<!-- ... more days representation ... -->
+</div>
+<!-- Today's Agenda -->
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Today's Agenda</h3>
+<div class="space-y-3">
+<!-- Event 1 -->
+<div class="flex gap-3 relative">
+<div class="flex flex-col items-center gap-1 min-w-[3rem]">
+<span class="text-xs font-bold text-slate-900 dark:text-white">10:00</span>
+<span class="text-[10px] text-slate-400">AM</span>
+</div>
+<div class="flex-1 bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-400 p-2 rounded-r-lg">
+<p class="text-xs font-bold text-slate-800 dark:text-slate-200">Call w/ Sarah J.</p>
+<p class="text-[10px] text-slate-500">Trip Introduction</p>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="flex gap-3 relative">
+<div class="flex flex-col items-center gap-1 min-w-[3rem]">
+<span class="text-xs font-bold text-slate-900 dark:text-white">02:00</span>
+<span class="text-[10px] text-slate-400">PM</span>
+</div>
+<div class="flex-1 bg-orange-50 dark:bg-orange-900/20 border-l-2 border-orange-400 p-2 rounded-r-lg">
+<p class="text-xs font-bold text-slate-800 dark:text-slate-200">Quote Review</p>
+<p class="text-[10px] text-slate-500">Mike T. - Japan</p>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="flex gap-3 relative opacity-50">
+<div class="flex flex-col items-center gap-1 min-w-[3rem]">
+<span class="text-xs font-bold text-slate-900 dark:text-white">05:00</span>
+<span class="text-[10px] text-slate-400">PM</span>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-slate-800 border-l-2 border-slate-400 p-2 rounded-r-lg">
+<p class="text-xs font-bold text-slate-800 dark:text-slate-200">Unavailable</p>
+<p class="text-[10px] text-slate-500">Personal Block</p>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+<div class="bg-primary/5 dark:bg-primary/10 rounded-lg p-3">
+<div class="flex items-start gap-2">
+<span class="material-icons text-primary text-sm mt-0.5">lightbulb</span>
+<div>
+<p class="text-xs font-bold text-primary mb-1">Pro Tip</p>
+<p class="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Responding to new requests within 2 hours increases booking likelihood by 40%.
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;"><a href="../../pages/guide/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/guide/clients.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">people</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/guide/availability.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">calendar_today</span><span style="font-size:10px;margin-top:2px">Calendar</span></a><a href="../../pages/guide/profile-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Profile</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a></div>
+    </nav>
+    <style>@media(max-width:768px){#byg-mobile-nav{display:flex!important}body{padding-bottom:72px}#byg-ai-buddy{bottom:80px!important}}</style>
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:14px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:10px;text-decoration:none;color:inherit"><span style="font-size:22px">🧳</span><div><strong style="font-size:14px">Traveler</strong><p style="font-size:12px;color:#6B7280;margin:2px 0 0">Plan & book trips</p></div></a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:14px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:10px;text-decoration:none;color:inherit"><span style="font-size:22px">🧭</span><div><strong style="font-size:14px">Guide</strong><p style="font-size:12px;color:#6B7280;margin:2px 0 0">Manage clients & earn</p></div></a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:14px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:10px;text-decoration:none;color:inherit"><span style="font-size:22px">🏢</span><div><strong style="font-size:14px">Agency</strong><p style="font-size:12px;color:#6B7280;margin:2px 0 0">Tours & analytics</p></div></a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:10px;border:none;background:#F3F4F6;border-radius:12px;font-size:13px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>document.addEventListener("click",function(e){var el=e.target.closest("a,button");if(el){var t=(el.textContent||"").toLowerCase();if(t.includes("switch role")||t.includes("manage role")){e.preventDefault();document.getElementById("byg-role-modal").style.display="flex"}}});</script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

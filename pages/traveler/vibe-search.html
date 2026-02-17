@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vibe Search | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/traveler/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Traveler</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Vibe Search</span>
+    </div>
+
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#11211f]/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center gap-2">
+<span class="material-icons text-3xl bg-gradient-to-br from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">change_history</span>
+<span class="font-bold text-xl">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">You Go</span></span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-primary font-medium" href="../../pages/traveler/dashboard.html">Explore</a>
+<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="../../pages/traveler/past-trips.html">Trips</a>
+<a class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Community</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-icons">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-teal-200 p-[2px]">
+<img alt="User Avatar" class="rounded-full bg-white dark:bg-slate-900" data-alt="User profile avatar image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgcJQSFtMc2il4loNiv5JUyZ6yAUsCz_H4l9HdeK3c7Jh2jsrGij69GLzCYLxDVwhPVD8KrEzMmIriIPIC1GnTiD9v79XmXQhkvp5CjvlLmeMnOC9idHzURmDOwnXhrO9qmcsH1E41xPu6sjK6tokA6qCch_fXNOPaECo3leYT4T9eDqm2VpCr02dzd8s8HyC5bbNWQbER09196VxUCUzDj9T-s3tkS9ZCYeFY5OY1NGtmAx5wWMzDSdpU_jmcjS9ES9maiyMj38xa"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+<!-- Hero / Intro -->
+<div class="text-center max-w-2xl mx-auto space-y-4">
+<h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
+                Find your next destination by <span class="text-primary">feeling</span>, not text.
+            </h1>
+<p class="text-lg text-slate-500 dark:text-slate-400">
+                Upload a photo that inspires you or select from the vibe gallery below. Our AI will match the mood to real-world destinations.
+            </p>
+</div>
+<!-- Input Section: Drag & Drop + Gallery -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Upload Zone -->
+<div class="lg:col-span-5 space-y-6 sticky top-24">
+<div class="group relative w-full aspect-[4/3] rounded-xl border-2 border-dashed border-primary/30 dark:border-primary/20 bg-primary/5 dark:bg-primary/10 hover:bg-primary/10 dark:hover:bg-primary/15 transition-all duration-300 flex flex-col justify-center items-center cursor-pointer overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+<div class="z-10 text-center p-8 space-y-4 group-hover:scale-105 transition-transform duration-300">
+<div class="w-16 h-16 rounded-full bg-white dark:bg-slate-800 shadow-lg flex items-center justify-center mx-auto text-primary">
+<span class="material-icons text-3xl">add_photo_alternate</span>
+</div>
+<div>
+<p class="font-medium text-slate-900 dark:text-white">Drop your inspiration here</p>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">or browse files from your device</p>
+</div>
+</div>
+<!-- Selected file preview placeholder (hidden by default logic, but shown here as if ready) -->
+<!-- <img src="..." class="absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 group-hover:opacity-100" /> -->
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-3">
+<div class="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
+<span class="text-sm font-medium text-primary animate-pulse">Reading your travel vibes...</span>
+</div>
+<button class="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-teal-600 text-white font-semibold rounded-lg shadow-lg shadow-primary/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Analyze My Vibe
+                    </button>
+</div>
+<!-- Analysis Details (Simulated) -->
+<div class="hidden lg:block space-y-2">
+<div class="flex justify-between text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+<span>Palette Analysis</span>
+<span>84% Complete</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[84%] rounded-full"></div>
+</div>
+<div class="flex gap-2 mt-2">
+<div class="w-8 h-8 rounded-full bg-[#2a9d8f] ring-2 ring-white dark:ring-slate-900 shadow-sm" title="Teal"></div>
+<div class="w-8 h-8 rounded-full bg-[#e9c46a] ring-2 ring-white dark:ring-slate-900 shadow-sm" title="Sand"></div>
+<div class="w-8 h-8 rounded-full bg-[#f4a261] ring-2 ring-white dark:ring-slate-900 shadow-sm" title="Orange"></div>
+</div>
+</div>
+</div>
+<!-- Right: Curated Vibe Grid -->
+<div class="lg:col-span-7">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Select a mood</h3>
+<button class="text-sm text-primary hover:underline">Clear selection</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[180px]">
+<!-- Vibe Item 1: Active Selection -->
+<div class="relative group cursor-pointer row-span-2">
+<div class="absolute inset-0 border-4 border-primary rounded-xl z-20 pointer-events-none shadow-[0_0_0_4px_rgba(20,184,165,0.2)]"></div>
+<div class="absolute top-3 right-3 z-30 bg-primary text-white rounded-full p-1 shadow-md">
+<span class="material-icons text-sm block">check</span>
+</div>
+<img alt="Cyberpunk neon city street at night with rain" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110" data-alt="Neon city street vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHjP0svYCllPjH0-BvXt_lKEWUJ6KXFEEobov1TREaF7OGoa_3cLsCJ7WarAJcmhyIHlGF5gZfJ8P8MomFkPZY5ySHfW4q8pKMfxLqieET63uBTEHTCwf4t34Edg_d-2TBT5wUYRLUi23uYEVSGdXyiDhvyynjzKHEXNBKaHAi_UR9yCK5_hvwJRwSEXaqV5_nnlVQEEuArkpU3xwhp7P5ZUlf4sCwOfcuy-Fj-trhafmk3Tx72c9XJ7d2WzjcwyXRs9iBoUlsqrpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent rounded-xl opacity-90"></div>
+<div class="absolute bottom-4 left-4 z-10">
+<span class="text-white font-bold text-lg">Neon Nights</span>
+</div>
+</div>
+<!-- Vibe Item 2 -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl">
+<img alt="Misty mountain peaks with fog" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Misty mountains vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxIJ0BKuM6O741dfhXVSF7J8esvTbrJgJDULyRM0QVP0lJzPv4ld_pRxL7_rDVJ_KB1A5JexVI7Rp2KWys-jEbwHe8ZLYXebsGbY1J8_07FqcHSVF7NQfzZ5E0m40Mxh0f9RbEL45R4FnzXCF_sArTttb139QiQXQaeDAA3bGtNz3PBR8MmgzsCVVzYmvlpbrLwvMGnzDfH40L20QJQJaZXr8ILDvdsQ0IgpggGlNotBVo2PGtwfcps3mvpsplguh4i1V0_8sfSQch"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
+<div class="absolute bottom-3 left-3">
+<span class="text-white font-medium text-sm drop-shadow-md">High Altitude</span>
+</div>
+</div>
+<!-- Vibe Item 3 -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl">
+<img alt="Tropical white sand beach with turquoise water" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Tropical beach vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrNk_u84pNY4qoFFFPPEOzwho6sc-HU1TdcwdAI6vKWVHvoPMU3iSL6WfRo1kmKIjsZq0xR9ZfMrJrrYWXoD0hIqJ-kvhvCK4j5p5lNiZK1wusQwNCmO0OJUctbMp_D5Elsx-cQYUsxbyLvx_QV1w4udM2HsJQYxNmg0jCKzHDYaDa8Ou6adk4yaVJnOtI_Bl80h6Um6vxMJorSvpOSGLT6Jk8aXmNS8k9CKXyvOuFWmefc9qersFmxdNI3lQYWGdGWdE2JOFaAZ7W"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300"></div>
+<div class="absolute bottom-3 left-3">
+<span class="text-white font-medium text-sm drop-shadow-md">Island Calm</span>
+</div>
+</div>
+<!-- Vibe Item 4 -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl row-span-2">
+<img alt="Dense green forest with sun rays" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Forest sunlight vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbYMtasd_p45ng-UCqqvpPS2cZnWo07nAKJN_G1QaX_061-gcZNtEr4xJsuXUxFeJSXsB4mh5WM8qJmGQYdmlDhK5N14-Zfe8X2-pp3Lv4SNxDV1dFNUw-B2BK2GtniCf1gXIB8I3hGP2Cz9wUnF0fjm6sgWJT5WoJzapcGrmNRc-3WmtaahQPk8puyDE8WJ9l6ojt3N0BBkK1jKhJf6G7HlUsne9C2tIejB3NLu3gU4D5nOSD_VLMXO7X1il6eB9bIT0_MMnPAtF6"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-white font-medium text-lg drop-shadow-md">Deep Forest</span>
+</div>
+</div>
+<!-- Vibe Item 5 -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl">
+<img alt="Swiss autumn landscape with lake and mountains" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Swiss autumn vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp6WEGMe20asyNxVvyO3qPgK41g1buvRpyt6PWva-TLM-Po_MTAfBRUe5b7xhIEsY3exghO-r7NYujBBMr_L1P6LZ3To0Wvxb4kTNP4y2Wrb-EygnrT3fuNLbIqpwmQjJkw79dywXE18uB9pE2MmF5zD5IbwAJTq8LdGlcl_Tht_N10V6NlsqQSoCf0ip5DNlakxPHsBPo_uKEmnwP53eL90z1Pg74QhjVxQgN4IVWg1FEsJfPAff0FnqnQlhU5ElvRVTG9dzpamn_"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
+<div class="absolute bottom-3 left-3">
+<span class="text-white font-medium text-sm drop-shadow-md">Alpine Autumn</span>
+</div>
+</div>
+<!-- Vibe Item 6 -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl">
+<img alt="Cinque Terre colorful coastal village" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Italian coast vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu_OdxmgZxH7ykt7MfxJbsKTNvEpZQbm65F9vLUO8jqVb1_tQXIzP1aE0H1f6vozt9zpDs0hdTaaU2fhUKbigdPLjh_-3RMnEJidY6Nfks4ljixY8_lmgvPnxyPZhId0v2iZGyTnyoeelE4ME0mqbJ3AupqKUUIYq5mdE64BejhPr1WrHds5wGAJflK3eK8KzINoy-TepEf6aXUp7RU5rSHXm0Es-KQMx-KSmLtmwNX5u7NOSHF2fIzTNOssIensiI5_gugvtdAtLA"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300"></div>
+<div class="absolute bottom-3 left-3">
+<span class="text-white font-medium text-sm drop-shadow-md">Coastal Color</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Divider / Transition to Results -->
+<div class="relative py-8">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-background-light dark:bg-background-dark px-4 text-sm text-slate-500 dark:text-slate-400 font-medium">Results based on "Neon Nights"</span>
+</div>
+</div>
+<!-- Results Grid -->
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Destination Matches</h2>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-sm border border-slate-300 dark:border-slate-600 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition">Sort by Match %</button>
+<button class="px-3 py-1 text-sm border border-slate-300 dark:border-slate-600 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition">Filter</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-100 transition-opacity duration-1000">
+<!-- Result Card 1 (High Match) -->
+<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 dark:border-slate-700 group">
+<div class="relative h-48 overflow-hidden">
+<div class="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+<span class="material-icons text-[14px]">auto_awesome</span> 98% Match
+                        </div>
+<button class="absolute top-3 right-3 z-10 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full text-white transition-colors">
+<span class="material-icons text-sm">bookmark_border</span>
+</button>
+<img alt="Kyoto street at night with lanterns" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-location="Kyoto, Japan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnOAySOxgjtuVEl15HPVg1Iwc7DSdu6KHFUtZpdcB-simR35je7mcBGEaDJ5wFZ6h7UWNIKwSbvTFYjBADuMIdFcz4v3XYGXUZ99W771Y1gF636n3lqKCZ0yz6fkNvUdv5xT2Cb5fsdS0KoURbZ8UgrRmZfcO6kvq1RhsgaohF2VaF4dfpTwDSRfUAX0mMOQPGx-htnFtL0qYlJg6G5M6u1arjq6IzE49imNYv0aaftwLwWqXrOpvDRak_nxL-uoGpZI82HBJmKizH"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 text-white">
+<h3 class="text-xl font-bold leading-tight">Kyoto</h3>
+<p class="text-xs text-slate-200">Japan</p>
+</div>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Urban</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#NightLife</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Cultural</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+<span class="block font-semibold text-slate-900 dark:text-white">$1,200</span>
+                                Est. / person
+                            </div>
+<a class="text-sm font-medium text-primary hover:text-teal-600 flex items-center gap-1" href="#">
+                                View Details <span class="material-icons text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Result Card 2 -->
+<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 dark:border-slate-700 group">
+<div class="relative h-48 overflow-hidden">
+<div class="absolute top-3 left-3 z-10 bg-primary/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+<span class="material-icons text-[14px]">bolt</span> 94% Match
+                        </div>
+<button class="absolute top-3 right-3 z-10 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full text-white transition-colors">
+<span class="material-icons text-sm">bookmark_border</span>
+</button>
+<img alt="Seoul city skyline with neon lights" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-location="Seoul, South Korea" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWtUqjyMFc9qFSwT9Y2huBeDbTLSr-xOd5VDJIOkekK7qpgMENnPZFKD4RDY5uNvFtutSFTGGjYDTfOqbTYX8kFPofmQJbXgPuRforMqkqq5HqKyluceVqdGWtgTG-iXhB6cgfU0Y2lwfWLXcpAf_yYVi24ANEsPgsMd3KCE0MeMrcag2x1dK5QtZe1kcBsV2kNNWj06Nngy6EP0ImjMOrwheawZBGO7YD-8OTnFC3BOjHqmJZ1U4BykeiL4vzuHNrfJz_xGu1gKm-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 text-white">
+<h3 class="text-xl font-bold leading-tight">Seoul</h3>
+<p class="text-xs text-slate-200">South Korea</p>
+</div>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Cyberpunk</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Tech</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Foodie</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+<span class="block font-semibold text-slate-900 dark:text-white">$950</span>
+                                Est. / person
+                            </div>
+<a class="text-sm font-medium text-primary hover:text-teal-600 flex items-center gap-1" href="#">
+                                View Details <span class="material-icons text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Result Card 3 -->
+<div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-slate-100 dark:border-slate-700 group">
+<div class="relative h-48 overflow-hidden">
+<div class="absolute top-3 left-3 z-10 bg-slate-700/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                            88% Match
+                        </div>
+<button class="absolute top-3 right-3 z-10 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full text-white transition-colors">
+<span class="material-icons text-sm">bookmark_border</span>
+</button>
+<img alt="Hong Kong city street busy at night" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-location="Hong Kong" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfIfA1VBXgVQ89475cWG6HIN-klRl3gkiKUClzbwVKZsd2jpi8FTl80aEe6cfQpKiADSBvShYS0SuEmeEpJmhCC2qfRwY1OmrM8MCZqF8TgIMYqCU1VZRkPuqbe4OjeRgpUESipyhRm_MRo_NS9PshpQ1QVrbKb3UAVBPjCOd6IcJYmk0Ilq3Hrbry9N0gAPqgj1NxDLDZReZ-ABo2PT7CL9yDLi5Zkqq8amcJIaIGULoR_wwWYE3sH_oUTvY0xLBGnh6zZ1oXuVdK"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 text-white">
+<h3 class="text-xl font-bold leading-tight">Hong Kong</h3>
+<p class="text-xs text-slate-200">SAR China</p>
+</div>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Skyscrapers</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Harbor</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">#Vibrant</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+<span class="block font-semibold text-slate-900 dark:text-white">$1,450</span>
+                                Est. / person
+                            </div>
+<a class="text-sm font-medium text-primary hover:text-teal-600 flex items-center gap-1" href="#">
+                                View Details <span class="material-icons text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="flex justify-center pt-8">
+<button class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium">
+                    Show more matches <span class="material-icons">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-primary/20 mt-12">
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-400 text-sm">© 2023 VibeCheck Inc. All rights reserved.</p>
+<div class="flex gap-6 text-sm text-slate-500">
+<a class="hover:text-primary" href="#">Privacy</a>
+<a class="hover:text-primary" href="../../pages/public/terms.html">Terms</a>
+<a class="hover:text-primary" href="#">Support</a>
+</div>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

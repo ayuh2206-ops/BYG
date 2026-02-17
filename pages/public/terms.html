@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Terms of Service | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display antialiased min-h-screen flex flex-col">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../index.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← BeforeYouGo</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Terms</span>
+    </div>
+
+<!-- Navbar Placeholder -->
+<header class="bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">T</div>
+<span class="font-bold text-xl tracking-tight">Before You Go</span>
+</div>
+<nav class="hidden md:flex gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Home</a>
+<a class="hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="hover:text-primary transition-colors" href="../../pages/traveler/past-trips.html">My Trips</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary">Log in</button>
+<a href="../../pages/public/signin.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" style="cursor:pointer;text-decoration:none;">Sign up</a>
+</div>
+</div>
+</header>
+<!-- Main Wrapper -->
+<div class="flex-grow">
+<!-- Hero Section -->
+<section class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 py-12 md:py-16">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+<h1 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Terms of Service</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Last updated: October 24, 2023</p>
+<div class="relative max-w-xl mx-auto">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-xl">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-slate-300 dark:border-slate-700 rounded-xl leading-5 bg-slate-50 dark:bg-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm shadow-sm transition-all" placeholder="Search keywords (e.g., cancellations, refunds)" type="text"/>
+</div>
+</div>
+</section>
+<!-- Content Layout -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-12 lg:gap-12">
+<!-- Sidebar Navigation (Sticky) -->
+<aside class="hidden lg:block lg:col-span-3">
+<div class="sticky top-24 space-y-8">
+<div>
+<h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 pl-3">Table of Contents</h3>
+<nav aria-label="Sidebar" class="space-y-1">
+<a aria-current="page" class="group flex items-center px-3 py-2 text-sm font-medium text-primary bg-primary/10 rounded-lg" href="#introduction">
+<span class="truncate">1. Introduction</span>
+</a>
+<a class="group flex items-center px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg" href="#user-accounts">
+<span class="truncate">2. User Accounts</span>
+</a>
+<a class="group flex items-center px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg" href="#bookings">
+<span class="truncate">3. Bookings &amp; Payments</span>
+</a>
+<a class="group flex items-center px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg" href="#cancellations">
+<span class="truncate">4. Cancellations &amp; Refunds</span>
+</a>
+<a class="group flex items-center px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg" href="#prohibited">
+<span class="truncate">5. Prohibited Activities</span>
+</a>
+<a class="group flex items-center px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg" href="#liability">
+<span class="truncate">6. Liability &amp; Disclaimers</span>
+</a>
+</nav>
+</div>
+<!-- Utilities -->
+<div class="pt-6 border-t border-slate-200 dark:border-slate-800">
+<h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 pl-3">Actions</h3>
+<div class="space-y-2 px-3">
+<button class="flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-base mr-2">picture_as_pdf</span>
+                                    Download PDF
+                                </button>
+<button class="flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-base mr-2">print</span>
+                                    Print Version
+                                </button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:col-span-9 space-y-16">
+<!-- Section 1: Introduction -->
+<section class="scroll-mt-24" id="introduction">
+<div class="border-b border-slate-200 dark:border-slate-800 pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">1. Introduction</h2>
+<div class="prose prose-slate dark:prose-invert max-w-none">
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    Welcome to Before You Go. By accessing our website, mobile application, or using our services to plan your travel, you agree to be bound by these Terms of Service. Please read them carefully. If you do not agree with any part of these terms, you must discontinue use of our services immediately.
+                                </p>
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed mt-4">
+                                    These terms constitute a legally binding agreement between you ("User", "you") and Before You Go Inc. ("Company", "we", "us"). We reserve the right to modify these terms at any time, and such modifications shall be effective immediately upon posting.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Section 2: User Accounts -->
+<section class="scroll-mt-24" id="user-accounts">
+<div class="border-b border-slate-200 dark:border-slate-800 pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">2. User Accounts</h2>
+<!-- Summary Box -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6 mb-8">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-icons">info</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">In Plain English</h4>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                            You need to be at least 18 years old to use our service. You are responsible for keeping your password safe. If someone hacks your account because you shared your password, that's on you, but let us know immediately so we can help.
+                                        </p>
+</div>
+</div>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white">2.1 Eligibility</h3>
+<p>
+                                    You must be at least 18 years of age to register for an account and use our Services. By creating an account, you represent and warrant that you are capable of forming a binding contract with Before You Go.
+                                </p>
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white">2.2 Account Security</h3>
+<p>
+                                    You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately of any unauthorized use of your account. Before You Go is not liable for any loss or damage arising from your failure to protect your account information.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Section 3: Bookings & Payments -->
+<section class="scroll-mt-24" id="bookings">
+<div class="border-b border-slate-200 dark:border-slate-800 pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">3. Bookings &amp; Payments</h2>
+<!-- Summary Box -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6 mb-8">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-icons">credit_card</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">In Plain English</h4>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                            We act as a middleman. When you book a hotel or flight, you are entering a contract with that specific provider, not us. Prices can change until you pay. We use secure third-party payment processors.
+                                        </p>
+</div>
+</div>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white">3.1 Role as Agent</h3>
+<p>
+                                    Before You Go acts solely as an agent for third-party service providers (airlines, hotels, car rentals, etc.). Your contract for these services is directly with the third-party provider. We are not responsible for the acts or omissions of these providers.
+                                </p>
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white">3.2 Pricing and Payment</h3>
+<p>
+                                    All prices are subject to availability and can be withdrawn or changed without notice. Payment is required in full at the time of booking unless otherwise stated. We use secure payment gateways to process your transactions; we do not store complete credit card details on our servers.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Section 4: Cancellations & Refunds -->
+<section class="scroll-mt-24" id="cancellations">
+<div class="border-b border-slate-200 dark:border-slate-800 pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">4. Cancellations &amp; Refunds</h2>
+<!-- Summary Box -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6 mb-8">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-icons">refresh</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">In Plain English</h4>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                            Refund policies depend on the airline or hotel you booked with. Some bookings are non-refundable. We might charge a small service fee for processing cancellations on top of what the provider charges.
+                                        </p>
+</div>
+</div>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
+<p>
+                                    Cancellation policies vary significantly by provider. It is your responsibility to read the specific cancellation policy of the airline, hotel, or tour operator before booking.
+                                </p>
+<ul class="list-disc pl-5 space-y-2">
+<li><strong>Non-Refundable Bookings:</strong> Many promotional rates are strictly non-refundable and non-changeable.</li>
+<li><strong>Service Fees:</strong> Before You Go reserves the right to charge a processing fee of up to $25 for cancellations and refunds, in addition to any fees charged by the third-party provider.</li>
+<li><strong>Refund Timeline:</strong> Refunds may take 7-14 business days to appear on your statement, depending on the provider's processing time.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Section 5: Prohibited Activities -->
+<section class="scroll-mt-24" id="prohibited">
+<div class="border-b border-slate-200 dark:border-slate-800 pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">5. Prohibited Activities</h2>
+<!-- Summary Box -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-6 mb-8">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-icons">block</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1">In Plain English</h4>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                            Don't break the law, don't try to hack our site, and don't make fake bookings. If you do, we'll ban you.
+                                        </p>
+</div>
+</div>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
+<p>You agree not to use the Site or Services to:</p>
+<ul class="list-disc pl-5 space-y-2">
+<li>Violate any local, state, national, or international law.</li>
+<li>Impersonate any person or entity or falsely state your affiliation with a person or entity.</li>
+<li>Engage in any fraudulent activity, including making speculative, false, or fraudulent bookings.</li>
+<li>Use any robot, spider, scraper, or other automated means to access the content or services for any purpose without our express written permission.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Section 6: Liability -->
+<section class="scroll-mt-24" id="liability">
+<div class="pb-8">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">6. Liability &amp; Disclaimers</h2>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
+<p class="uppercase font-bold text-xs tracking-wider text-slate-500">Limitation of Liability</p>
+<p>
+                                    TO THE MAXIMUM EXTENT PERMITTED BY LAW, TRAVELFLOW SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
+                                </p>
+<p>
+                                    OUR AGGREGATE LIABILITY TO YOU FOR ANY CLAIM ARISING OUT OF OR RELATING TO THESE TERMS OR THE USE OF THE SERVICES IS LIMITED TO THE AMOUNT PAID BY YOU TO TRAVELFLOW FOR THE SERVICE GIVING RISE TO THE CLAIM.
+                                </p>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Support</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="../../pages/public/about.html">Help Center</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/about.html">Contact Us</a></li>
+<li><a class="hover:text-primary" href="#">Cancellation Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Company</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="../../pages/public/about.html">About Us</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/about.html">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Press</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Legal</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="text-primary font-medium" href="../../pages/public/terms.html">Terms of Service</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/cookies.html">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/cookies.html">Cookie Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Get the App</h4>
+<!-- App store buttons placeholder -->
+<div class="flex gap-2">
+<div class="w-32 h-10 bg-slate-900 dark:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity" data-alt="Apple App Store Button">
+<span class="text-white text-xs font-bold">App Store</span>
+</div>
+<div class="w-32 h-10 bg-slate-900 dark:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity" data-alt="Google Play Store Button">
+<span class="text-white text-xs font-bold">Google Play</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400">
+                    © 2023 Before You Go Inc. All rights reserved.
+                </div>
+</div>
+</footer>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tour Builder | BeforeYouGo</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for cleaner look in panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .drag-handle {
+            cursor: grab;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display h-screen flex flex-col overflow-hidden">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/agency/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Agency</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Tour Builder</span>
+    </div>
+
+<!-- Header Toolbar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between shrink-0 z-20">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-icons">edit_note</span>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-slate-500 font-medium uppercase tracking-wider">Tour Title</label>
+<input class="text-xl font-bold bg-transparent border-none p-0 focus:ring-0 placeholder-slate-400 w-full max-w-md text-slate-900 dark:text-white" type="text" value="Ultimate Bali Cultural Escape"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2 mr-4">
+<img alt="Collaborator" class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900" data-alt="Portrait of a female collaborator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa9YtDLT9B0WT2OrwwuLCUmnPlXybORggC8UIM8OkcFF5Xr1TnmWcTKZhXR99yixQP56vUn5rZEteOlPpwlbbeAJ3ddPrK-3-OYqNAOykdMW-d7YSEnSGKDZwMgwqxTsZvV-7bhUqwSQEkAcxLjkI7y0YEheA__ya6gGRksz_dNOul8WvBgaZke4gpS6exKrAp7HoM_2540dgS4oRsYxUaUEp-Y2pgqbWezRCH7FvN3AJtJqggLz5204a0RkVFZVchUCD2mFJPgyjk"/>
+<img alt="Collaborator" class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900" data-alt="Portrait of a male collaborator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaFF808FFnsG_Qx8LGnazCF5gn5AMbQWg7L-fdRq1Tnt2c2KhW35gNBsqkshoYRUGOYH3NF-16ZcmjrCs9MUi3P_zpiLVsujMkk5OOzhbhpzCF4l6TIv7hLlrZ6obU3nIJyYk7fvBd1RZ5xlO3WzsvTJzz6gxbgD5AQ7xjOPs96nEDHlh8WRsO4DFRmF2uTuG9WGuI_6NXXqeIlPT81fH_Kh8tklLxxWT1JsixEr6sACkmBMiYucHENbU7oJMYAai-CWs7WvT_EnaR"/>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-medium text-slate-500">+2</div>
+</div>
+<button class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                Save Draft
+            </button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg shadow-sm shadow-primary/30 transition-colors flex items-center gap-2">
+<span class="material-icons text-sm">rocket_launch</span>
+                Publish to Marketplace
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Activity Library -->
+<aside class="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 z-10">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800">
+<h2 class="text-sm font-semibold uppercase text-slate-400 tracking-wider mb-3">Activity Library</h2>
+<div class="relative">
+<span class="material-icons absolute left-3 top-2.5 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search activities..." type="text"/>
+</div>
+<div class="flex gap-2 mt-3 overflow-x-auto pb-1 no-scrollbar">
+<button class="px-3 py-1 text-xs font-medium bg-primary text-white rounded-full whitespace-nowrap">All</button>
+<button class="px-3 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap">Adventure</button>
+<button class="px-3 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap">Cultural</button>
+<button class="px-3 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 whitespace-nowrap">Food</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-3">
+<!-- Activity Card 1 -->
+<div class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 rounded-lg p-3 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing draggable-item">
+<div class="flex gap-3">
+<div class="w-16 h-16 shrink-0 rounded-md overflow-hidden bg-slate-200">
+<img alt="Snorkeling" class="w-full h-full object-cover" data-alt="Underwater view of coral reef snorkeling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYsXPquPVgNR0etaRgsDPEmZ4WVstJJfwfrCcO6PAvGUXpUVBBTzYsqpWv3DH06bEQWdewkuhocR5_wbH-OIhOpzvSeJkyL_shl7yTgU_2_6PA1tnafoj5fEVGhX5Eh1t0Lbw4G6Zvxw-rDnw2dop-n1BqgCoU8FNtYVmEBoUNjbxV6v68O0Axzu_w6HudYrvy-ioM-K5D9Zx-srmyFdVDcrS7POWmNy_rBYlWD18MDKsYwHLT_gCp_myTUdE6zLc8eNcZyP06fE75"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="text-sm font-semibold text-slate-800 dark:text-white truncate">Blue Lagoon Snorkel</h3>
+<span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Water</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">Explore the vibrant coral reefs with a guided tour.</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center text-xs text-slate-500">
+<span class="material-icons text-[14px] mr-1">schedule</span> 3h
+                                </div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">$45 pp</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Activity Card 2 -->
+<div class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 rounded-lg p-3 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing draggable-item">
+<div class="flex gap-3">
+<div class="w-16 h-16 shrink-0 rounded-md overflow-hidden bg-slate-200">
+<img alt="Temple" class="w-full h-full object-cover" data-alt="Traditional Balinese temple architecture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAat_T_ymBgJdPhWktwotjO4fQlq0PzkOevZIQ5q8YV-xysYVrmzJEXHO-0HQxAw5dQQcH5Ol3eck9HGSmnZTafBycYrhQNLz5DFm7KDnb2mfJaEFf9640BP9EcpwU5ty6seTtL9XkzkKpQBx3u6ZSE4cMEhx2QgafPfSIRaQdWXaZQh2_-jxBNamEN7PqwrxhXC03pZ1ZkOK85GmDC0ZAn9XgcPG2JPRlfGuMQ5e63D0YpT5jRGVvgmvN6g3udKclRvU-z0JIo25aq"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="text-sm font-semibold text-slate-800 dark:text-white truncate">Uluwatu Temple Sunset</h3>
+<span class="bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Cultural</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">Iconic sea temple with traditional Kecak fire dance.</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center text-xs text-slate-500">
+<span class="material-icons text-[14px] mr-1">schedule</span> 4h
+                                </div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">$25 pp</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Activity Card 3 -->
+<div class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 rounded-lg p-3 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing draggable-item">
+<div class="flex gap-3">
+<div class="w-16 h-16 shrink-0 rounded-md overflow-hidden bg-slate-200">
+<img alt="Cooking" class="w-full h-full object-cover" data-alt="Traditional cooking class ingredients layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIYQagpw-rz-4bG45IbGJNdDcAUGXWQMIN12jD2kgAlKmqL26Duji7XqSwULs7W4DJUzSqlGE3B4Cpwuju47AjAvI6btH1fcaQqO41C6O1_DwwourVloL0aupGvq-QnsHJjKNIJwo3ESTPOTL-Lj3IFsW01HvgvYNossnr7EhkdUVAPwPmJVaqJax8VAc_29wroka28gcW-vfgmgoA07yfBLjJfFvMwXauFRfWqYTGltRZqtWAxm4LQSLRGJ_7MyVNMpvZQ_BDWe0d"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="text-sm font-semibold text-slate-800 dark:text-white truncate">Ubud Cooking Class</h3>
+<span class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Food</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">Market tour and cooking traditional Balinese dishes.</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center text-xs text-slate-500">
+<span class="material-icons text-[14px] mr-1">schedule</span> 5h
+                                </div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">$55 pp</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Activity Card 4 -->
+<div class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 rounded-lg p-3 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing draggable-item">
+<div class="flex gap-3">
+<div class="w-16 h-16 shrink-0 rounded-md overflow-hidden bg-slate-200">
+<img alt="Jeep" class="w-full h-full object-cover" data-alt="Jeep safari on a mountain road" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeTjXpj9eR095XJreoZf85hC2lLHHXESYsXm4LoiFoQxxXNrmg0SlFk4cQjXoq5ZUJ1GOAXqopeufBuR0LJBuo-E_VPmiZVMVGeqt6PZtC0sUNT-N0j37xbRxBBRQIarFFDT9QToYQmcqLDY4aqZu8VB2hJihaugafmf2Wsqka7kFrgVBwAcMvjvG624jadl-0_U45J_EfEZTVA8hCfotDWvZtW0cZ7cVPm9Ugq5wsU_drIyIBMqNReElOt8gqkroEheZZ7yTEZMSw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="text-sm font-semibold text-slate-800 dark:text-white truncate">Volcano Jeep Sunrise</h3>
+<span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 text-[10px] px-1.5 py-0.5 rounded font-medium">Adventure</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">4x4 adventure to witness the sunrise from Mount Batur.</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center text-xs text-slate-500">
+<span class="material-icons text-[14px] mr-1">schedule</span> 6h
+                                </div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">$85 pp</span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-2.5 mt-2 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg text-slate-500 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2 text-sm font-medium">
+<span class="material-icons text-base">add</span>
+                    Create Custom Activity
+                </button>
+</div>
+</aside>
+<!-- Center Panel: Timeline Builder -->
+<section class="flex-1 bg-background-light dark:bg-background-dark overflow-y-auto p-8 relative">
+<div class="max-w-4xl mx-auto space-y-8 pb-20">
+<!-- Day 1 Container -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-white font-bold rounded px-2 py-1 text-sm shadow-sm">Day 1</div>
+<h2 class="text-lg font-bold text-slate-800 dark:text-white">Arrival &amp; Welcome to Paradise</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-icons text-lg">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-icons text-lg">delete</span>
+</button>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Timeline Column -->
+<div class="lg:col-span-2 space-y-4">
+<!-- Time Slot 1 -->
+<div class="relative pl-6 pb-2 border-l-2 border-primary/30">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-slate-900"></div>
+<div class="flex items-start gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:shadow-md transition-shadow group">
+<div class="flex flex-col items-center justify-center w-12 pt-1">
+<span class="text-xs font-bold text-slate-600 dark:text-slate-400">09:00</span>
+<span class="text-[10px] text-slate-400">AM</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="font-semibold text-slate-800 dark:text-white text-sm">Airport Pickup VIP</h4>
+<span class="material-icons text-slate-300 text-sm drag-handle">drag_indicator</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Private transfer from Ngurah Rai International Airport to Ubud via luxury van.</p>
+</div>
+</div>
+</div>
+<!-- Time Slot 2 -->
+<div class="relative pl-6 pb-2 border-l-2 border-primary/30">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-slate-900"></div>
+<div class="flex items-start gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:shadow-md transition-shadow group">
+<div class="flex flex-col items-center justify-center w-12 pt-1">
+<span class="text-xs font-bold text-slate-600 dark:text-slate-400">01:00</span>
+<span class="text-[10px] text-slate-400">PM</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="font-semibold text-slate-800 dark:text-white text-sm">Resort Check-in &amp; Welcome Drink</h4>
+<span class="material-icons text-slate-300 text-sm drag-handle">drag_indicator</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Check-in at Ritz-Carlton Mandapa. Welcome coconut drink and flower garland.</p>
+</div>
+</div>
+</div>
+<!-- Drop Zone -->
+<div class="relative pl-6">
+<div class="absolute -left-[7px] top-4 w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-4 flex flex-col items-center justify-center text-slate-400 bg-slate-50 dark:bg-slate-800/50 hover:bg-primary/5 hover:border-primary/50 hover:text-primary transition-all cursor-pointer h-24">
+<span class="material-icons mb-1">add_circle_outline</span>
+<span class="text-xs font-medium">Drop activity here</span>
+</div>
+</div>
+</div>
+<!-- Media Column -->
+<div class="lg:col-span-1">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Day Highlights Media</label>
+<div class="grid grid-cols-2 gap-2 mb-2">
+<div class="aspect-square rounded-lg bg-slate-100 overflow-hidden relative group">
+<img alt="Hotel room" class="w-full h-full object-cover" data-alt="Luxurious hotel interior bedroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA4VFzxNjMngqs_0duw1HzGTx8EKFzeNpufbKMDBsKlFsiFv69JO7c11SfVFKoWG2LAB8NZ2O4ou0CCcqMMhfB1JCCMlAGwHyFnxnyPBl36ML11hlK45c-VsJhh9syQyiguLGah4hissTzmI3OeIQstrTgRX8z9zZtqUBXStZ1JLpzlB4pVi3ZhO_wp7dlXAu9KRX3X87ucNc48APLg5BlZ5MXPuTACVR9N1uDC4cOdz6FVzG8P9UHPh-ivowqc7wYZbmyTXyaE_VO"/>
+<button class="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-icons text-xs">close</span>
+</button>
+</div>
+<div class="aspect-square rounded-lg bg-slate-100 overflow-hidden relative group">
+<img alt="Welcome drink" class="w-full h-full object-cover" data-alt="Cocktail glass on a tropical table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEXxHOrmfj1xP_rMrhQbTCSji7RQxPzJr8-juEDfAIlX538B5J7rI5SCkRaktD3Fu1Hhk1w1CHnggx0Yb4pgcZVigTZ3tb4ykll-KVD6pAZb4zJtv1c8mlWneBntDufDGt8TaYQcG45es-7gGU2HJ1kSbXzwEnidHmYc9uG76m8CyRWX2lcgFhz2TmOubrA8t9r4ll8Xj2qwRaGdCVUqZ5HeJ_z06aTI9GPq0pjTCvYJsaUX3urKwl6AQeXkYVL4wQ8dDwBoml9o6T"/>
+<button class="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-icons text-xs">close</span>
+</button>
+</div>
+</div>
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg aspect-video flex flex-col items-center justify-center text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<span class="material-icons text-2xl mb-1">cloud_upload</span>
+<span class="text-xs text-center px-4">Drag images or click to upload</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Day 2 Container -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden opacity-90 hover:opacity-100 transition-opacity">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="bg-slate-800 dark:bg-slate-700 text-white font-bold rounded px-2 py-1 text-sm shadow-sm">Day 2</div>
+<h2 class="text-lg font-bold text-slate-800 dark:text-white">Cultural Immersion &amp; Rice Fields</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-icons text-lg">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-icons text-lg">delete</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-8 flex flex-col items-center justify-center text-slate-400 bg-slate-50 dark:bg-slate-800/50 min-h-[160px]">
+<span class="material-icons text-4xl mb-2 text-slate-300">library_add</span>
+<span class="text-sm font-medium">Start planning Day 2</span>
+<span class="text-xs text-slate-400 mt-1">Drag activities from the library here</span>
+</div>
+</div>
+</div>
+<!-- Add Day Button -->
+<button class="w-full py-4 rounded-xl border-2 border-dashed border-primary/30 text-primary hover:bg-primary/5 hover:border-primary transition-all flex items-center justify-center gap-2 font-semibold">
+<span class="material-icons">add_circle</span>
+                    Add Day 3
+                </button>
+</div>
+<!-- Floating AI Help Button -->
+<button class="fixed bottom-8 right-8 bg-slate-900 dark:bg-white text-white dark:text-slate-900 p-4 rounded-full shadow-lg shadow-slate-900/20 hover:scale-105 transition-transform z-20 flex items-center justify-center">
+<span class="material-icons">auto_awesome</span>
+</button>
+</section>
+<!-- Right Panel: Tour Logistics -->
+<aside class="w-80 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex flex-col shrink-0 z-10 overflow-y-auto">
+<div class="p-5 border-b border-slate-100 dark:border-slate-800">
+<h2 class="text-sm font-semibold uppercase text-slate-400 tracking-wider mb-1">Tour Logistics</h2>
+<p class="text-xs text-slate-500">Configure base settings &amp; availability.</p>
+</div>
+<div class="p-5 space-y-6">
+<!-- Pricing -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Base Price (USD)</label>
+<div class="relative">
+<span class="absolute left-3 top-2 text-slate-500">$</span>
+<input class="w-full pl-7 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-medium text-slate-900 dark:text-white" type="number" value="1250"/>
+<span class="absolute right-3 top-2.5 text-xs text-slate-400">per person</span>
+</div>
+</div>
+<!-- Group Size -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Max Group Size</label>
+<div class="flex items-center gap-3">
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" max="50" min="1" type="range" value="12"/>
+<span class="text-sm font-bold text-primary w-8 text-right">12</span>
+</div>
+</div>
+<!-- Recurring Dates -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Weekly Departures</label>
+<div class="flex flex-wrap gap-2">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Mon</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Tue</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Wed</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Thu</span>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Fri</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Sat</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<span class="px-3 py-1.5 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all select-none">Sun</span>
+</label>
+</div>
+</div>
+<div class="border-t border-slate-100 dark:border-slate-800 pt-4"></div>
+<!-- AI Suggestions -->
+<div class="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-indigo-100 dark:border-indigo-800/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons text-indigo-500 text-sm">auto_awesome</span>
+<h3 class="text-sm font-semibold text-indigo-900 dark:text-indigo-200">AI Suggestion</h3>
+</div>
+<p class="text-xs text-indigo-800 dark:text-indigo-300 leading-relaxed mb-3">
+                        Based on your "Cultural" activities, adding a traditional dance performance on Day 2 evening would increase package appeal by 15%.
+                    </p>
+<button class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 underline">Add "Kecak Fire Dance"</button>
+</div>
+<!-- Map Preview -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Route Preview</label>
+<div class="w-full h-40 bg-slate-100 rounded-lg overflow-hidden relative">
+<img alt="Map" class="w-full h-full object-cover opacity-70" data-alt="Abstract map graphic representing Bali" data-location="Bali, Indonesia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU9l-eTWaAnReaegBTmuuJtXKZGxkjs1BMOVnmLuUKESLSUdPwgKhmSp9oAzR5c8ozzm3vHmQcGAKoTfnb2P5CPUcVIyppK5DdjIBi0wnZUpXmoDSrQmEUflZnBGeZiekjTzE31aiIOGqh5sR1kX5sPBibQeIH30GJJH2OQy2FFoCnvczwysgSEmgUxoePd_44LGmY9BuHEqfudrwn9yIWStQ2524cxDuWJcwalStO_DzE04qotSs-cWTsoBm47lpP_G_rlIE2nM4L"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="bg-white/90 dark:bg-slate-900/90 px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300 shadow-sm hover:shadow hover:scale-105 transition-all">View Full Map</button>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/agency/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/agency/tour-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">map</span><span style="font-size:10px;margin-top:2px">Tours</span></a><a href="../../pages/agency/participants.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">groups</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/agency/analytics.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">analytics</span><span style="font-size:10px;margin-top:2px">Analytics</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

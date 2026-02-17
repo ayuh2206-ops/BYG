@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#14b8a5",
+              "background-light": "#f6f8f8",
+              "background-dark": "#11211f",
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 antialiased overflow-x-hidden selection:bg-primary selection:text-white">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../index.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← BeforeYouGo</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">About</span>
+    </div>
+
+<!-- Navbar -->
+<nav class="fixed w-full z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex-shrink-0 flex items-center gap-2">
+<span class="material-icons text-3xl bg-gradient-to-br from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">change_history</span>
+<span class="font-bold text-xl">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">You Go</span></span>
+</div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Destinations</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="#">Community</a>
+<a class="text-primary font-medium text-sm" href="../../pages/public/about.html">About Us</a>
+<a class="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-medium hover:bg-teal-600 transition-all shadow-lg shadow-primary/20" href="../../pages/public/quiz.html">Start Planning</a>
+</div>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<img alt="Traveler looking at scenic canyon view" class="w-full h-full object-cover" data-alt="Scenic travel landscape with canyon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8CdYqoaUWJzsQtdeMq-EKDnke9GDGgEAx2NhJbtIeq-ww9ClYA2FkI9DLAjL5KHjGViHYYlGI0d9srTbJljGhG8R2-vIQZZcG5xPtmFDE6LGi35Bzk4vwJ5Dny4y6vjArk1b639KcSkb2BJlYXDzl9UoF4XI9RwCinXDfhYwGRFIlXWC6iwDnWY_QgmKsUTyw4UYYg6jCXV9ZD6LVku6qq_izuwlMx4yM3pY0RtbdGiIjEJ_o49T73S-Z5UhmH28Yqjq3Lt76d1YJ"/>
+<div class="absolute inset-0 bg-background-dark/60"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light dark:from-background-dark via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<span class="inline-block py-1 px-3 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary-100 dark:text-teal-200 text-sm font-semibold mb-6">
+                Established 2020
+            </span>
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8">
+                Making Travel <br class="hidden md:block"/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-200">Truly Personal</span>
+</h1>
+<p class="mt-4 max-w-2xl mx-auto text-xl text-slate-200 leading-relaxed font-light">
+                We believe the journey starts the moment you dream of it. We're here to bridge the gap between inspiration and the perfect itinerary.
+            </p>
+</div>
+</header>
+<!-- Mission Statement Block -->
+<section class="py-20 bg-background-light dark:bg-background-dark relative">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary rounded-full flex items-center justify-center shadow-xl shadow-primary/30 z-20 ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-icons text-white text-4xl">favorite</span>
+</div>
+<h2 class="mt-12 text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-8">Not Just An App, A Travel Companion</h2>
+<div class="prose prose-lg dark:prose-invert mx-auto text-slate-600 dark:text-slate-300">
+<p class="mb-6">
+                    BeforeYouGo was born from a simple frustration: travel planning is overwhelming. Between thousands of blogs, contradictory reviews, and endless booking tabs, the joy of discovery often gets lost in the logistics.
+                </p>
+<p class="text-xl font-medium text-primary">
+                    "We built the tool we wished we had—one that understands that travel isn't just about moving between coordinates, but about how a place makes you feel."
+                </p>
+</div>
+</div>
+</section>
+<!-- Interactive Timeline -->
+<section class="py-24 bg-white dark:bg-slate-900/50 relative overflow-hidden">
+<!-- Abstract Background Pattern -->
+<div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-teal-600/5 rounded-full blur-3xl"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white">Our Journey So Far</h2>
+<div class="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+</div>
+<div class="relative">
+<!-- Vertical Line for Desktop -->
+<div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
+<!-- Timeline Items -->
+<div class="space-y-12 md:space-y-24">
+<!-- Item 1: Left -->
+<div class="relative flex flex-col md:flex-row items-center justify-between group">
+<div class="order-1 md:w-5/12 text-center md:text-right px-6">
+<span class="inline-block text-primary font-bold text-lg mb-2">2020</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">The Coffee Shop Sketch</h3>
+<p class="text-slate-600 dark:text-slate-400">Our founder, Sarah, sketches the first UI on a napkin in a rainy cafe in Seattle, dreaming of a smarter way to explore.</p>
+</div>
+<div class="order-2 z-10 flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 border-4 border-primary rounded-full shadow-lg my-4 md:my-0 group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons text-primary text-sm">edit</span>
+</div>
+<div class="order-3 md:w-5/12 px-6"></div>
+</div>
+<!-- Item 2: Right -->
+<div class="relative flex flex-col md:flex-row items-center justify-between group">
+<div class="order-1 md:w-5/12 px-6 hidden md:block"></div>
+<div class="order-2 z-10 flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 border-4 border-primary rounded-full shadow-lg my-4 md:my-0 group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons text-primary text-sm">rocket_launch</span>
+</div>
+<div class="order-3 md:w-5/12 text-center md:text-left px-6">
+<span class="inline-block text-primary font-bold text-lg mb-2">2021</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">Beta Launch</h3>
+<p class="text-slate-600 dark:text-slate-400">We opened our doors to the first 100 travelers. Their feedback became the bedrock of our community-first approach.</p>
+</div>
+</div>
+<!-- Item 3: Left -->
+<div class="relative flex flex-col md:flex-row items-center justify-between group">
+<div class="order-1 md:w-5/12 text-center md:text-right px-6">
+<span class="inline-block text-primary font-bold text-lg mb-2">2023</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">The AI Breakthrough</h3>
+<p class="text-slate-600 dark:text-slate-400">We integrated our proprietary contextual AI, allowing users to plan complex multi-city trips in seconds, not days.</p>
+</div>
+<div class="order-2 z-10 flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 border-4 border-primary rounded-full shadow-lg my-4 md:my-0 group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons text-primary text-sm">psychology</span>
+</div>
+<div class="order-3 md:w-5/12 px-6"></div>
+</div>
+<!-- Item 4: Right -->
+<div class="relative flex flex-col md:flex-row items-center justify-between group">
+<div class="order-1 md:w-5/12 px-6 hidden md:block"></div>
+<div class="order-2 z-10 flex items-center justify-center w-12 h-12 bg-primary border-4 border-primary rounded-full shadow-lg my-4 md:my-0 group-hover:scale-110 transition-transform duration-300 ring-4 ring-primary/20">
+<span class="material-icons text-white text-sm">public</span>
+</div>
+<div class="order-3 md:w-5/12 text-center md:text-left px-6">
+<span class="inline-block text-primary font-bold text-lg mb-2">Today</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">Global Community</h3>
+<p class="text-slate-600 dark:text-slate-400">Helping over 50,000 travelers explore the world every month with confidence and curiosity.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Philosophy Section -->
+<section class="py-24 bg-background-light dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+<div class="mb-12 lg:mb-0">
+<span class="text-primary font-bold uppercase tracking-wider text-sm">Our Philosophy</span>
+<h2 class="mt-2 text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Tech That Listens, <br/>Not Just Calculates</h2>
+<p class="text-slate-600 dark:text-slate-300 text-lg mb-6 leading-relaxed">
+                        We don't believe in algorithms that just push the most popular tourist traps. Our AI is designed to understand <em>context</em>. It learns from your pace, your dining preferences, and your curiosity levels.
+                    </p>
+<ul class="space-y-4">
+<li class="flex items-start">
+<div class="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mt-1">
+<span class="material-icons text-primary text-xs">check</span>
+</div>
+<span class="ml-3 text-slate-600 dark:text-slate-300"><strong>Privacy First:</strong> Your dreams are personal. We never sell your travel data.</span>
+</li>
+<li class="flex items-start">
+<div class="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mt-1">
+<span class="material-icons text-primary text-xs">check</span>
+</div>
+<span class="ml-3 text-slate-600 dark:text-slate-300"><strong>Ethical Tourism:</strong> We highlight sustainable options to protect the places we love.</span>
+</li>
+<li class="flex items-start">
+<div class="flex-shrink-0 h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mt-1">
+<span class="material-icons text-primary text-xs">check</span>
+</div>
+<span class="ml-3 text-slate-600 dark:text-slate-300"><strong>Human Touch:</strong> AI suggests, but you decide. We empower your intuition.</span>
+</li>
+</ul>
+</div>
+<div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 group">
+<div class="absolute inset-0 bg-primary/20 mix-blend-overlay z-10 group-hover:bg-primary/10 transition-colors"></div>
+<img alt="Abstract representation of connecting flight paths" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="Digital map nodes connecting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqfEHivR10LXlFG7MPnwjaD1WbtE8ZnYrWUWBqtaJ4MFjc4jmZUWksFW5auOD0hztYxXbDCH6zMKZxzHMnHQ2Iv-jOr4usdTtYJZEYOI0T6apGRIzZDc1XWGnIQvy1_hbFlXv0NVSLI7rQ9IvsBpK44igiO5pe8axNeok3HO-sKIAzoYtvCX1MZHtmkSjYv44X_5D01BiXdaZn16ByYQNKN8lRTUs97zu6239CUqvESKBIvcqm2prkPqPPBuzo0kQ3Vaknkunm37at"/>
+<!-- Decorative Floating Card -->
+<div class="absolute bottom-8 left-8 right-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-6 rounded-xl border border-white/20 dark:border-slate-700 shadow-lg z-20">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-icons text-xl">auto_awesome</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-semibold">AI Insight</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white">"Based on your love for jazz, we found a hidden speakeasy near your hotel."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Meet the Team -->
+<section class="py-24 bg-white dark:bg-slate-900/50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white">The Explorers Behind the Screen</h2>
+<p class="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    We are a team of backpackers, luxury travelers, digital nomads, and engineers united by one goal: making your next trip unforgettable.
+                </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Team Card 1 -->
+<div class="group bg-background-light dark:bg-slate-800 rounded-xl overflow-hidden border-2 border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
+<div class="aspect-w-3 aspect-h-2 relative overflow-hidden">
+<img alt="Smiling woman in business casual attire" class="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500" data-alt="Sarah Chen portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1LFMzSWzRSskmpCBAz0SuWltu12aFTfrpcl3NbxVyrExd_tiYJyY7QN-NbBdARIlCDAVprog3CJq2I76VIDHMQFcw9DOQ_Xwf4l26nxDlYRhDTncSoLAbUwbSvZCZ1LlbVlltxNduOsO0Qh5Ce-oJQxGd1C8TaqVB8I7Uaju0ayVJj-CdtYOwCO-i_aGgdvTnv9CGt81aYT32cFXW_SI0FS7w9Nc8uFcrUpoXsow0nksOBjokTif9kTF11YZEZNOQVctZha8X3INq"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Sarah Chen</h3>
+<p class="text-primary font-medium text-sm mb-4">Founder &amp; CEO</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                            Former solo backpacker who turned her travel journal frustrations into a global platform. Loves spicy street food and mountain treks.
+                        </p>
+<div class="mt-4 flex gap-3 opacity-60 hover:opacity-100 transition-opacity">
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">link</i></a>
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">mail</i></a>
+</div>
+</div>
+</div>
+<!-- Team Card 2 -->
+<div class="group bg-background-light dark:bg-slate-800 rounded-xl overflow-hidden border-2 border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
+<div class="aspect-w-3 aspect-h-2 relative overflow-hidden">
+<img alt="Man with glasses smiling in casual wear" class="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500" data-alt="David Torres portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXfUyew0d9NwZIp5nDdbDcAlvyfKqs7Q2TA6VKtWqKVshL2pg9kgI6SRvnihrOFcLsCeX6-heiCb06E48s63eNf7jQUy-G6lbXtfJSmATnx8K_aGccuQ9_UGXYVXaWJasYDcZ0RXqQQvCd0MlcjnPmWuJVRBBcxcTwystboc71oHb2HHruIsfWwsydXNd_LFX2ccQuE4TbWKqksS8Tr891BcKqT0TyPdQWgECrQW7jwdED1bmlSLnh9YMXXoN9_A-rAnlSIaOv9Xf3"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">David Torres</h3>
+<p class="text-primary font-medium text-sm mb-4">Head of Product</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                            Obsessed with user flows and hidden gems. David ensures that our AI feels like a helpful friend, not a robot.
+                        </p>
+<div class="mt-4 flex gap-3 opacity-60 hover:opacity-100 transition-opacity">
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">link</i></a>
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">mail</i></a>
+</div>
+</div>
+</div>
+<!-- Team Card 3 -->
+<div class="group bg-background-light dark:bg-slate-800 rounded-xl overflow-hidden border-2 border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
+<div class="aspect-w-3 aspect-h-2 relative overflow-hidden">
+<img alt="Woman with short hair smiling" class="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500" data-alt="Elena Rossi portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0KpzILfPPAH3ZyftHaseF2mcsf_qWw5Z3AxmbFoAx5WKdvLbHkObZ9nlv6-VyaSSRjTNJRhfgf4ok2cisr_NMcrWE_jHV0craFr7KC9k30A5LO5l3utaEKbTWGZtdQMhL9Ryg5ZasblV8lTen0nim5bXxyYpdych5Jp0LSZN-MViKPeq69BbA5faimza11KGyU1ziMuTcItNZjRZWeU5QzqT9WeqN52n-huzLbuF8nWn5kW79rgrExNtIW9qp-WO4jE2F8E7lIFmZ"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Elena Rossi</h3>
+<p class="text-primary font-medium text-sm mb-4">Lead Engineer</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                            The architect behind our contextual engine. Believes that code should be as elegant as a well-planned itinerary.
+                        </p>
+<div class="mt-4 flex gap-3 opacity-60 hover:opacity-100 transition-opacity">
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">link</i></a>
+<a class="text-slate-400 hover:text-primary" href="#"><i class="material-icons text-lg">mail</i></a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center">
+<a class="inline-flex items-center text-primary font-semibold hover:text-teal-700 transition-colors" href="#">
+                    View open positions <span class="material-icons ml-1 text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-20 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-5xl mx-auto px-4 text-center">
+<h2 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">Ready for your next adventure?</h2>
+<p class="text-xl text-slate-600 dark:text-slate-400 mb-10">Start building your personalized itinerary today. It's free to get started.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="px-8 py-4 bg-primary hover:bg-teal-600 text-white font-bold rounded-lg shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-1">
+                    Start Planning Now
+                </button>
+<button class="px-8 py-4 bg-white dark:bg-slate-800 text-slate-700 dark:text-white font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+                    Contact Sales
+                </button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 pt-16 pb-8 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-icons text-primary">flight_takeoff</span>
+<span class="font-bold text-lg text-slate-900 dark:text-white">BeforeYouGo</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                        Personalized travel planning powered by AI and human curiosity.
+                    </p>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Company</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="../../pages/public/about.html">About Us</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/about.html">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Press</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Product</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="#features">Features</a></li>
+<li><a class="hover:text-primary" href="#">Pricing</a></li>
+<li><a class="hover:text-primary" href="#">API</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">Legal</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="#">Privacy</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/terms.html">Terms</a></li>
+<li><a class="hover:text-primary" href="../../pages/public/cookies.html">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-sm text-slate-500">
+                © 2023 BeforeYouGo Inc. All rights reserved.
+            </div>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Status | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 min-h-screen flex flex-col md:flex-row">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/shared/settings.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Settings</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Payment Status</span>
+    </div>
+
+<!-- Mobile Header -->
+<header class="md:hidden bg-white dark:bg-[#1a2c2a] border-b border-gray-200 dark:border-gray-800 p-4 flex justify-between items-center sticky top-0 z-20">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold">T</div>
+<span class="font-bold text-lg text-gray-900 dark:text-white">Before You Go</span>
+</div>
+<button class="text-gray-500 hover:text-primary">
+<span class="material-icons">menu</span>
+</button>
+</header>
+<!-- Sidebar Navigation (Desktop) -->
+<aside class="hidden md:flex flex-col w-64 bg-white dark:bg-[#1a2c2a] border-r border-gray-200 dark:border-gray-800 h-screen sticky top-0">
+<div class="p-6">
+<div class="flex items-center gap-2 mb-8">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-lg shadow-primary/30">T</div>
+<span class="font-bold text-xl tracking-tight text-gray-900 dark:text-white">Before You Go</span>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="../../pages/traveler/dashboard.html">
+<span class="material-icons-outlined text-xl group-hover:text-primary">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="../../pages/agency/tour-builder.html">
+<span class="material-icons-outlined text-xl group-hover:text-primary">explore</span>
+<span class="font-medium">My Tours</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="../../pages/guide/availability.html">
+<span class="material-icons-outlined text-xl group-hover:text-primary">calendar_today</span>
+<span class="font-medium">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl group-hover:text-primary">people</span>
+<span class="font-medium">Travelers</span>
+</a>
+</nav>
+<div class="mt-8">
+<h3 class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Settings</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="../../pages/guide/profile-builder.html">
+<span class="material-icons-outlined text-xl group-hover:text-primary">person</span>
+<span class="font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors" href="../../pages/shared/payout-setup.html">
+<span class="material-icons-outlined text-xl">payments</span>
+<span class="font-medium">Payouts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors group" href="../../pages/shared/security.html">
+<span class="material-icons-outlined text-xl group-hover:text-primary">lock</span>
+<span class="font-medium">Security</span>
+</a>
+</nav>
+</div>
+</div>
+<div class="mt-auto p-6 border-t border-gray-100 dark:border-gray-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden relative">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Portrait of a user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH57OjmK1RWjmHSRkMddWKnD_vT2sivI4SnYEBylPzQf52Pgdwj5oNKs-o_AB8HIGmqUxCpvCYpMAL2tZ_UJaPA-Ud3q6c0g6dGxusmljNw7k9uO86NLy2efNX5INJlbFJQ-vgHYZDwQTMKGA0n-mkcTcMy8E8eRDlDTc_XegTclRv2BgzuyNnQkMN_NtqkICcBsiSQ4Hv2pSILmU2Cz44LBa6s1MPC0ThJPxtOekl_C2ak75JkiA8mroX4lwX4m9yvt7OFUPa4vML"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-gray-900 dark:text-white truncate">Alex Morgan</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Senior Guide</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex mb-8">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white" href="../../pages/shared/settings.html">
+                            Settings
+                        </a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-icons text-gray-400 text-sm mx-1">chevron_right</span>
+<span class="ml-1 text-sm font-medium text-gray-900 md:ml-2 dark:text-white">Payout Settings</span>
+</div>
+</li>
+</ol>
+</nav>
+<!-- Page Title -->
+<div class="mb-8">
+<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Payout Settings</h1>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400 max-w-2xl">Manage your banking details and view your payout schedule securely powered by Stripe.</p>
+</div>
+<!-- Main Status Card (Hero) -->
+<div class="bg-white dark:bg-[#1a2c2a] rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden mb-8">
+<div class="relative p-6 sm:p-10">
+<!-- Background decoration -->
+<div class="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<!-- Status Info -->
+<div class="flex items-start gap-5">
+<div class="flex-shrink-0 relative">
+<div class="w-16 h-16 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center border-4 border-white dark:border-[#1a2c2a] shadow-sm">
+<span class="material-icons text-primary text-3xl">check_circle</span>
+</div>
+<div class="absolute bottom-0 right-0 w-5 h-5 bg-primary rounded-full border-2 border-white dark:border-[#1a2c2a] flex items-center justify-center">
+<span class="material-icons text-white text-[10px]">bolt</span>
+</div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-1">Stripe Account Connected</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm max-w-md mb-3">Your account is active and verified. You are all set to receive payouts for your guided tours.</p>
+<div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>
+                                    Operational
+                                </div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex-shrink-0 w-full md:w-auto">
+<a class="inline-flex w-full md:w-auto items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all group" href="#">
+<span>Manage on Stripe</span>
+<span class="material-icons text-base ml-2 text-gray-400 group-hover:text-primary transition-colors">open_in_new</span>
+</a>
+<p class="text-center md:text-right mt-2 text-xs text-gray-400 dark:text-gray-500">Opens Stripe Dashboard</p>
+</div>
+</div>
+</div>
+<!-- Footer of Card -->
+<div class="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+<span class="material-icons-outlined mr-2 text-primary">verified_user</span>
+                        Payments processed securely by Stripe Connect
+                    </div>
+<img alt="Stripe Logo" class="h-6 opacity-60 grayscale hover:grayscale-0 transition-all" data-alt="Stripe logo graphic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWppPX___nc-o1ZNzQGjut6aIqu4w9OwpzQYcaBjVpCtGvhlW4VwhtaSv-clsCdx0xJ7jIPl9ebbjOPDX7-UAQPPStvfV6tCrAwXxKoSqcHk-xzS1df8JyIP283AWvi4Vmy-wpLTik-ODmnX8B_FBpQ_X3joQNHULhw7CzcFvzjSePLyhUZkct6GatedgfjAH3bd2gmxfjmb9xqw55Q4R8u8rGgbx4IHLT-G3wjiQXUcsd_VL76qmgoAI__S9MXlDUiDM7KKZdiQem"/>
+</div>
+</div>
+<!-- Two Column Layout for Details -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left: Payout Configuration Summary -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white dark:bg-[#1a2c2a] rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Payout Configuration</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Schedule -->
+<div class="p-4 rounded-lg bg-background-light dark:bg-background-dark border border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold uppercase text-gray-400 tracking-wider">Schedule</span>
+<span class="material-icons-outlined text-gray-400">calendar_today</span>
+</div>
+<div class="text-xl font-bold text-gray-900 dark:text-white mb-1">Rolling Daily</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Funds are paid out 2 days after receipt.</p>
+</div>
+<!-- Bank Account -->
+<div class="p-4 rounded-lg bg-background-light dark:bg-background-dark border border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold uppercase text-gray-400 tracking-wider">Bank Account</span>
+<span class="material-icons-outlined text-gray-400">account_balance</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-mono text-xl font-bold text-gray-900 dark:text-white">•••• 4242</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300">USD</span>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chase Bank (Checking)</p>
+</div>
+</div>
+<!-- Next Payout Row -->
+<div class="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons text-xl">payments</span>
+</div>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Next expected payout</p>
+<p class="font-bold text-gray-900 dark:text-white">Oct 24, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-2xl font-bold text-gray-900 dark:text-white">$1,250.00</span>
+<span class="text-xs text-gray-400">Includes fees</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table (Mini) -->
+<div class="bg-white dark:bg-[#1a2c2a] rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+<div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Payouts</h3>
+<a class="text-sm text-primary font-medium hover:text-primary/80" href="#">View all history</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm text-gray-600 dark:text-gray-300">
+<thead class="bg-gray-50 dark:bg-gray-800/50 text-xs uppercase text-gray-400 font-semibold">
+<tr>
+<th class="px-6 py-3">Date</th>
+<th class="px-6 py-3">Status</th>
+<th class="px-6 py-3 text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Oct 22, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right font-medium">$840.50</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Oct 20, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right font-medium">$1,120.00</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Oct 15, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right font-medium">$560.25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right: Resources & Support -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Help Card -->
+<div class="bg-primary/5 rounded-xl p-6 border border-primary/10">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+<span class="material-icons text-primary">help_outline</span>
+</div>
+<h4 class="font-bold text-gray-900 dark:text-white">Need Help?</h4>
+</div>
+<ul class="space-y-3">
+<li>
+<a class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-sm text-gray-400 mt-1 group-hover:text-primary">article</span>
+                                    Understanding payout timing
+                                </a>
+</li>
+<li>
+<a class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-sm text-gray-400 mt-1 group-hover:text-primary">article</span>
+                                    Updating bank account info
+                                </a>
+</li>
+<li>
+<a class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-sm text-gray-400 mt-1 group-hover:text-primary">article</span>
+                                    Tax documents &amp; 1099s
+                                </a>
+</li>
+</ul>
+<div class="mt-5 pt-4 border-t border-primary/10">
+<a class="text-sm font-semibold text-primary hover:text-primary/80 flex items-center" href="../../pages/public/about.html">
+                                Contact Support <span class="material-icons text-sm ml-1">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Security Badge -->
+<div class="flex items-center gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
+<span class="material-icons text-gray-400">lock</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                            Your sensitive financial information is stored securely by Stripe. Before You Go does not store your full bank account numbers.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">arrow_back</span><span style="font-size:10px;margin-top:2px">Back</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Account</span></a><a href="../../pages/shared/roles.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">manage_accounts</span><span style="font-size:10px;margin-top:2px">Roles</span></a><a href="../../pages/shared/subscription.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">credit_card</span><span style="font-size:10px;margin-top:2px">Billing</span></a><a href="../../pages/shared/security.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">security</span><span style="font-size:10px;margin-top:2px">Security</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Client Portfolio | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "primary-hover": "#0f8e7e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c2a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex flex-col">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/guide/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Guide</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Clients</span>
+    </div>
+
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<a class="flex items-center gap-2" href="#">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xl">G</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Guide</span>
+</a>
+<!-- Main Nav -->
+<div class="hidden md:flex items-center gap-1">
+<a class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Dashboard</a>
+<a class="px-3 py-2 rounded-lg text-sm font-medium text-primary bg-primary/10" href="#">Portfolio &amp; CRM</a>
+<a class="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="../../pages/traveler/past-trips.html">Trips</a>
+</div>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
+<span class="material-icons text-xl">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-white dark:ring-surface-dark"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-primary/20">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2tiTTpaO6ByV3lEH4yL9WzIBOHZINgqeOmdxfOtnwKAvKqQp0GbiCWu-w66cV1K4XnidNCDWRdf-LHaMwKBFS5qgW6SUO3NwQYCg7vqugHV8-7qRby81iGnthgROTkCAaw3FLswCAm8LjoaBLUTLE1S-g8FClghbsyhG2raFRiYE3bxFhhlHjS1OnkZOqdc54Vy3wKv3J9baWPmVV8Vemi2HSgzLILu122Em4ct7f-GZPOTUml-qGRgZ_Js1t1mVDpdCQCGguyxmA"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+<!-- View Toggle Header -->
+<header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Client Portfolio</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Manage your client relationships and public showcase.</p>
+</div>
+<!-- Toggle Switch -->
+<div class="bg-slate-100 dark:bg-slate-800 p-1 rounded-lg inline-flex" x-data="{ activeTab: 'crm' }"> <!-- Simulated state logic via classes below -->
+<!-- We will show both views stacked for the demo, but in a real app this would toggle. 
+                     For this output, I will create a layout that clearly demarcates the two views as requested in the 'Description of the screen'. 
+                     I will present them as distinct sections for the user to see both since I cannot add JS interaction. -->
+<button class="px-4 py-2 rounded text-sm font-medium transition-all shadow-sm bg-white dark:bg-surface-dark text-primary">
+<span class="flex items-center gap-2">
+<span class="material-icons text-sm">visibility</span> Public View
+                    </span>
+</button>
+<button class="px-4 py-2 rounded text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all">
+<span class="flex items-center gap-2">
+<span class="material-icons text-sm">table_chart</span> Private CRM
+                    </span>
+</button>
+</div>
+</header>
+<!-- VIEW 1: PUBLIC PORTFOLIO SHOWCASE -->
+<section class="mb-16 space-y-12">
+<div class="flex items-center gap-2 mb-4 opacity-50 text-xs font-bold uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                View 1: Public Portfolio Showcase
+            </div>
+<!-- Hero Section -->
+<div class="relative rounded-xl overflow-hidden min-h-[400px] flex items-end group shadow-lg">
+<img alt="Travel hero landscape" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Scenic desert road trip landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtgu6kku64unSap4ZrxTHm4B01ZxQ3tsvtnXKLqc6wteggAqOhtFbCjUQ4ulAXgCIQ6wEUkI0r_mvjywKouRG2exvYFyqMaNoUTxpnxYMCUVPyZt9q9mQqOBo9iaBSm3zvBl0Lzn3m8jqO3x5mUaZp3rWQtd8z1iRC3-khBLEW-dI4qDX76tQQ7ILqNbnoOgVNk4bxAnqLfuV_LVBfFlP0fjkbBCi8om6dpzDUlgqnL1O1THwY4kOjm3VmvuPiq6YqYxynm05zvdEj"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+<div class="relative z-10 p-8 md:p-12 max-w-2xl">
+<span class="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary-light text-xs font-semibold mb-4 text-white">Top Rated Guide</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">Crafting Unforgettable Journeys Since 2015</h2>
+<p class="text-slate-200 text-lg mb-6 leading-relaxed">Specializing in bespoke cultural immersions and luxury escapes across Asia and Europe. Let's turn your dream destination into a vivid memory.</p>
+<button class="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-primary/30 flex items-center gap-2">
+                        Start Planning <span class="material-icons text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Trip Showcase Cards -->
+<div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Featured Itineraries</h3>
+<a class="text-primary hover:text-primary-hover text-sm font-medium flex items-center gap-1" href="#">View All <span class="material-icons text-sm">chevron_right</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-slate-100 dark:border-slate-800">
+<div class="relative h-48 overflow-hidden">
+<img alt="Kyoto street" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Traditional Japanese street in Kyoto" data-location="Kyoto, Japan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCnWp1rJx5xw6qJvwEMYCJIhTAtxPsta_aMkMGjohObeWMu0IdWUQv4ktq5O7yGBmO35Gii7nY8yaiYr-pX6nNvQPdr75Y2Q3RYYWVX9I_JPqjhtOT9-mENlgzVdHF39v4_r5od5KncDoLUFskxE0qEXmr2iognDsQNF4LI_eeBoCaQYei1sB8vfVnI60PMkFoEucuN-JRYi0ufbxnzwDUY0M5ljFhJNkkdu6syDYKAGtfldRYevZ5XL_d3a_RR2FtSlaAPRMLCw4O"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded shadow-sm text-slate-800 dark:text-white">12 Days</div>
+</div>
+<div class="p-5">
+<div class="flex items-center gap-2 text-xs text-primary font-medium mb-2 uppercase tracking-wide">
+<span class="material-icons text-xs">flight_takeoff</span> Cultural Immersion
+                            </div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Kyoto Spring Blossom</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Experience the magic of cherry blossom season with private tea ceremonies.</p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700/50">
+<span class="text-xs text-slate-400">Mar 2024</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">From $4,200</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-slate-100 dark:border-slate-800">
+<div class="relative h-48 overflow-hidden">
+<img alt="Santorini view" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="White buildings overlooking blue sea in Santorini" data-location="Santorini, Greece" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeCKR1wYxC-mE2RGsJ0LwZjl2Zp7yjmHYA8QLgUNZH0x44vhhEK6-3CXCNdlJQ3wi6f2YDgsr227GHdgH-rplWA8zUgFYxhJUN7MxYVwAzC3PclOFHRpi3-ChzdnR0z6k3HCJ1Cg2W0qDZYqmuK7bROM1dSFuNbgTt6ULx-DQfArn1saFqQ7jijtcTPWpmx3lj-gu3tv_6bY_KB-4Alz6PLDiKB05mf8Cy6DGwN0SRRHCi0HP5jEj7DX8rzz0P_H8V6uRsQOS6GteR"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded shadow-sm text-slate-800 dark:text-white">7 Days</div>
+</div>
+<div class="p-5">
+<div class="flex items-center gap-2 text-xs text-primary font-medium mb-2 uppercase tracking-wide">
+<span class="material-icons text-xs">beach_access</span> Luxury Retreat
+                            </div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Amalfi &amp; Santorini</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Sun-soaked coastlines, private yacht tours, and culinary masterclasses.</p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700/50">
+<span class="text-xs text-slate-400">Jun 2024</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">From $6,500</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-slate-100 dark:border-slate-800">
+<div class="relative h-48 overflow-hidden">
+<img alt="Safari jeep" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Safari vehicle in grassy savanna" data-location="Serengeti, Tanzania" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdEaOZyUrT5LbFRoi3wFq0zJzOkP_miOuQPj4EviGZt-4PSw4RW7ZzyBIHoplum00dttoLRy0YmGJwWhfcze5_ZreEc4yiWvoFDMtJ7bxSylThIBhM-ulHLRu50UIdvcqBoOq-2MT3Y8JsIkbqnlzJ00f8u_kbBBYnaqAVnIdk2FkWkkONYDv-AiBkkIis7FaWQR8kRpPb6HrGRgdwPFVIOZwG2HYxB8p_8EFlCtN8RWHeZE5RIHomxVhg0zVMEvsHHYRI_odonNLK"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded shadow-sm text-slate-800 dark:text-white">10 Days</div>
+</div>
+<div class="p-5">
+<div class="flex items-center gap-2 text-xs text-primary font-medium mb-2 uppercase tracking-wide">
+<span class="material-icons text-xs">terrain</span> Adventure
+                            </div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Serengeti Great Migration</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Witness nature's greatest spectacle from luxury tented camps.</p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700/50">
+<span class="text-xs text-slate-400">Aug 2024</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">From $8,100</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Testimonials & Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Testimonials Column -->
+<div class="lg:col-span-1 flex flex-col justify-center space-y-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Client Love</h3>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 relative">
+<span class="material-icons absolute top-4 right-4 text-4xl text-primary/10">format_quote</span>
+<div class="flex gap-1 text-yellow-400 mb-3">
+<span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 italic mb-4 text-sm leading-relaxed">"Absolutely flawless planning. Every hotel was a gem, and the guides were incredibly knowledgeable. We didn't worry about a thing."</p>
+<div class="flex items-center gap-3">
+<img alt="Sarah J" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHQpIOiGOqbNcTbmo-KLhGp_vx1V0VRKa3oBYzGQnYiLUawi8b7x6Rjq238raFMp2i6cUlNsxR0ZcAYSSh5mv-3nN7AFbwsuZsrPoBs9qk5LTP4H4w4AwV1h6-YT6wfMvRFClJu0OXwkQvzNYYDTtg7bUrc7goCTELGHYGHnrQ61xidC9t9tQT-QxGr8KxoGBW9-Qq5WY2jG6B4VMzgRbn4RBacqINIKoozxEi4VPmQV6-9boytHHV11Zs72KO05UF9L5pEh7Rz1gQ"/>
+<div>
+<div class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins</div>
+<div class="text-xs text-slate-500">New York, NY</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 relative opacity-70 scale-95 transform origin-top">
+<span class="material-icons absolute top-4 right-4 text-4xl text-primary/10">format_quote</span>
+<div class="flex gap-1 text-yellow-400 mb-3">
+<span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span><span class="material-icons text-sm">star</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 italic mb-4 text-sm leading-relaxed">"The trip of a lifetime. Guide went above and beyond to secure us reservations at impossible-to-book restaurants."</p>
+<div class="flex items-center gap-3">
+<img alt="Mark D" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of man with beard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdmB0KCUDdxDecIw_KBoNKQND44JWv7dqflanCsrjGmM75T24_kH0PLPm9Xd6DG1G6K8NMZ48t5n-eAYTtWRYLM4-Wuw0-QztLY8rbBn-QTIVE5ImnzuzjVn153wOZRJxmUjkb74XUZ-qhdsJKGD0CIOtmo3lTNhbvF-nvRjdVyQ6Ze6b8KQ_5NQXSMlr4jdlQjqAwqA2tIXX-Wzq6o6PAyvRTecPzRI8BjFplXUBtzizjSzQH8TXoMQAPzatypH03DkireuqSKnki"/>
+<div>
+<div class="text-sm font-bold text-slate-900 dark:text-white">Mark Davis</div>
+<div class="text-xs text-slate-500">London, UK</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Masonry Photo Grid -->
+<div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[150px]">
+<div class="col-span-2 row-span-2 rounded-xl overflow-hidden relative group">
+<img alt="Travel vibe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Woman walking through vibrant market" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeS2UYspV2NpPdpAwu9wMbypNgvdmwmcWmGgsLdTmrpnrwLI2dON7e37qNyXYG8mhQaSceM0AHEFGinusk-sJfPIhW0SoIo9s5wlaX17p6k0uHDdMWX4Nik8dJDzvn8UHv-kQ6ht13JsftyH9Zs67_2nNpI0WAnkvq-AyIQaDbaDiISkKTqD1iwmJi9KwA6YPlZTqgBcTEe_1jo3o0xdHfTvS39FG649v3snaqKFyDypNYQ-XA4RNk2o9bbW16zhclwh9zVOQcRCwl"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<div class="col-span-1 row-span-1 rounded-xl overflow-hidden relative group">
+<img alt="Resort pool" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Luxury resort swimming pool with palm trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2IsF97r4ChNjCPwRrockaEkGosZ7F0otEDD7i7BW26dOKeGJN3N381Nsz0mcy8GP079C4wO9ELSRzJks7e5uiDhhgaT4U1IBNaHIoFSSGl1ABkwdF_4m4kDR4bkjkk3aAe68A70PVHKTYrCRGzR8h8t3uQY7qkdx_mz9G3SvYPHZne3BNToVgGRT8wqtzxCG1gduM8XCXxonZYGBfpE3dg2C4FIEwmg8CPtTpLRWbDm9a4eiScFLAlHJZlv7IGpBNutNmSFub6aao"/>
+</div>
+<div class="col-span-1 row-span-2 rounded-xl overflow-hidden relative group">
+<img alt="Thai temple" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Golden temple details in Thailand" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZIBJKRBocbbZ_6hmBUo_nN0J9LcMsV1UXeJDqaF21cTl-SVnj700tkvXnDjKJi8sCXlE3QrDEIVSQR4dTeymt8nr-2ZD0eOr_fUz1_TijsnWzgQxFuOWs5_7CaRk5-wFE4ensSHg8fG_VhhRX77CHnq65is-TVVAxA06u2OnIdLGSKWt6NSwK-RvxAZsZPePYJpPtTddlIurGP6rln_X2djPM29V8DcNUF-zNrbq4R7O5vprMWTK2B_Z7IsPidE7kIG38eeuyiFUY"/>
+</div>
+<div class="col-span-1 row-span-1 rounded-xl overflow-hidden relative group">
+<img alt="Swiss Alps" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Mountain view in Swiss Alps" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf0PPH9NWEsyPEZnD_979H7hsTytSipgZfI9U3eVRkNzTAoE9Su4mDMz7Ns7u3Vl6YiKUJ3dNHcWVwg2WQ4OrpRB-ub1Sd8s6tXDBfdVJGGcUa2J68nBwjgvNl4I6-vJ2WA1d0F21hvqA7jfV4HVM__RqELtMvT7L_T3r0mxktUs_5M8IjRipbPpFZnuIIVVh70ojpA5XgZRmF59xJejfov1dfUldkQOwGO8L8z6MtQbF8bqxdXK2UpAovCa66V6H605zjzlirBrla"/>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW 2: PRIVATE CRM -->
+<section class="border-t border-slate-200 dark:border-slate-800 pt-16">
+<div class="flex items-center gap-2 mb-6 opacity-50 text-xs font-bold uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                View 2: Private CRM (Data Management)
+            </div>
+<!-- CRM Card Container -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+<!-- CRM Controls Header -->
+<div class="p-6 border-b border-slate-200 dark:border-slate-700/50 flex flex-col lg:flex-row justify-between gap-4">
+<!-- Search -->
+<div class="relative w-full lg:w-96">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-slate-400" placeholder="Search clients by name, email..." type="text"/>
+</div>
+<!-- Filters & Actions -->
+<div class="flex items-center gap-3 w-full lg:w-auto overflow-x-auto">
+<!-- Filter Dropdown Simulation -->
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark text-slate-700 dark:text-slate-300 hover:border-primary/50 transition-colors whitespace-nowrap">
+<span class="material-icons text-slate-400 text-lg">filter_list</span>
+                                Status: All
+                                <span class="material-icons text-slate-400 text-lg">arrow_drop_down</span>
+</button>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-medium shadow-lg shadow-primary/20 transition-all whitespace-nowrap ml-auto lg:ml-0">
+<span class="material-icons text-lg">add</span>
+                            Add Client
+                        </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-background-dark border-b border-slate-200 dark:border-slate-700/50">
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Client Name</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">Total Trips</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Last Trip</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Lifetime Rev</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Client Avatar" class="w-full h-full object-cover" data-alt="Portrait of man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpabaUnqmG5TH0VA1LSJubuobBMzLOMS0jGHZZfkMYi0pVb6Gp4YVImNPdBQfGEUoy6-ZdBZ4SEhYo3Pj5cyVpCc5XrBYNQug0M0FvKNFemLhOoAyUfHXFCz2Q7f2fris4u529OSbIxfdK9JqS3g6J8riVrHPs2N4M9pAd-15YN2yrQwJRCd4h5Wkn--OUWZQmVs0l3u9hgPjIco8FdOLA17LY1PkjuHO-r3zrh2AL9TTP8iiPcArfEYm1tiH5-Uvt_LxyNjcTNB5p"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900 dark:text-white">Arthur Morgan</div>
+<div class="text-xs text-slate-500">arthur@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<span class="inline-flex items-center justify-center w-8 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">5</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                    Oct 24, 2023
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white text-right">
+                                    $24,500
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Client Avatar" class="w-full h-full object-cover" data-alt="Portrait of woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYrzIiFfyM_04I9_xOHb-21tg7TbQ2RVFtCCyZDoAGcFCkS-lMsmoHGRLBshFJGrvF6LmooMPOCCXaykIVDjUyJepILxLnfpTnBR_rjgleQKguhQxrQFuH5Nu6VmWGy2MB-zdk0uU6IZFEd46AQjQkXjwFcgjCM6pzgUSgbvw4EXe9ib5ziRS8m1noFuaWoNns7W0ToeSSOT51iOlDy-HeIacSJi8cwlJME2XvPqYBJWg10K29ypCwAuhHxeqP_k32-MOVpOv-Z_is"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900 dark:text-white">Elena Fisher</div>
+<div class="text-xs text-slate-500">elena.f@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<span class="inline-flex items-center justify-center w-8 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">2</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                    Jan 12, 2023
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white text-right">
+                                    $8,200
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                        Past
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                            ND
+                                        </div>
+<div>
+<div class="text-sm font-medium text-slate-900 dark:text-white">Nathan Drake</div>
+<div class="text-xs text-slate-500">nate@uncharted.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<span class="inline-flex items-center justify-center w-8 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">0</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 italic">
+                                    --
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white text-right">
+                                    $0
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                                        Lead
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Client Avatar" class="w-full h-full object-cover" data-alt="Portrait of man smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyagf5ioEoWpztmBcc-3ZNmP3K_RbY79XnGqzK78MOopliaK18Hu4kvQi1SKn6WiuJ6g-3hdjC3JcSW8ZH51dpTg7uzVSel8iY0y70sAOsg5JyeKvQ6p5GCVeq_LTuNaZcrwG7wEkduKdWOuD4_q0GTOp7x44Mpxs17MOuAG1h88_dNZnjcxlQ4IHacU3e6NcZIGYkfP-o1u_usXM-LyzkkK3y4YG3aCW7Bz-fz48SXuInNb40X9jm2ozeRvx1d21PZBd4seSSSPw2"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900 dark:text-white">Joel Miller</div>
+<div class="text-xs text-slate-500">joel@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<span class="inline-flex items-center justify-center w-8 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">1</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                    Dec 05, 2023
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white text-right">
+                                    $3,850
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold">
+                                            AL
+                                        </div>
+<div>
+<div class="text-sm font-medium text-slate-900 dark:text-white">Ada Lovelace</div>
+<div class="text-xs text-slate-500">ada@computing.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<span class="inline-flex items-center justify-center w-8 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">8</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                    Feb 28, 2024
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white text-right">
+                                    $52,100
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                                        VIP
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700/50 flex items-center justify-between">
+<div class="text-sm text-slate-500 dark:text-slate-400">
+                        Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">5</span> of <span class="font-medium text-slate-900 dark:text-white">45</span> clients
+                    </div>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-700 text-sm text-slate-500 dark:text-slate-400 disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Simple Footer -->
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2024 Guide Travel CRM. All rights reserved.</p>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/guide/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/guide/clients.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">people</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/guide/availability.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">calendar_today</span><span style="font-size:10px;margin-top:2px">Calendar</span></a><a href="../../pages/guide/profile-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Profile</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

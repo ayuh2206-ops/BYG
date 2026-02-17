@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cookie Policy | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for tables if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af; 
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 antialiased selection:bg-primary/30 selection:text-primary">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../index.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← BeforeYouGo</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Cookies</span>
+    </div>
+
+<!-- Navbar Placeholder -->
+<nav class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-2">
+<span class="material-icons text-3xl bg-gradient-to-br from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">change_history</span>
+<span class="font-bold text-xl">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">You Go</span></span>
+</div>
+<div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors" href="../../pages/public/quiz.html">Plan Trip</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-slate-900 dark:text-white" href="#">Legal</a>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-teal-600 transition-colors shadow-lg shadow-primary/20">
+                    My Trips
+                </button>
+</div>
+</div>
+</nav>
+<!-- Header Section -->
+<header class="relative bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 pt-16 pb-20 overflow-hidden">
+<!-- Abstract Background Pattern -->
+<div class="absolute inset-0 opacity-50 dark:opacity-20 pointer-events-none">
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 -left-24 w-64 h-64 bg-teal-300/20 rounded-full blur-3xl"></div>
+</div>
+<div class="relative max-w-4xl mx-auto px-4 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-6">
+<span class="material-icons-round text-sm">gavel</span>
+                LEGAL COMPLIANCE
+            </div>
+<h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+                Cookie Policy
+            </h1>
+<p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-4">
+                We value your privacy as much as your journey. Here’s how we use cookies to make your travel planning smoother and more personalized.
+            </p>
+<p class="text-sm text-slate-400 dark:text-slate-500 font-medium">
+                Last updated: October 24, 2023
+            </p>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Left Column: Legal Text & Tables -->
+<div class="flex-1 lg:max-w-4xl order-2 lg:order-1">
+<!-- Introduction -->
+<section class="mb-16 prose prose-slate dark:prose-invert max-w-none">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">1. What are cookies?</h2>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                        Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work, or work more efficiently, as well as to provide information to the owners of the site. Think of them as a memory for the website, allowing it to recognize you and remember your preferences like your selected currency or past destination searches.
+                    </p>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        We use cookies to enhance your experience on Before You Go, ensuring that your travel planning process is seamless. Some cookies are essential for the technical operation of our website, while others help us to improve our service and deliver relevant content to you.
+                    </p>
+</section>
+<!-- Essential Cookies -->
+<section class="mb-16 scroll-mt-24" id="essential-cookies">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
+<span class="material-icons-round text-slate-600 dark:text-slate-400">shield</span>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">2. Essential Cookies</h2>
+</div>
+<p class="text-slate-600 dark:text-slate-400 mb-6">
+                        These cookies are strictly necessary to provide you with services available through our website and to use some of its features, such as access to secure areas. Because these cookies are strictly necessary to deliver the website, you cannot refuse them without impacting how our site functions.
+                    </p>
+<!-- Table -->
+<div class="overflow-x-auto custom-scrollbar border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800">
+<tr>
+<th class="px-6 py-4 font-semibold">Name</th>
+<th class="px-6 py-4 font-semibold">Provider</th>
+<th class="px-6 py-4 font-semibold">Purpose</th>
+<th class="px-6 py-4 font-semibold w-32">Expiry</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">session_id</td>
+<td class="px-6 py-4">Before You Go</td>
+<td class="px-6 py-4">Maintains your session status across pages.</td>
+<td class="px-6 py-4">Session</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">__cf_bm</td>
+<td class="px-6 py-4">Cloudflare</td>
+<td class="px-6 py-4">Used to distinguish between humans and bots.</td>
+<td class="px-6 py-4">30 mins</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">cookie_consent</td>
+<td class="px-6 py-4">Before You Go</td>
+<td class="px-6 py-4">Stores your cookie consent preferences.</td>
+<td class="px-6 py-4">1 year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Analytics Cookies -->
+<section class="mb-16 scroll-mt-24" id="analytics-cookies">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+<span class="material-icons-round text-blue-600 dark:text-blue-400">analytics</span>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">3. Analytics &amp; Performance</h2>
+</div>
+<p class="text-slate-600 dark:text-slate-400 mb-6">
+                        These cookies help us understand how our visitors interact with the website. It helps us understand the number of visitors, where the visitors are coming from, and the pages they navigate. The cookies collect this data and are reported anonymously.
+                    </p>
+<!-- Table -->
+<div class="overflow-x-auto custom-scrollbar border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800">
+<tr>
+<th class="px-6 py-4 font-semibold">Name</th>
+<th class="px-6 py-4 font-semibold">Provider</th>
+<th class="px-6 py-4 font-semibold">Purpose</th>
+<th class="px-6 py-4 font-semibold w-32">Expiry</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">_ga</td>
+<td class="px-6 py-4">Google Analytics</td>
+<td class="px-6 py-4">Calculates visitor, session and campaign data.</td>
+<td class="px-6 py-4">2 years</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">_gid</td>
+<td class="px-6 py-4">Google Analytics</td>
+<td class="px-6 py-4">Stores information on how you use the website.</td>
+<td class="px-6 py-4">24 hours</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">hotjar_id</td>
+<td class="px-6 py-4">Hotjar</td>
+<td class="px-6 py-4">Analyzes user behavior through heatmaps.</td>
+<td class="px-6 py-4">1 year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Marketing Cookies -->
+<section class="mb-16 scroll-mt-24" id="marketing-cookies">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+<span class="material-icons-round text-purple-600 dark:text-purple-400">campaign</span>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">4. Marketing &amp; Targeting</h2>
+</div>
+<p class="text-slate-600 dark:text-slate-400 mb-6">
+                        These cookies track your browsing habits to enable us to show advertising which is more likely to be of interest to you. These cookies use information about your browsing history to group you with other users who have similar interests.
+                    </p>
+<!-- Table -->
+<div class="overflow-x-auto custom-scrollbar border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800">
+<tr>
+<th class="px-6 py-4 font-semibold">Name</th>
+<th class="px-6 py-4 font-semibold">Provider</th>
+<th class="px-6 py-4 font-semibold">Purpose</th>
+<th class="px-6 py-4 font-semibold w-32">Expiry</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">_fbp</td>
+<td class="px-6 py-4">Facebook</td>
+<td class="px-6 py-4">Used to deliver advertisement products.</td>
+<td class="px-6 py-4">3 months</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-200">ads_rld</td>
+<td class="px-6 py-4">Google Ads</td>
+<td class="px-6 py-4">Used to track conversion rates from ads.</td>
+<td class="px-6 py-4">90 days</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Contact -->
+<section class="mb-8 p-8 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Have Questions?</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-4">
+                        If you have any questions about our use of cookies or other technologies, please email us at
+                    </p>
+<a class="inline-flex items-center text-primary font-semibold hover:text-teal-600 transition-colors" href="mailto:privacy@tripflow.com">
+<span class="material-icons-round mr-2 text-lg">mail</span>
+                        privacy@tripflow.com
+                    </a>
+</section>
+</div>
+<!-- Right Column: Sticky Preferences Panel -->
+<aside class="lg:w-96 order-1 lg:order-2 flex-shrink-0">
+<div class="sticky top-24">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 overflow-hidden">
+<!-- Panel Header -->
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-round text-primary">tune</span>
+                                Consent Preferences
+                            </h3>
+<p class="text-sm text-slate-500 mt-2">
+                                Manage how we use cookies. You can change these settings at any time.
+                            </p>
+</div>
+<!-- Panel Body -->
+<div class="p-6 space-y-6">
+<!-- Essential Toggle (Disabled) -->
+<div class="flex items-start justify-between group">
+<div class="pr-4">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Essential</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                        Required for basic site functionality.
+                                    </p>
+</div>
+<div class="flex items-center h-6">
+<!-- Disabled Toggle -->
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-not-allowed rounded-full border-2 border-transparent bg-slate-200 dark:bg-slate-700 transition-colors duration-200 ease-in-out focus:outline-none opacity-60" disabled="" role="switch" type="button">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-slate-400 shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+<hr class="border-slate-100 dark:border-slate-800"/>
+<!-- Analytics Toggle -->
+<div class="flex items-start justify-between">
+<div class="pr-4">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Analytics</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                        Help us improve our website by collecting usage information.
+                                    </p>
+</div>
+<div class="flex items-center h-6">
+<!-- Active Toggle (Simulated with Checkbox structure for HTML purity, or simpler toggle divs) -->
+<label class="relative inline-flex items-center cursor-pointer" for="analytics-toggle">
+<input checked="" class="sr-only peer" id="analytics-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<hr class="border-slate-100 dark:border-slate-800"/>
+<!-- Marketing Toggle -->
+<div class="flex items-start justify-between">
+<div class="pr-4">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Marketing</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                        Allow personalized advertisements and marketing.
+                                    </p>
+</div>
+<div class="flex items-center h-6">
+<label class="relative inline-flex items-center cursor-pointer" for="marketing-toggle">
+<input class="sr-only peer" id="marketing-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Panel Footer / Actions -->
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-primary/25 transition-all transform active:scale-95">
+                                Save Preferences
+                            </button>
+<button class="w-full bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors">
+                                Accept All Cookies
+                            </button>
+<p class="text-[10px] text-center text-slate-400 mt-2">
+                                By clicking "Accept All", you agree to our <a class="underline hover:text-primary" href="../../pages/public/cookies.html">Privacy Policy</a>.
+                            </p>
+</div>
+</div>
+<!-- Quick Nav Links (Visible on Desktop) -->
+<nav class="hidden lg:block mt-8 pl-2">
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">On this page</h4>
+<ul class="space-y-3 border-l-2 border-slate-200 dark:border-slate-800 ml-1">
+<li><a class="block pl-4 text-sm text-slate-600 hover:text-primary hover:border-l-2 hover:-ml-[2px] border-transparent hover:border-primary transition-all" href="#essential-cookies">Essential Cookies</a></li>
+<li><a class="block pl-4 text-sm text-slate-600 hover:text-primary hover:border-l-2 hover:-ml-[2px] border-transparent hover:border-primary transition-all" href="#analytics-cookies">Analytics &amp; Performance</a></li>
+<li><a class="block pl-4 text-sm text-slate-600 hover:text-primary hover:border-l-2 hover:-ml-[2px] border-transparent hover:border-primary transition-all" href="#marketing-cookies">Marketing &amp; Targeting</a></li>
+</ul>
+</nav>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-12 mt-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-primary text-2xl">travel_explore</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">Before You Go</span>
+</div>
+<div class="flex gap-6 text-sm text-slate-500">
+<a class="hover:text-primary transition-colors" href="../../pages/public/cookies.html">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="../../pages/public/terms.html">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Sitemap</a>
+</div>
+<div class="text-sm text-slate-400">
+                    © 2023 Before You Go Inc. All rights reserved.
+                </div>
+</div>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

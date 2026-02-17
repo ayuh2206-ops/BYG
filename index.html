@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Before You Go - AI Travel Planner | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f97316", // Orange color from screenshot
+              secondary: "#14b8a6", // Teal color from logo/accents
+              "background-light": "#fdfdfd",
+              "background-dark": "#111827",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1f2937",
+              "text-main-light": "#1f2937",
+              "text-main-dark": "#f3f4f6",
+              "text-sub-light": "#4b5563",
+              "text-sub-dark": "#9ca3af",
+            },
+            fontFamily: {
+              display: ["Poppins", "sans-serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              'xl': '1rem',
+              '2xl': '1.5rem',
+            },
+            backgroundImage: {
+               'hero-pattern': "url('https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
+            }
+          },
+        },
+      };
+    </script>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark font-sans transition-colors duration-200">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+<header class="fixed w-full top-0 z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-100 dark:border-gray-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+<span class="material-icons text-3xl bg-gradient-to-br from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">change_history</span>
+<span class="font-bold text-xl">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">You Go</span></span>
+</div>
+<nav class="hidden md:flex space-x-8">
+<a class="text-text-sub-light dark:text-text-sub-dark hover:text-primary dark:hover:text-primary font-medium transition-colors" href="#features">Features</a>
+<a class="text-text-sub-light dark:text-text-sub-dark hover:text-primary dark:hover:text-primary font-medium transition-colors" href="#process">Process</a>
+<a class="text-text-sub-light dark:text-text-sub-dark hover:text-primary dark:hover:text-primary font-medium transition-colors" href="#inspiration">Inspiration</a>
+</nav>
+<div class="hidden md:flex items-center space-x-4">
+<a href="pages/public/signin.html" class="text-text-sub-light dark:text-text-sub-dark hover:text-primary font-medium" style="cursor:pointer;text-decoration:none;">Sign In</a>
+<a href="pages/public/quiz.html" class="bg-primary hover:bg-orange-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg shadow-orange-500/30 transition-all transform hover:-translate-y-0.5" style="cursor:pointer;text-decoration:none;">
+                        Find Your Trip
+                    </a>
+</div>
+<div class="md:hidden flex items-center">
+<button class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none">
+<span class="material-icons-outlined text-3xl">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<section class="relative h-[85vh] min-h-[600px] flex items-center justify-center pt-20">
+<div class="absolute inset-0 z-0">
+<img alt="Woman looking at hot air balloons in Cappadocia" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXt7uhbuiFosxRDCdf3DA1xu9e-zD-qo09L6YlsK-gYIfHDV-1N1NHwQAIwoZBRHerf3_V8UfmGEQUIqYxr5yqWrXPmZWk9G8FIbpvhrhBFjPGxXa2tljOI3SOPEhjPFgUbLeEfjtnul0izbf1Zk-7EePcled8Qzo8jIu53IJHH2izmSbdqiJ1WkmL8zyYZIUohjYbmdOwLc_Q38XaBe-K36j-3zyO-I1RtOKa4DNceRZ5aVPzQ7ylR3gUuE5km-D7FIgQokZnstid"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent"></div>
+</div>
+<div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto mt-[-4rem]">
+<h1 class="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-white tracking-tight leading-tight drop-shadow-lg mb-6">
+                Your Journey, <br class="hidden sm:block"/>Perfectly Imagined.
+            </h1>
+<p class="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto mb-10 font-light leading-relaxed drop-shadow-md">
+                Unleash your inner explorer. We use AI to translate your personality into unforgettable travel experiences.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a href="pages/public/quiz.html" class="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-orange-500/30 transition-all transform hover:-translate-y-1 hover:scale-105" style="cursor:pointer;text-decoration:none;">
+                    Discover Your Travel DNA
+                </a>
+</div>
+</div>
+</section>
+<section class="relative -mt-24 z-20 pb-20 px-4 sm:px-6 lg:px-8" id="process">
+<div class="max-w-7xl mx-auto bg-surface-light dark:bg-surface-dark rounded-3xl shadow-2xl p-8 md:p-12 lg:p-16 ring-1 ring-gray-100 dark:ring-gray-700">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-display font-bold text-text-main-light dark:text-text-main-dark mb-4">
+                    Crafting Your <span class="text-secondary">Unforgettable</span> <span class="text-primary">Journey</span>
+</h2>
+<p class="text-text-sub-light dark:text-text-sub-dark text-lg">A simple, inspiring process to design the trip of your dreams.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+<div class="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+<div class="w-16 h-16 mb-6 rounded-2xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons-outlined text-3xl">psychology</span>
+</div>
+<h3 class="text-xl font-display font-bold mb-3 text-text-main-light dark:text-text-main-dark">1. Reveal Your Persona</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Our psychology-backed quiz translates your unique traits into a clear Travel DNA profile.
+                    </p>
+</div>
+<div class="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+<div class="w-16 h-16 mb-6 rounded-2xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons-outlined text-3xl">explore</span>
+</div>
+<h3 class="text-xl font-display font-bold mb-3 text-text-main-light dark:text-text-main-dark">2. Explore Possibilities</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Our AI predicts destinations you'll love, uncovering hidden gems and authentic experiences.
+                    </p>
+</div>
+<div class="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+<div class="w-16 h-16 mb-6 rounded-2xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons-outlined text-3xl">assistant</span>
+</div>
+<h3 class="text-xl font-display font-bold mb-3 text-text-main-light dark:text-text-main-dark">3. Journey Seamlessly</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Your AI buddy has your itinerary and is ready to guide you. Ask it anything!
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 px-4 sm:px-6 lg:px-8 bg-background-light dark:bg-background-dark" id="features">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-display font-bold text-text-main-light dark:text-text-main-dark mb-4">
+                    A Smarter Way to <span class="text-secondary">Explore</span>
+</h2>
+<p class="text-text-sub-light dark:text-text-sub-dark text-lg">Every detail, personalized for you.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark">AI Predictive Recommendations</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Our engine analyzes your Travel DNA to suggest destinations you're statistically destined to love.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark">Firestore Data Persistence</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Sign in to save your persona and itineraries, and pick up right where you left off, anytime.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark">Social Sync Planning</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Plan group trips without the headache. Our AI merges multiple personalities into one perfect plan.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark flex items-center gap-2">
+                        Hidden Gems Engine <span class="text-xl">✨</span>
+</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Discover authentic, lesser-known experiences and explore destinations like a local.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark flex items-center gap-2">
+                        Dynamic Live Itinerary <span class="text-xl">⚡</span>
+</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        Your plans adapt in real-time to weather, delays, or spontaneous opportunities nearby.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary/50 dark:hover:border-secondary/50 transition-colors duration-300 shadow-sm hover:shadow-md">
+<h3 class="text-lg font-bold mb-3 text-text-main-light dark:text-text-main-dark flex items-center gap-2">
+                        AI Travel Buddy <span class="text-xl">🤖</span>
+</h3>
+<p class="text-text-sub-light dark:text-text-sub-dark text-sm leading-relaxed">
+                        A conversational assistant that knows your itinerary and provides tips, translations, and guidance.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900/50" id="inspiration">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-display font-bold text-text-main-light dark:text-text-main-dark mb-4">
+                    Find Your <span class="text-secondary">Inspiration</span>
+</h2>
+<p class="text-text-sub-light dark:text-text-sub-dark text-lg">First, take the quiz to reveal your travel persona and unlock personalized suggestions!</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer h-80">
+<img alt="Mountain landscape" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQESdLhuQFafU7HGxu19QFh0430OFffwSE2sO2xOBQG6FSFO4ZZPCyOAiwRUmLoDSLmSlTTnLU_7FGrivlnndkdB8xtsnrN5u1Wg7iF1qGu5pnV8j__6D2VDlrWJtFst0bPvVeq1PzNZVNeCG-xUx15iy_hKoZJs6FHe4l3fmVN77xLNoS7hfHcTcEStxtzlfhENKg1AoOMgJI5olNoZ3fjbpA5zGWjzwg_dBG9cBRDDjmlCCiJ1Acev4PjzeB_tYKnfH-slXa6Mq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="text-2xl font-display font-bold text-white mb-2 translate-y-0 group-hover:-translate-y-1 transition-transform">The Explorer</h3>
+<div class="w-12 h-1 bg-primary rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer h-80">
+<img alt="Tropical resort" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyYIAFuA06TRVt0cilk5MkanmHwT_q07M6JhJCal0N2vzmm_9srYSAJtCwkFHT4YxnPB0pUcZ9ukr4cabZYhZVD9kxL9z-LmzUJGW9rEf6nSx6g4SNLj96Lu3FFyAHV-ddM1KFvx2a7crX7obsJUGRJa3alWV3ecf-hvzXzrVw-W2vHiTbjNGqMh1AeDHOaJZMoUurAZAM77WKzreJc2zUVfX7yRIG1x612w8s9KOxjHLQKIaJ7s7o7hr5ZlYmHYO5aoHJqeXiF0hH"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="text-2xl font-display font-bold text-white mb-2 translate-y-0 group-hover:-translate-y-1 transition-transform">The Soul Seeker</h3>
+<div class="w-12 h-1 bg-primary rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer h-80">
+<img alt="Desert landscape" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjP8FFd0Juz1qyCv7hq0PM7OxjQJ2n3wv2UW41Mh4pJup7vwtc8Gyjs_Z-v83VW34R3Tgy140aY1ojIJXohQhSMYcgH_XZsPDuPH3EZjXPe2Pvr0fjsSPgkSp385NX7lc4LvOB48mnKhE9TbhM1fUgQpnSUguZYO5wlF7WNb-Df8aeyA-YL9eEkTvqM6cn-pyboeJhT-A-CGh7hX5KhVZpLuvVJqpdvc7EiA1zBE8nCAvXP7xSC3nSIrYXKwTxqiIWGyR9rETWDeQt"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="text-2xl font-display font-bold text-white mb-2 translate-y-0 group-hover:-translate-y-1 transition-transform">The Story Collector</h3>
+<div class="w-12 h-1 bg-primary rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-[#1f2937] text-white py-24 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready for a New Way to Travel?</h2>
+<p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Let's build a journey that feels like it was made just for you. Because it was.</p>
+<a href="pages/public/quiz.html" class="bg-primary hover:bg-orange-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg shadow-orange-500/20 transition-all transform hover:-translate-y-1" style="cursor:pointer;text-decoration:none;">
+                Get Started For Free
+            </a>
+</div>
+<div class="max-w-7xl mx-auto mt-20 pt-10 border-t border-gray-800 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+<div class="md:col-span-1">
+<h4 class="font-bold text-white text-lg mb-4">Before You Go</h4>
+<p class="text-gray-500 leading-relaxed">AI-Powered Travel, Personalized for You.</p>
+</div>
+<div class="md:col-span-1">
+<h4 class="font-bold text-white mb-4">Links</h4>
+<ul class="space-y-3 text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#features">Features</a></li>
+<li><a class="hover:text-primary transition-colors" href="#process">Process</a></li>
+</ul>
+</div>
+<div class="md:col-span-1">
+<h4 class="font-bold text-white mb-4">Legal</h4>
+<ul class="space-y-3 text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="pages/public/cookies.html">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="pages/public/terms.html">Terms of Service</a></li>
+</ul>
+</div>
+<div class="md:col-span-1"></div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 text-center text-gray-600 text-xs">
+            © 2025 Before You Go. All Rights Reserved.
+        </div>
+</section>
+
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="./js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./js/shared.js"></script>
+
+
+    <script>
+        // Landing page interactive wiring
+        document.addEventListener("DOMContentLoaded", function() {
+            // Wire CTA buttons to quiz/signin
+            document.querySelectorAll("a, button").forEach(function(el) {
+                var text = (el.textContent || "").trim().toLowerCase();
+                if (text.includes("discover your travel") || text.includes("get started") || text.includes("find your trip") || text.includes("start your journey")) {
+                    el.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        window.location.href = "pages/public/quiz.html";
+                    });
+                }
+                if (text.includes("sign in") || text.includes("login") || text.includes("log in")) {
+                    el.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        window.location.href = "pages/public/signin.html";
+                    });
+                }
+                if (text.includes("sign up") || text.includes("join")) {
+                    el.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        window.location.href = "pages/public/signin.html";
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- byg-landing-wired -->
+
+    <script src="js/brand-enforcer.js"></script>
+</body></html>

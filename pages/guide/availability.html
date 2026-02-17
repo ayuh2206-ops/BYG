@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Availability | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecda",
+                        "primary-dark": "#0ebcb0", // Darker shade for text on primary
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#102220",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162e2b",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for calendar if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display antialiased h-screen flex flex-col overflow-hidden transition-colors duration-300">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/guide/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Guide</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Availability</span>
+    </div>
+
+<!-- Top Navigation -->
+<nav class="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary font-bold text-xl tracking-tight">
+<span class="material-icons text-3xl">explore</span>
+<span>GuidePro</span>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+<h1 class="text-slate-600 dark:text-slate-300 font-medium">Availability Manager</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-slate-800 dark:text-white">Sarah Jenkins</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Master Guide</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary/20" data-alt="Profile picture of a female guide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1os74OdEsWUwOsa_MLXz5CyW4wZ7inGc-yJpoR6orAXNFPFeOCMURpA7y0uDPYNjLZRqLp-x4FTpJRKj8wMTUBobwZZXJBgYawx-gaoYYGf1xm3uNGCZCSXElOWXvmNBwtAALEDjTKq-MSFFNwhlNDmqrMrXzRlUYeBq9P5WsDzfVWXYSMKqerDwaDMdbQZAvLTPXxTkPRqYT8cNtqe6MNrrg-i1xocNB4p8wS-pfFuuiBRbqUl9_vjfxYbQlMin8vkXpp80vVLTj"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left: Calendar Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface-light dark:bg-background-dark p-6 overflow-hidden">
+<!-- Calendar Header -->
+<div class="flex items-center justify-between mb-6 shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white">October 2023</h2>
+<div class="flex items-center bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-l-lg border-r border-slate-200 dark:border-slate-700">
+<span class="material-icons">chevron_left</span>
+</button>
+<button class="px-4 py-2 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200">
+                            Today
+                        </button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-r-lg border-l border-slate-200 dark:border-slate-700">
+<span class="material-icons">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-lg p-1 flex">
+<button class="px-3 py-1.5 text-sm font-medium rounded bg-primary text-slate-900 shadow-sm">Month</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Week</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Day</button>
+</div>
+<button class="flex items-center gap-2 bg-slate-900 dark:bg-primary text-white dark:text-slate-900 px-4 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-slate-200 dark:shadow-none">
+<span class="material-icons text-base">add</span>
+                        Block Dates
+                    </button>
+</div>
+</div>
+<!-- Calendar Grid Container -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col flex-1 overflow-hidden">
+<!-- Days of Week Header -->
+<div class="grid grid-cols-7 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-surface-dark">
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Sun</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Mon</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Tue</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Wed</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Thu</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Fri</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Sat</div>
+</div>
+<!-- Days Grid -->
+<div class="grid grid-cols-7 grid-rows-5 flex-1 divide-x divide-y divide-slate-200 dark:divide-slate-700 min-h-0 overflow-y-auto">
+<!-- Week 1 -->
+<!-- Previous Month Days -->
+<div class="bg-slate-50/30 dark:bg-black/20 p-2 min-h-[120px] relative group">
+<span class="text-slate-400 dark:text-slate-600 text-sm font-medium">29</span>
+</div>
+<div class="bg-slate-50/30 dark:bg-black/20 p-2 min-h-[120px] relative group">
+<span class="text-slate-400 dark:text-slate-600 text-sm font-medium">30</span>
+</div>
+<!-- Current Month Starts -->
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">1</span>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-400"><span class="material-icons text-sm">more_horiz</span></button>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">2</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1">
+                                Kilimanjaro Trek
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">3</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1 opacity-80">
+                                Kilimanjaro Trek
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">4</span>
+<!-- Buffer Zone -->
+<div class="mt-1">
+<div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-medium px-2 py-1 rounded border border-dashed border-slate-300 dark:border-slate-600 flex items-center gap-1">
+<span class="material-icons text-[10px]">timer</span> Buffer
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">5</span>
+<div class="mt-1">
+<div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-medium px-2 py-1 rounded border border-dashed border-slate-300 dark:border-slate-600 flex items-center gap-1">
+<span class="material-icons text-[10px]">timer</span> Buffer
+                            </div>
+</div>
+</div>
+<!-- Week 2 -->
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">6</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">7</span>
+<div class="mt-1">
+<div class="bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-300 text-xs font-medium px-2 py-1.5 rounded shadow-sm truncate mb-1 flex items-center justify-between">
+<span>Unavailable</span>
+<span class="material-icons text-[12px]">block</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">8</span>
+<div class="mt-1">
+<div class="bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-300 text-xs font-medium px-2 py-1.5 rounded shadow-sm truncate mb-1 flex items-center justify-between">
+<span>Unavailable</span>
+<span class="material-icons text-[12px]">block</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">9</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer ring-2 ring-inset ring-primary/50 bg-primary/5">
+<span class="text-primary-dark font-bold text-sm">10</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1">
+                                Serengeti: M. Johnson
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">11</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1 opacity-80">
+                                Serengeti: M. Johnson
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">12</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1 opacity-60">
+                                Serengeti: M. Johnson
+                            </div>
+</div>
+</div>
+<!-- Week 3 -->
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">13</span>
+<div class="mt-1">
+<div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-medium px-2 py-1 rounded border border-dashed border-slate-300 dark:border-slate-600 flex items-center gap-1">
+<span class="material-icons text-[10px]">timer</span> Buffer
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">14</span>
+<div class="mt-1">
+<div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-medium px-2 py-1 rounded border border-dashed border-slate-300 dark:border-slate-600 flex items-center gap-1">
+<span class="material-icons text-[10px]">timer</span> Buffer
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">15</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">16</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">17</span>
+<div class="mt-1">
+<div class="bg-primary text-slate-900 text-xs font-medium px-2 py-1.5 rounded shadow-sm border border-primary-dark/10 truncate mb-1">
+                                City Tour: Group A
+                            </div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">18</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">19</span>
+</div>
+<!-- Week 4 -->
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">20</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">21</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">22</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">23</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">24</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">25</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">26</span>
+</div>
+<!-- Week 5 -->
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">27</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">28</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">29</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">30</span>
+</div>
+<div class="bg-white dark:bg-surface-dark p-2 min-h-[120px] relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">31</span>
+</div>
+<!-- Next Month Days -->
+<div class="bg-slate-50/30 dark:bg-black/20 p-2 min-h-[120px] relative group">
+<span class="text-slate-400 dark:text-slate-600 text-sm font-medium">1</span>
+</div>
+<div class="bg-slate-50/30 dark:bg-black/20 p-2 min-h-[120px] relative group">
+<span class="text-slate-400 dark:text-slate-600 text-sm font-medium">2</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Right: Sidebar & Toolkit -->
+<aside class="w-80 bg-white dark:bg-surface-dark border-l border-slate-200 dark:border-slate-700 flex flex-col shadow-xl z-10 shrink-0 h-full overflow-y-auto">
+<!-- Schedule at a Glance -->
+<div class="p-6 border-b border-slate-200 dark:border-slate-700">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-icons text-primary">calendar_view_day</span> 
+                    Schedule at a Glance
+                </h3>
+<div class="space-y-4">
+<!-- Today -->
+<div>
+<div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Today, Oct 10</div>
+<div class="bg-primary/10 border-l-4 border-primary p-3 rounded-r-lg">
+<div class="font-bold text-slate-900 dark:text-white text-sm">Serengeti Safari</div>
+<div class="text-xs text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-icons text-[14px]">person</span> Mark Johnson
+                            </div>
+<div class="text-xs text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-icons text-[14px]">schedule</span> 08:00 AM - 05:00 PM
+                            </div>
+</div>
+</div>
+<!-- Tomorrow -->
+<div>
+<div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Tomorrow, Oct 11</div>
+<div class="bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 p-3 rounded-lg">
+<div class="font-bold text-slate-700 dark:text-slate-200 text-sm">Serengeti Safari (Day 2)</div>
+<div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Full Day Excursion</div>
+</div>
+</div>
+<!-- Next -->
+<div>
+<div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Wed, Oct 13</div>
+<div class="bg-slate-100 dark:bg-background-dark p-3 rounded-lg border border-dashed border-slate-300 dark:border-slate-600 opacity-75">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm font-medium">
+<span class="material-icons text-sm">timer</span> Rest Day (Buffer)
+                             </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Buffer Settings -->
+<div class="p-6 border-b border-slate-200 dark:border-slate-700">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-sm font-bold text-slate-800 dark:text-white">Booking Buffer</h3>
+<span class="text-xs text-primary font-medium cursor-pointer hover:underline">Auto-Apply</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Minimum days off between booked trips.</p>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+<span class="material-icons text-sm">remove</span>
+</button>
+<div class="flex-1 text-center font-bold text-slate-900 dark:text-white text-lg">
+                        2 Days
+                    </div>
+<button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+<span class="material-icons text-sm">add</span>
+</button>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" id="weekend-off" type="checkbox"/>
+<label class="text-sm text-slate-600 dark:text-slate-300 select-none" for="weekend-off">Prioritize weekends off</label>
+</div>
+</div>
+<!-- Monthly Stats -->
+<div class="p-6">
+<h3 class="text-sm font-bold text-slate-800 dark:text-white mb-4">October Availability</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-primary/10 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-primary-dark dark:text-primary">12</span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Booked Days</span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 flex flex-col items-center justify-center text-center border border-slate-100 dark:border-slate-700">
+<span class="text-2xl font-bold text-slate-700 dark:text-white">8</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Available Days</span>
+</div>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+<span class="text-slate-600 dark:text-slate-400">Booked Trip</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-white">45%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-slate-200 dark:bg-slate-700 rounded-sm"></div>
+<span class="text-slate-600 dark:text-slate-400">Unavailable</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-white">10%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 rounded-sm"></div>
+<span class="text-slate-600 dark:text-slate-400">Buffer</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-white">15%</span>
+</div>
+</div>
+</div>
+<div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-700">
+<button class="w-full bg-slate-900 dark:bg-primary text-white dark:text-slate-900 py-3 rounded-lg font-semibold hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2">
+<span class="material-icons text-sm">save</span>
+                    Save Changes
+                </button>
+</div>
+</aside>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/guide/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/guide/clients.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">people</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/guide/availability.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">calendar_today</span><span style="font-size:10px;margin-top:2px">Calendar</span></a><a href="../../pages/guide/profile-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Profile</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

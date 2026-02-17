@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Group Voting | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#14b8a5",
+              "background-light": "#f6f8f8",
+              "background-dark": "#11211f",
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        
+        /* Subtle pulse for the winning card */
+        @keyframes subtle-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 165, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(20, 184, 165, 0); }
+        }
+        .winning-pulse {
+            animation: subtle-pulse 2s infinite;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 h-screen flex flex-col overflow-hidden">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/traveler/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Traveler</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Gavel</span>
+    </div>
+
+<!-- Top Navigation / Context Header -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between shrink-0 z-20">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons">gavel</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-slate-900 dark:text-white leading-tight">The Gavel</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Voting Session: <span class="text-primary font-medium">Tokyo Day 3 Itinerary</span></p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-200 dark:border-yellow-800">
+<span class="material-icons text-base">timer</span>
+<span>Voting ends in 24h</span>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+<span class="material-icons">close</span>
+</button>
+</div>
+</header>
+<!-- Main Content Layout -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left: Activity Cards Area -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10 relative">
+<div class="max-w-4xl mx-auto space-y-8 pb-20">
+<!-- Section Header -->
+<div class="flex items-end justify-between mb-2">
+<h2 class="text-2xl font-bold">Proposed Activities</h2>
+<span class="text-sm text-slate-500 dark:text-slate-400">Majority Threshold: 60%</span>
+</div>
+<!-- Card 1: Approved / Winning -->
+<div class="winning-pulse bg-white dark:bg-slate-900 rounded-xl shadow-lg border-2 border-primary overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
+<div class="absolute top-4 right-4 z-10">
+<span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wide flex items-center gap-1">
+<span class="material-icons text-sm">check_circle</span> Approved
+                        </span>
+</div>
+<div class="flex flex-col md:flex-row h-full">
+<!-- Image -->
+<div class="w-full md:w-1/3 h-48 md:h-auto relative">
+<img alt="TeamLab Planets" class="w-full h-full object-cover" data-alt="Futuristic digital art museum exhibit with lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0nQ5y4SX50peyNd4EFDzzs-HrVx4um7dY8oNX224m4jNJXhEqpv3KpFe_pWkwUt-UlJi0hm44N2NzZPq5Fyji0Caq-9s8EHTKOiMHLJw6YEjcLgGebbqIJXS-wNOm2HFH4hTGgWiSVx3e84GgCeJuUtoZzhJan17lzYrxF5WD8tV08_f37lKDWHueEPb69ES24O4zcJ5gIb9hrcx34CZPdYLkw96xHIYTVVsv-fwmJbogRyPQe9dzlG_woI1Pe94Pb_3A57AcC7rp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
+<div class="absolute bottom-3 left-3 text-white font-bold md:hidden">TeamLab Planets</div>
+</div>
+<!-- Content -->
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="hidden md:block text-xl font-bold text-slate-900 dark:text-white">TeamLab Planets</h3>
+<span class="text-2xl font-bold text-primary">80%</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
+                                    Immersive digital art museum where you walk barefoot through water and crystal lights. A highly rated, unique sensory experience perfect for groups.
+                                </p>
+<div class="flex gap-2 mb-6">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        Art &amp; Culture
+                                    </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        $$
+                                    </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        Indoor
+                                    </span>
+</div>
+</div>
+<!-- Voting Mechanism -->
+<div class="space-y-3">
+<!-- Progress Bar -->
+<div class="relative h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<!-- Threshold Marker -->
+<div class="absolute top-0 bottom-0 left-[60%] w-0.5 bg-slate-400 z-10" title="Threshold: 60%"></div>
+<!-- Fill -->
+<div class="absolute top-0 left-0 h-full bg-primary transition-all duration-500 ease-out flex items-center justify-end pr-2" style="width: 80%">
+<span class="text-[10px] font-bold text-white leading-none">4 Votes</span>
+</div>
+</div>
+<!-- Buttons -->
+<div class="flex gap-3 mt-4">
+<button class="flex-1 py-2 px-4 bg-primary text-white rounded-lg flex items-center justify-center gap-2 shadow-sm hover:bg-teal-600 transition-colors">
+<span class="material-icons text-xl">thumb_up</span>
+<span class="font-medium">Voted Yes</span>
+</button>
+<button class="flex-1 py-2 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors opacity-60">
+<span class="material-icons text-xl">thumb_down</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Pending / Close Call -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-all hover:shadow-md">
+<div class="flex flex-col md:flex-row h-full">
+<!-- Image -->
+<div class="w-full md:w-1/3 h-48 md:h-auto relative">
+<img alt="Robot Restaurant" class="w-full h-full object-cover opacity-90" data-alt="Bright neon robot show with dancers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1UMXnFlMUAo8rO63fx4PuVrXnl8xlUUgwNt1c48U1Q-D8-lA6juIEC8thtgDgnzycSCT1q9UTPVy023yYOdBuzxxd9KV8vCGrN3ueHJOnvlDinFfaMTtZkm2-zX8TuVb2bxw0wfEwWoZ17VCjG5CDO8Fd4EbzDf4icprLeFmRithoPuZKQZDJQ4drcF0QGgN_PH41ZMSMxdgmt54WwRULrSnh4xUOgVgc2amF8nzbJDRwGS5dZvkjLAoDGjNpFABfQZc11Pa55fvD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
+<div class="absolute bottom-3 left-3 text-white font-bold md:hidden">Robot Restaurant</div>
+</div>
+<!-- Content -->
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="hidden md:block text-xl font-bold text-slate-900 dark:text-white">Robot Restaurant</h3>
+<span class="text-2xl font-bold text-yellow-500">40%</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
+                                    A high-energy cabaret show featuring robots, dragons, and neon lights. Known for being loud and touristy, but undeniably unique.
+                                </p>
+<div class="flex gap-2 mb-6">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        Entertainment
+                                    </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        $$$
+                                    </span>
+</div>
+</div>
+<!-- Voting Mechanism -->
+<div class="space-y-3">
+<!-- Progress Bar -->
+<div class="relative h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="absolute top-0 bottom-0 left-[60%] w-0.5 bg-slate-400 z-10 border-dashed border-l border-slate-300"></div>
+<div class="absolute top-0 left-0 h-full bg-yellow-400 transition-all duration-500 ease-out flex items-center justify-end pr-2" style="width: 40%">
+<span class="text-[10px] font-bold text-slate-900 leading-none">2 Votes</span>
+</div>
+</div>
+<!-- Buttons -->
+<div class="flex gap-3 mt-4">
+<button class="flex-1 py-2 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-icons text-xl">thumb_up</span>
+<span class="font-medium">Vote Yes</span>
+</button>
+<button class="flex-1 py-2 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors group">
+<span class="material-icons text-xl group-hover:text-red-500 transition-colors">thumb_down</span>
+<span class="font-medium">Vote No</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Rejected / Low Interest -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+<div class="absolute top-4 right-4 z-10">
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide flex items-center gap-1">
+                            Likely Out
+                        </span>
+</div>
+<div class="flex flex-col md:flex-row h-full">
+<!-- Image -->
+<div class="w-full md:w-1/3 h-48 md:h-auto relative">
+<img alt="Sumo Practice" class="w-full h-full object-cover" data-alt="Traditional sumo wrestling ring" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnF1FldlL-8FdHiB5jXVZJEcM06TuAaF-uNnv7OLbTJ-m9bpNSXSEyoecb_kZL5Cu0crX6WC08Hzj9f2Bjf6a3h5WS17BcLhUlIqy9WlIR3VCovrOlXMjouPVwuXy1nKwBrL6PnkUozondcyc38pEPo9kvrFnImT-Xlsm0QlwUg4F4Jet6dUICwDgPmVXFhKBceOTNoXOvQihqPTdMygttoysf7R4Xp1WRqE9jG8nwNlOuLe-b93-CEtjwa2yOlgUgdSHf4LHMvwXj"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
+<div class="absolute bottom-3 left-3 text-white font-bold md:hidden">Sumo Morning Practice</div>
+</div>
+<!-- Content -->
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="hidden md:block text-xl font-bold text-slate-900 dark:text-white">Sumo Morning Practice</h3>
+<span class="text-2xl font-bold text-slate-400">20%</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
+                                    Watch professional Sumo wrestlers train in their stable. Requires early morning arrival (6:00 AM) and complete silence.
+                                </p>
+<div class="flex gap-2 mb-6">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        Cultural
+                                    </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                                        Free
+                                    </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800">
+                                        Early Morning
+                                    </span>
+</div>
+</div>
+<!-- Voting Mechanism -->
+<div class="space-y-3">
+<!-- Progress Bar -->
+<div class="relative h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="absolute top-0 bottom-0 left-[60%] w-0.5 bg-slate-400 z-10 border-dashed border-l border-slate-300"></div>
+<div class="absolute top-0 left-0 h-full bg-slate-400 transition-all duration-500 ease-out flex items-center justify-end pr-2" style="width: 20%">
+<span class="text-[10px] font-bold text-white leading-none">1 Vote</span>
+</div>
+</div>
+<!-- Buttons -->
+<div class="flex gap-3 mt-4">
+<button class="flex-1 py-2 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-icons text-xl">thumb_up</span>
+<span class="font-medium">Vote Yes</span>
+</button>
+<button class="flex-1 py-2 px-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg flex items-center justify-center gap-2 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors">
+<span class="material-icons text-xl">thumb_down</span>
+<span class="font-medium">Voted No</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right: Group Sidebar -->
+<aside class="hidden lg:flex w-80 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex-col z-10 shadow-lg">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<h3 class="font-bold text-slate-900 dark:text-white mb-1">Group Consensus</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 flex-1">
+<div class="bg-primary h-2 rounded-full w-3/5"></div>
+</div>
+<span>3/5 Voted</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Member 1: Voted -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+<div class="relative">
+<img alt="Sarah Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWCyBYe1ANNGnBM76k-caS28JV7EPPvjIAQjiDdJg3IPyVO7GbAzRnw_gVTwLaBL8oWaLwI70c17eeBkkx1TJ7I2LnfowrT0gY1mO1WmeCRR1n2T_XLSvO_VgZoBIlX9cYYu0NL9Wqh3noia20ZJeoSG0vvpHIfpBhPIn8RcQF8kfVTYoHI2f9BHczHlgLuV4_f3a98OBQc3AWhHY4FmPZZV1SabvPBgJWuTSmoqnFeeymOjRTeMmmTybj9atDHPRFQ3VTx8CGGFD8"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+<span class="material-icons text-[10px]">check</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Sarah (Host)</p>
+<p class="text-xs text-primary">Voted on all 3</p>
+</div>
+</div>
+<!-- Member 2: Voted -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<div class="relative">
+<img alt="Mike Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1g8TAJqeb9dKIhwevR2vGcK4TDjuXm0zos2fTpRgKlpEG4j68GPak4LfMBscxNs1m_P8xG6au3fSQn593ExHP7F0NS9iqlU0a74aV407zZClmNoQosXXM5DE_2MXaooESNAxJUtxih7YP0hJY46ytm8-FpP9SPiWqsQKoBL7pdyK5U9SS3HtMZMyNyDpdBPU_6Za2lL0RNTUmwhcle02vixPGj-lFNbC8Sjqr78NiZZKztm-1aRrenTBnTz3aow7KzOYx7Mw1MrQZ"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+<span class="material-icons text-[10px]">check</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Mike</p>
+<p class="text-xs text-slate-500">Finished voting</p>
+</div>
+</div>
+<!-- Member 3: Thinking -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<div class="relative">
+<img alt="Jen Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiKjy4tHSzCr03Sivl1tZR0cE41EcZE3CrF5wM3ewm08Ax1FDfV2DdmqgHqdxnx3966ApjR9xpfCm8i3QwX80M4v5btfj_6-iiY0KRTF04L7BpBxouoLyOWrqGK_UfTbgd3aBTw5Sv1mIx5jJfrlr7ZM6n-jB2bUTrEBhuAKTrAeJE2oY_n9mGiXOruwwMtqu738noGpvHkaeuGUhErIs2N9zHNZeCCWmxUs2slnbLg1RF-jaedTtQbYMQkSqxXikUDhADRfiftbkO"/>
+<div class="absolute -bottom-1 -right-1 bg-yellow-400 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 animate-pulse">
+<span class="text-[8px] font-bold">...</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Jen</p>
+<p class="text-xs text-yellow-600 dark:text-yellow-500">Voting now...</p>
+</div>
+</div>
+<!-- Member 4: Pending -->
+<div class="flex items-center gap-3 p-2 rounded-lg opacity-60">
+<div class="relative">
+<img alt="David Avatar" class="w-10 h-10 rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6-KXeaoXdfv-rOV5VMLQMsb17PRDolyfcUMF5XhJ5lTL1u3DGOnPFRkwsZ4R-fMfNqGNq0DF4-nkMsAmMs4A1HG25lI-kpadK6sJL7f8KDNhmTKrRHJLvfbpCzmMSISHVvcLODkj8GW7I_tAMbWDxIbzTe9ZIojNampbqAvJWieAv4xRZErwSLh6EuTkb88zpNOclbuMXyJ__nTTswmF_pZdHTBdJktvDM5Br97M43iOV4H_DIvPOO44_ih4XFV7m_JCSmVwG55xv"/>
+<div class="absolute -bottom-1 -right-1 bg-slate-300 dark:bg-slate-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+<span class="material-icons text-[10px]">access_time</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">David</p>
+<p class="text-xs text-slate-500">Hasn't started</p>
+</div>
+</div>
+<!-- Member 5: Pending -->
+<div class="flex items-center gap-3 p-2 rounded-lg opacity-60">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400 font-bold">AL</div>
+<div class="absolute -bottom-1 -right-1 bg-slate-300 dark:bg-slate-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+<span class="material-icons text-[10px]">access_time</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Alex</p>
+<p class="text-xs text-slate-500">Hasn't started</p>
+</div>
+</div>
+</div>
+<!-- Sidebar Footer / Chat Hint -->
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20">
+<button class="w-full py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-300 font-medium flex items-center justify-center gap-2 hover:border-primary/50 transition-colors">
+<span class="material-icons text-base text-primary">chat_bubble_outline</span>
+                    Open Group Chat
+                </button>
+</div>
+</aside>
+<!-- Floating Mobile FAB for Group (Visible on small screens only) -->
+<button class="lg:hidden absolute bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center z-30 hover:bg-teal-600 transition-colors">
+<span class="material-icons">group</span>
+<span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">2</span>
+</button>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

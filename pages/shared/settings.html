@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account Settings | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "primary-dark": "#0f766e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#182c2a",
+                        "accent-orange": "#f97316",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        /* Custom scrollbar for sidebar if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-800 dark:text-slate-200 transition-colors duration-300">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/shared/settings.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Settings</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Settings</span>
+    </div>
+
+<!-- Main Container -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Header -->
+<header class="mb-8 flex items-center justify-between">
+<div>
+<nav aria-label="Breadcrumb" class="flex text-sm text-slate-500 dark:text-slate-400 mb-1">
+<ol class="flex items-center space-x-2">
+<li><a class="hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Home</a></li>
+<li><span class="text-slate-300 dark:text-slate-600">/</span></li>
+<li><span class="text-slate-800 dark:text-slate-200 font-medium">Account Settings</span></li>
+</ol>
+</nav>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white font-display">Account Settings</h1>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Manage your profile, security, and travel preferences.</p>
+</div>
+<!-- User Status / Quick Actions (Optional) -->
+<div class="hidden md:flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-white dark:bg-surface-dark rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-xs font-semibold text-slate-600 dark:text-slate-300">System Operational</span>
+</div>
+</div>
+</header>
+<!-- Layout Grid -->
+<div class="lg:grid lg:grid-cols-12 lg:gap-8">
+<!-- Sidebar Navigation -->
+<aside class="lg:col-span-3 mb-8 lg:mb-0">
+<nav class="space-y-1">
+<!-- Profile (Active) -->
+<a class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-primary/10 text-primary border-l-4 border-primary transition-all" href="../../pages/guide/profile-builder.html">
+<span class="material-icons mr-3 text-xl">person</span>
+                        Profile
+                    </a>
+<!-- Security -->
+<a class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white border-l-4 border-transparent transition-all" href="../../pages/shared/security.html">
+<span class="material-icons mr-3 text-xl text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300">lock</span>
+                        Security
+                    </a>
+<!-- Roles -->
+<a class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white border-l-4 border-transparent transition-all" href="#">
+<span class="material-icons mr-3 text-xl text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300">badge</span>
+                        Roles
+                        <span class="ml-auto bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-0.5 px-2 rounded-full text-xs">3</span>
+</a>
+<!-- Subscription -->
+<a class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white border-l-4 border-transparent transition-all" href="#">
+<span class="material-icons mr-3 text-xl text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300">card_membership</span>
+                        Subscription
+                    </a>
+<!-- Payments -->
+<a class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white border-l-4 border-transparent transition-all" href="#">
+<span class="material-icons mr-3 text-xl text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300">credit_card</span>
+                        Payments
+                    </a>
+</nav>
+<!-- Help Box -->
+<div class="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10">
+<div class="flex items-start">
+<span class="material-icons text-primary mr-2">help_outline</span>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Need Assistance?</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Contact our support team for help with your roles.</p>
+<a class="text-xs font-semibold text-primary hover:text-primary-dark mt-2 inline-block" href="../../pages/public/about.html">Contact Support →</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:col-span-9 space-y-6">
+<!-- Profile Header Card -->
+<div class="bg-white dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+<!-- Cover Photo Background Pattern -->
+<div class="h-32 bg-gradient-to-r from-primary/20 via-primary/10 to-background-light dark:from-primary/10 dark:via-background-dark dark:to-surface-dark relative" data-alt="Abstract teal gradient pattern background">
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#14b8a5 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+<div class="px-6 pb-6 relative">
+<!-- Avatar & Actions -->
+<div class="flex flex-col sm:flex-row items-end -mt-12 sm:-mt-16 gap-6 mb-6">
+<div class="relative group">
+<img alt="Profile photo of a smiling man" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white dark:border-surface-dark object-cover shadow-md" data-alt="User profile photo placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV-_KZ0-V7VlpUlsZ_kfmvlC1BrrUsKU3rZ-kggAr0SvM0EaQ6R-2A7s8-K734Wt-mzHYbPh-C7FjFPdDuyMhEFb5GbfoEHrQax7pYhimS-F1Oo5ZcPAuHr9lUe3cUVTtaAkHPRVQPRXDxcLEy8ghZLcqmW8ZkXwCEtJkK0S8-i4Rep4xk71jZl4DSJQoM7gfav8R8kWwRgPCoAqtej2oM_22EzzfQpSdNeAv3Zx1Hi_aVbnCi7YfzcEEptlbO6f20npfkCSGeQsOA"/>
+<button class="absolute bottom-0 right-0 p-2 bg-white dark:bg-slate-700 rounded-full shadow-lg border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-200 hover:text-primary transition-colors" title="Change Photo">
+<span class="material-icons text-sm">photo_camera</span>
+</button>
+</div>
+<div class="flex-1 mb-2">
+<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Alex Traveler</h2>
+<!-- Persona Badge -->
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-accent-orange/10 text-accent-orange border border-accent-orange/20">
+<span class="material-icons text-sm mr-1">explore</span>
+                                        Soul Seeker
+                                    </span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Traveler • Local Guide (Kyoto)</p>
+</div>
+<div class="flex gap-3 mb-2 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    View Public Profile
+                                </button>
+</div>
+</div>
+<!-- Form -->
+<form action="#" class="mt-8 space-y-6" method="POST">
+<div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+<!-- First Name -->
+<div class="sm:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="first-name">First name</label>
+<div class="mt-1">
+<input autocomplete="given-name" class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg py-2.5 px-3" id="first-name" name="first-name" type="text" value="Alex"/>
+</div>
+</div>
+<!-- Last Name -->
+<div class="sm:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="last-name">Last name</label>
+<div class="mt-1">
+<input autocomplete="family-name" class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg py-2.5 px-3" id="last-name" name="last-name" type="text" value="Traveler"/>
+</div>
+</div>
+<!-- Email -->
+<div class="sm:col-span-4">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="email">Email address</label>
+<div class="mt-1 relative rounded-md shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-sm">mail</span>
+</div>
+<input autocomplete="email" class="focus:ring-primary focus:border-primary block w-full pl-10 sm:text-sm border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg py-2.5 px-3" id="email" name="email" type="email" value="alex@example.com"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-primary text-xs font-semibold bg-primary/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-icons text-xs">check_circle</span> Verified
+                                            </span>
+</div>
+</div>
+</div>
+<!-- Phone -->
+<div class="sm:col-span-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="phone">Phone number</label>
+<div class="mt-1">
+<input autocomplete="tel" class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg py-2.5 px-3" id="phone" name="phone" placeholder="+1 (555) 000-0000" type="text"/>
+</div>
+</div>
+<!-- Bio -->
+<div class="sm:col-span-6">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="about">Bio</label>
+<div class="mt-1">
+<textarea class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg p-3" id="about" name="about" placeholder="Tell us about your travel style..." rows="3"></textarea>
+</div>
+<p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Brief description for your profile. URLs are hyperlinked.</p>
+</div>
+<!-- Divider -->
+<div class="sm:col-span-6 border-t border-slate-200 dark:border-slate-700 my-2"></div>
+<!-- Preferences -->
+<div class="sm:col-span-6">
+<h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">Display Preferences</h3>
+<div class="flex items-start">
+<div class="flex items-center h-5">
+<input checked="" class="focus:ring-primary h-4 w-4 text-primary border-slate-300 rounded" id="public_profile" name="public_profile" type="checkbox"/>
+</div>
+<div class="ml-3 text-sm">
+<label class="font-medium text-slate-700 dark:text-slate-300" for="public_profile">Make profile public</label>
+<p class="text-slate-500 dark:text-slate-400">Allow other travelers and guides to find you.</p>
+</div>
+</div>
+<div class="flex items-start mt-4">
+<div class="flex items-center h-5">
+<input class="focus:ring-primary h-4 w-4 text-primary border-slate-300 rounded" id="newsletter" name="newsletter" type="checkbox"/>
+</div>
+<div class="ml-3 text-sm">
+<label class="font-medium text-slate-700 dark:text-slate-300" for="newsletter">Travel Updates</label>
+<p class="text-slate-500 dark:text-slate-400">Receive weekly digests about new destinations matching your persona.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-5 flex items-center justify-end gap-3">
+<button class="bg-white dark:bg-transparent py-2 px-4 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
+                                    Cancel
+                                </button>
+<button class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors" type="submit">
+                                    Save Changes
+                                </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Delete Account Zone (Secondary Action) -->
+<div class="bg-white dark:bg-surface-dark shadow-sm border border-red-100 dark:border-red-900/30 rounded-xl overflow-hidden p-6">
+<div class="sm:flex sm:items-start sm:justify-between">
+<div>
+<h3 class="text-lg leading-6 font-medium text-slate-900 dark:text-white">Delete Account</h3>
+<div class="mt-2 max-w-xl text-sm text-slate-500 dark:text-slate-400">
+<p>Once you delete your account, you will lose all data associated with it. This action cannot be undone.</p>
+</div>
+</div>
+<div class="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
+<button class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-sm dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40" type="button">
+                                Delete account
+                            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">arrow_back</span><span style="font-size:10px;margin-top:2px">Back</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">person</span><span style="font-size:10px;margin-top:2px">Account</span></a><a href="../../pages/shared/roles.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">manage_accounts</span><span style="font-size:10px;margin-top:2px">Roles</span></a><a href="../../pages/shared/subscription.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">credit_card</span><span style="font-size:10px;margin-top:2px">Billing</span></a><a href="../../pages/shared/security.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">security</span><span style="font-size:10px;margin-top:2px">Security</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

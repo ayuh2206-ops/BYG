@@ -1,0 +1,10 @@
+{
+  "name": "beforeyougo",
+  "version": "1.0.0",
+  "description": "BeforeYouGo - AI Travel Platform",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  }
+}

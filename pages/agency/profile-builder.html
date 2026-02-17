@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile Builder | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#14b8a5",
+              "primary-dark": "#0f766e",
+              "secondary": "#f97316", // Orange implied from prompt
+              "background-light": "#f6f8f8",
+              "background-dark": "#11211f",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1a2c2a",
+              "text-light": "#1f2937",
+              "text-dark": "#e5e7eb",
+              "muted-light": "#6b7280",
+              "muted-dark": "#9ca3af",
+              "border-light": "#e5e7eb",
+              "border-dark": "#2d4a46",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            boxShadow: {
+                'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #374151;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display antialiased min-h-screen flex flex-col">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/agency/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Agency</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Profile Builder</span>
+    </div>
+
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-border-light dark:border-border-dark shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center gap-4">
+<nav class="hidden md:flex items-center text-sm font-medium text-muted-light dark:text-muted-dark">
+<a class="hover:text-primary transition-colors" href="../../pages/traveler/dashboard.html">Home</a>
+<span class="mx-2 text-gray-400">/</span>
+<a class="hover:text-primary transition-colors" href="../../pages/shared/settings.html">Settings</a>
+<span class="mx-2 text-gray-400">/</span>
+<span class="text-text-light dark:text-text-dark font-semibold">Agency Profile</span>
+</nav>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden sm:inline-flex items-center px-4 py-2 border border-border-light dark:border-border-dark text-sm font-medium rounded-lg text-text-light dark:text-text-dark bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+<span class="material-icons-round text-lg mr-2">visibility</span>
+                        Preview Profile
+                    </button>
+<button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-lg shadow-primary/30 transition-all">
+<span class="material-icons-round text-lg mr-2">save</span>
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Sidebar Navigation & Progress -->
+<aside class="hidden lg:block lg:col-span-3 space-y-6">
+<div class="sticky top-24 space-y-6">
+<!-- Profile Completeness Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 border border-border-light dark:border-border-dark shadow-soft">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-2">Profile Strength</h3>
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-primary">Good</span>
+<span class="text-sm font-bold text-text-light dark:text-text-dark">65%</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-4">
+<div class="bg-primary h-2.5 rounded-full" style="width: 65%"></div>
+</div>
+<ul class="space-y-2 text-sm">
+<li class="flex items-center text-muted-light dark:text-muted-dark line-through decoration-primary">
+<span class="material-icons-round text-primary text-base mr-2">check_circle</span>
+                            Basic Information
+                        </li>
+<li class="flex items-center text-muted-light dark:text-muted-dark line-through decoration-primary">
+<span class="material-icons-round text-primary text-base mr-2">check_circle</span>
+                            Brand Assets
+                        </li>
+<li class="flex items-center text-text-light dark:text-text-dark">
+<span class="material-icons-round text-gray-300 dark:text-gray-600 text-base mr-2">radio_button_unchecked</span>
+                            Certifications
+                        </li>
+<li class="flex items-center text-text-light dark:text-text-dark">
+<span class="material-icons-round text-gray-300 dark:text-gray-600 text-base mr-2">radio_button_unchecked</span>
+                            Team Members
+                        </li>
+</ul>
+</div>
+<!-- Navigation Menu -->
+<nav class="space-y-1">
+<a class="flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary group transition-all" href="#identity">
+<span class="material-icons-round mr-3">branding_watermark</span>
+                        Brand Identity
+                    </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-muted-light dark:text-muted-dark hover:bg-gray-50 dark:hover:bg-white/5 hover:text-text-light dark:hover:text-text-dark group transition-all" href="#service-areas">
+<span class="material-icons-round mr-3">map</span>
+                        Service Areas
+                    </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-muted-light dark:text-muted-dark hover:bg-gray-50 dark:hover:bg-white/5 hover:text-text-light dark:hover:text-text-dark group transition-all" href="#certifications">
+<span class="material-icons-round mr-3">verified</span>
+                        Certifications
+                    </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-muted-light dark:text-muted-dark hover:bg-gray-50 dark:hover:bg-white/5 hover:text-text-light dark:hover:text-text-dark group transition-all" href="#team">
+<span class="material-icons-round mr-3">people</span>
+                        Team Management
+                    </a>
+</nav>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Intro -->
+<div>
+<h1 class="text-3xl font-bold text-text-light dark:text-text-dark mb-2">Agency Profile Settings</h1>
+<p class="text-muted-light dark:text-muted-dark text-lg">Manage how your agency appears to travelers and customize your team structure.</p>
+</div>
+<!-- Brand Identity Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft overflow-hidden" id="identity">
+<div class="p-6 border-b border-border-light dark:border-border-dark">
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark flex items-center">
+<span class="material-icons-round text-primary mr-2">branding_watermark</span>
+                        Brand Identity
+                    </h2>
+<p class="text-sm text-muted-light dark:text-muted-dark mt-1">Upload your logo and cover image. These are the first things travelers see.</p>
+</div>
+<div class="p-6 space-y-8">
+<!-- Cover & Logo -->
+<div class="relative group">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Cover Image &amp; Logo</label>
+<div class="relative w-full h-48 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 group-hover:border-primary transition-colors flex items-center justify-center cursor-pointer">
+<img alt="Cover Preview" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" data-alt="travel landscape with mountains and sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEKkRYHFbwYx_glgzhRGkigGOzVvxsPXzSXy6qZmllAYth7Snm8fKfn20UgSb23R8rahSL-1nPby8Sp4lJWl-2WNJcarZmG42J9_lsS-fj1FzquvcPLWSAMVW7oB2gepdOKaSFi4KAj7VmmKA_EwwWA8xyu_XnwV4Q7Em4bJpqSlGY4dFEu6hsjzy_j33fmVvCJVIOFamTpW8MMyVAORET337k9IlbhHmaoQ3qLohU7jmCII6t66ZgiH6FA6pjnldcbkPVjjFIllJU"/>
+<div class="relative z-10 text-center">
+<span class="material-icons-round text-4xl text-gray-400 group-hover:text-primary">cloud_upload</span>
+<p class="text-sm font-medium text-gray-500 group-hover:text-primary mt-1">Change Cover Image</p>
+</div>
+</div>
+<!-- Logo Overlay -->
+<div class="absolute -bottom-6 left-6">
+<div class="w-24 h-24 rounded-xl bg-white dark:bg-surface-dark border-4 border-surface-light dark:border-surface-dark shadow-lg flex items-center justify-center relative cursor-pointer group/logo overflow-hidden">
+<img alt="Logo" class="w-full h-full object-cover" data-alt="abstract company logo placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRnwT96Vgc-YOE1DirsoEmtfIOmcI0uQZSVkgn7QcLFr2b0bpP_uOU7NjYFOrHErK2tx68pQZ8fdc3anBWYmZj4IBkZpTeFIjPZq74sKMy7_yPy_ypRCe-BLtymSBzQD-wC4BNj3U4Yeg08qCXGynT9_8YvkFmI2U2zkj8BdpcIoVMlTysjs2sDwJcQC8PGuo9u-MUXbOZ34e1Bni9YHPbek8K1HSjqgwm-wmxdcw3IF5y0ZDrD9lm7790ea9Km0PnKlChzwXL4rv6"/>
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover/logo:opacity-100 transition-opacity">
+<span class="material-icons-round text-white">edit</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+<div class="md:col-span-2">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark" for="agency-name">Agency Name</label>
+<input class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark shadow-sm focus:border-primary focus:ring-primary sm:text-sm h-10 px-3" id="agency-name" name="agency-name" type="text" value="Nomad Adventures Co."/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark" for="website">Website URL</label>
+<div class="mt-1 flex rounded-md shadow-sm">
+<span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-500 text-sm">https://</span>
+<input class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark focus:ring-primary focus:border-primary sm:text-sm" id="website" name="website" type="text" value="nomadadventures.com"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark" for="contact-email">Public Contact Email</label>
+<input class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark shadow-sm focus:border-primary focus:ring-primary sm:text-sm h-10 px-3" id="contact-email" name="contact-email" type="email" value="hello@nomadadventures.com"/>
+</div>
+<div class="md:col-span-2">
+<div class="flex justify-between items-center mb-1">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark" for="mission">Mission Statement</label>
+<button class="inline-flex items-center text-xs font-medium text-primary hover:text-primary-dark" type="button">
+<span class="material-icons-round text-sm mr-1">auto_awesome</span>
+                                    Generate with AI
+                                </button>
+</div>
+<textarea class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-3" id="mission" name="mission" placeholder="Describe your agency's mission and values..." rows="4"></textarea>
+<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Briefly describe what makes your agency unique. This will be displayed on your profile card.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Service Areas Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft overflow-hidden" id="service-areas">
+<div class="p-6 border-b border-border-light dark:border-border-dark">
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark flex items-center">
+<span class="material-icons-round text-primary mr-2">map</span>
+                        Service Areas
+                    </h2>
+<p class="text-sm text-muted-light dark:text-muted-dark mt-1">Where do you operate? Define your specialized regions to match with relevant travelers.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-0 h-[400px]">
+<!-- Map Placeholder -->
+<div class="relative bg-gray-100 dark:bg-gray-800 h-64 md:h-auto border-b md:border-b-0 md:border-r border-border-light dark:border-border-dark">
+<img alt="Map" class="w-full h-full object-cover opacity-80" data-alt="Stylized dark map background with highlighted regions" data-location="Interactive World Map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo9U1pI0aVn2C5XvLjO47m-Bb5cD4jM3VdjWa-U4cTCNQsH11ITf4sezC1WD3rVJQvJNLjgHOGJnM3OsW1fBYuuh7WqhbFtDrWK2HzzBR12Ol-XrmFbYhZce13lyrfzTxdc0E3ULESKq_5eJDhVLWPJQSICU-TZQ7nEdGAjBCoIn0KRwpvvZSqHftKSHOTscflGlarzwr6B9wZAOT-tuMbAaWOPpyThdtioOWGPYr_QEk3IEUU6PmbW_HodyKxMv5YmQ9tOpU4mjrc"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="bg-white dark:bg-surface-dark px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-primary hover:bg-gray-50 transition-colors flex items-center">
+<span class="material-icons-round mr-2">edit_location</span>
+                                Edit on Map
+                            </button>
+</div>
+<!-- Overlay Legend -->
+<div class="absolute bottom-4 left-4 bg-white/90 dark:bg-surface-dark/90 backdrop-blur p-2 rounded-md shadow-sm text-xs">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-text-light dark:text-text-dark">Primary Region</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-text-light dark:text-text-dark">Secondary Region</span>
+</div>
+</div>
+</div>
+<!-- Destination Tags -->
+<div class="p-6 overflow-y-auto">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Key Destinations</label>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
+                                Southeast Asia
+                                <button class="flex-shrink-0 ml-1.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-primary hover:bg-primary hover:text-white focus:outline-none focus:bg-primary focus:text-white" type="button">
+<span class="sr-only">Remove Southeast Asia</span>
+<span class="material-icons-round text-xs">close</span>
+</button>
+</span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
+                                Patagonia
+                                <button class="flex-shrink-0 ml-1.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-primary hover:bg-primary hover:text-white focus:outline-none focus:bg-primary focus:text-white" type="button">
+<span class="sr-only">Remove Patagonia</span>
+<span class="material-icons-round text-xs">close</span>
+</button>
+</span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
+                                Japan
+                                <button class="flex-shrink-0 ml-1.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-primary hover:bg-primary hover:text-white focus:outline-none focus:bg-primary focus:text-white" type="button">
+<span class="sr-only">Remove Japan</span>
+<span class="material-icons-round text-xs">close</span>
+</button>
+</span>
+</div>
+<input class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-3 py-2 mb-6" placeholder="Type a region and press Enter..." type="text"/>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Travel Types</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<input checked="" class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="ml-3 text-sm text-text-light dark:text-text-dark">Adventure</span>
+</label>
+<label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<input checked="" class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="ml-3 text-sm text-text-light dark:text-text-dark">Luxury</span>
+</label>
+<label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<input class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="ml-3 text-sm text-text-light dark:text-text-dark">Family</span>
+</label>
+<label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<input class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="ml-3 text-sm text-text-light dark:text-text-dark">Corporate</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Certifications Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft" id="certifications">
+<div class="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+<div>
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark flex items-center">
+<span class="material-icons-round text-primary mr-2">verified</span>
+                            Certifications
+                        </h2>
+<p class="text-sm text-muted-light dark:text-muted-dark mt-1">Upload certifications to build trust (IATA, CLIA, etc.).</p>
+</div>
+<button class="text-sm text-primary hover:text-primary-dark font-medium flex items-center">
+<span class="material-icons-round text-lg mr-1">add_circle_outline</span> Add New
+                    </button>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Upload Box -->
+<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 flex flex-col items-center justify-center text-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer min-h-[160px]">
+<span class="material-icons-round text-4xl text-gray-400 mb-2">upload_file</span>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Drop files here</span>
+<span class="text-xs text-gray-500 mt-1">PDF, JPG up to 5MB</span>
+</div>
+<!-- Certificate Item 1 -->
+<div class="relative group bg-white dark:bg-gray-800 rounded-lg p-4 border border-border-light dark:border-border-dark shadow-sm flex flex-col items-center justify-center">
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-red-500"><span class="material-icons-round">delete</span></button>
+</div>
+<img alt="IATA Logo" class="h-16 w-16 object-cover rounded-full mb-3" data-alt="Abstract gradient representing a certification seal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx_6MfehTG5XrJcT3hzxsEMhA9gqz8O3PMuQGt6pcokXuoU_WIQNXC50RQRmFUZ2k2kj8tZYLiZAnXxH-m6vpE41u7VZ5fg5aog_Jn9KS-LQmX1biAyDE5egkDiCBRQUgIA52JISGHjAQYqcDdMdLL6gW5lvDrukWU6P94wVaoXS4X1eibrJF1PGdYGQt8hcP0OpP5raze5fB7AW7RHmGFOby7GkjWit8pmjG5CNytXTSVvzfaSOjQeXtB1-6i9m6K0IV0Vr7rq_ED"/>
+<h4 class="font-bold text-text-light dark:text-text-dark">IATA Accredited</h4>
+<p class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center mt-1">
+<span class="material-icons-round text-xs mr-1">check_circle</span> Verified
+                            </p>
+<p class="text-xs text-gray-500 mt-2">Exp: Dec 2024</p>
+</div>
+<!-- Certificate Item 2 -->
+<div class="relative group bg-white dark:bg-gray-800 rounded-lg p-4 border border-border-light dark:border-border-dark shadow-sm flex flex-col items-center justify-center">
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-red-500"><span class="material-icons-round">delete</span></button>
+</div>
+<div class="h-16 w-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3 text-blue-600 dark:text-blue-400 font-bold text-xl">ASTA</div>
+<h4 class="font-bold text-text-light dark:text-text-dark">ASTA Member</h4>
+<p class="text-xs text-secondary font-medium flex items-center mt-1">
+<span class="material-icons-round text-xs mr-1">pending</span> Pending Review
+                            </p>
+<p class="text-xs text-gray-500 mt-2">Uploaded: Yesterday</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Management Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-soft" id="team">
+<div class="p-6 border-b border-border-light dark:border-border-dark flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+<div>
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark flex items-center">
+<span class="material-icons-round text-primary mr-2">people</span>
+                            Team Management
+                        </h2>
+<p class="text-sm text-muted-light dark:text-muted-dark mt-1">Manage your guides and agents. Assign roles and permissions.</p>
+</div>
+<button class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-primary/20">
+<span class="material-icons-round mr-2">person_add</span>
+                        Add Member
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+<thead class="bg-gray-50 dark:bg-gray-800/50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Member</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Role</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Status</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Last Active</th>
+<th class="relative px-6 py-3" scope="col">
+<span class="sr-only">Edit</span>
+</th>
+</tr>
+</thead>
+<tbody class="bg-surface-light dark:bg-surface-dark divide-y divide-gray-200 dark:divide-gray-700">
+<!-- Row 1 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10">
+<img alt="Sarah Jenkins" class="h-10 w-10 rounded-full object-cover" data-alt="Portrait of Sarah Jenkins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6OuO4OsHOqIYfpsxFiZ_9wtvAJo3sDTGrnvjM32CbKWx67ooVJZJRPTAhFfHsG_1gCXCFTcsfdjHYvsW8jddZj5APoh7srMKl2zFiDohaEzXfXXCJ1A3SSE2xpSjgvs6Q8KtNEFNfSbPwVxAGjrInZgmA7D8LQHY7_WaYbrAwzaYYVTo20z6ffnwztkrJYsVO4SJF2btU8_MaXG5p81fTqevla0DDlr8a1gaACGUvH5ktyzLb2gozRNmvZefxuCP4tvqBLe6U7hpz"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-light dark:text-text-dark">Sarah Jenkins</div>
+<div class="text-sm text-gray-500">sarah@nomadadventures.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+                                        Admin
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center text-sm text-green-600 dark:text-green-400">
+<span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span> Active
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    Just now
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors"><span class="material-icons-round">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10">
+<img alt="Michael Chen" class="h-10 w-10 rounded-full object-cover" data-alt="Portrait of Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtaV4lHT61ET1p3UjFZhjCc_ciOXK_el7oGo5TJI7eJ5FNL4my5OMa-yXokf8QCDok4bu9cDnHD1xb3_JifNx-2wn0VMNh4VQMJDoBUVzXLdymgf9HPs6bAuCQjjGpWFNWPT1n1jPB2LwDscYNE7xI6NzXl-bB5BZosW9c9zdttU7eZGUBrTMSumyrHB3yHR87n0icrsha2qnPOzIWapKQIqv0yndWn4gzIzUj-KL0sLxwbEgTbwQN_wa4ycJN2DWYJaM5jED0X-0F"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-light dark:text-text-dark">Michael Chen</div>
+<div class="text-sm text-gray-500">michael@nomadadventures.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                        Guide
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center text-sm text-green-600 dark:text-green-400">
+<span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span> Active
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    2 hours ago
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors"><span class="material-icons-round">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 font-bold">
+                                            AJ
+                                        </div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-light dark:text-text-dark">Alex Johnson</div>
+<div class="text-sm text-gray-500">alex@nomadadventures.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                        Guide
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center text-sm text-orange-600 dark:text-orange-400">
+<span class="h-2 w-2 rounded-full bg-orange-500 mr-2"></span> Invited
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    -
+                                </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors"><span class="material-icons-round">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+<footer class="border-t border-border-light dark:border-border-dark py-8 mt-12 bg-surface-light dark:bg-surface-dark">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-muted-light dark:text-muted-dark">© 2024 Travel OS Platform. All rights reserved.</p>
+<div class="flex items-center gap-6">
+<a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors" href="../../pages/public/about.html">Help Center</a>
+<a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors" href="../../pages/public/terms.html">Terms of Service</a>
+<a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors" href="../../pages/public/cookies.html">Privacy Policy</a>
+</div>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/agency/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/agency/tour-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">map</span><span style="font-size:10px;margin-top:2px">Tours</span></a><a href="../../pages/agency/participants.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">groups</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/agency/analytics.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">analytics</span><span style="font-size:10px;margin-top:2px">Analytics</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Page Not Found | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .illustration-gradient {
+            background: linear-gradient(135deg, #f48c25 0%, #fcd3a4 100%);
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-white min-h-screen flex flex-col font-display selection:bg-primary/30">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+<!-- Navigation Bar -->
+<header class="w-full py-6 px-4 sm:px-8 flex justify-between items-center max-w-7xl mx-auto">
+<div class="flex items-center gap-2">
+<div class="bg-primary/10 p-2 rounded-full">
+<span class="material-icons text-primary">flight_takeoff</span>
+</div>
+<span class="font-bold text-xl tracking-tight text-gray-900 dark:text-white">Before You Go</span>
+</div>
+<nav class="hidden md:flex gap-8 font-medium text-gray-600 dark:text-gray-300">
+<a class="hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="hover:text-primary transition-colors" href="#">Hotels</a>
+<a class="hover:text-primary transition-colors" href="#">Flights</a>
+<a class="hover:text-primary transition-colors" href="#">Community</a>
+</nav>
+<div class="hidden md:flex gap-4">
+<button class="px-5 py-2.5 rounded-full font-semibold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Log in</button>
+<a href="pages/public/signin.html" class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-full font-semibold transition-transform active:scale-95 shadow-lg shadow-primary/30" style="cursor:pointer;text-decoration:none;">Sign up</a>
+</div>
+<button class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10">
+<span class="material-icons">menu</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
+<!-- Decorative background elements -->
+<div class="absolute top-20 left-[10%] w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+<div class="absolute bottom-20 right-[10%] w-96 h-96 bg-blue-400/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+<div class="max-w-2xl w-full text-center space-y-8 z-10">
+<!-- Illustration Area -->
+<div class="relative mx-auto w-full max-w-md aspect-[4/3] rounded-2xl overflow-hidden mb-6 group">
+<img alt="Lost traveler looking at a map in a scenic location" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Illustration of a lost traveler looking at a map upside down" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQW40bPvuFqpKXK78w3txl_zqRWuBSd4lq6FBoX-GTooeJ0e0JzIcnqqbfOsw3ITcGj6ELtVk1QilxhS5KmUW55D9WV9VuMQ4hF2Q4_RyLr8CnZg3JNZcH0lOyvN91pMgpTPjgNELgLFtCQ6jAOocXIVgDU1zQ1Of5b8ObJueEdq_t67GtRjsOW3dCpoTo3ahjY1Oj9s6nXcHzh0BY0-reGk9eVGjroCWSdxMHZ2NoTJkNfjCQotNOM4v3TLhCq6_z0rQBEcgbMpwR"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light dark:from-background-dark via-transparent to-transparent opacity-50"></div>
+<!-- 404 Badge -->
+<div class="absolute top-4 right-4 bg-white/90 dark:bg-black/60 backdrop-blur-md px-4 py-1 rounded-full border border-gray-200 dark:border-white/10 shadow-sm">
+<span class="font-bold text-primary tracking-widest text-sm">404 ERROR</span>
+</div>
+</div>
+<!-- Text Content -->
+<div class="space-y-4">
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                    Looks like you took a <span class="text-primary relative inline-block">
+                        wrong turn!
+                        <svg class="absolute w-full h-3 -bottom-1 left-0 text-primary opacity-30" fill="none" viewbox="0 0 200 9" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99999C28.5002 2.99999 104.5 -3.50001 198 3.49999" stroke="currentColor" stroke-width="3"></path></svg>
+</span>
+</h1>
+<p class="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
+                    Don't worry, even the best explorers get lost sometimes. The page you're looking for has wandered off the map.
+                </p>
+</div>
+<!-- Search Bar -->
+<div class="max-w-md mx-auto relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons text-gray-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-white dark:bg-white/5 border-2 border-gray-100 dark:border-white/10 rounded-full focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all shadow-sm text-gray-700 dark:text-gray-200 placeholder-gray-400" placeholder="Search for destinations, hotels, or guides..." type="text"/>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+<a class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2" href="pages/traveler/dashboard.html">
+<span>Take Me Home</span>
+<span class="material-icons text-sm">home</span>
+</a>
+<a class="w-full sm:w-auto bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-primary/30 text-gray-700 dark:text-gray-200 px-8 py-4 rounded-full font-semibold transition-all hover:bg-gray-50 dark:hover:bg-white/10 hover:-translate-y-0.5" href="pages/public/about.html">
+                    Contact Support
+                </a>
+</div>
+<!-- Quick Links -->
+<div class="pt-8 border-t border-gray-200/60 dark:border-white/5 mt-8 max-w-lg mx-auto">
+<p class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Or jump straight to</p>
+<div class="flex flex-wrap justify-center gap-3">
+<a class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-full hover:border-primary/50 hover:text-primary transition-colors shadow-sm group" href="pages/traveler/dashboard.html">
+<span class="material-icons text-gray-400 text-sm group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-full hover:border-primary/50 hover:text-primary transition-colors shadow-sm group" href="pages/traveler/dashboard.html">
+<span class="material-icons text-gray-400 text-sm group-hover:text-primary transition-colors">explore</span>
+<span class="font-medium text-sm">Discover</span>
+</a>
+<a class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-full hover:border-primary/50 hover:text-primary transition-colors shadow-sm group" href="pages/traveler/past-trips.html">
+<span class="material-icons text-gray-400 text-sm group-hover:text-primary transition-colors">favorite</span>
+<span class="font-medium text-sm">My Trips</span>
+</a>
+<a class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-full hover:border-primary/50 hover:text-primary transition-colors shadow-sm group" href="pages/public/about.html">
+<span class="material-icons text-gray-400 text-sm group-hover:text-primary transition-colors">help_outline</span>
+<span class="font-medium text-sm">Help Center</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="w-full py-8 border-t border-gray-200 dark:border-white/5 mt-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+<div>
+                © 2024 Before You Go Travel. All rights reserved.
+            </div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="pages/public/cookies.html">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="pages/public/terms.html">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Sitemap</a>
+</div>
+</div>
+</footer>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="./js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./js/shared.js"></script>
+
+    <script src="js/brand-enforcer.js"></script>
+</body></html>

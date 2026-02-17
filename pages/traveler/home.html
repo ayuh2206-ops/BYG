@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#F97316", // Orange from the CTA button
+              secondary: "#14B8A6", // Teal from the logo/highlights
+              "background-light": "#F9FAFB",
+              "background-dark": "#0F172A",
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#1E293B",
+              "text-light": "#1F2937",
+              "text-dark": "#E2E8F0",
+              "dark-accent": "#334155"
+            },
+            fontFamily: {
+              display: ["Poppins", "sans-serif"],
+              sans: ["Poppins", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              xl: "1rem",
+              "2xl": "1.5rem",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #14B8A6, #F97316);
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased transition-colors duration-200">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/traveler/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Traveler</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Home</span>
+    </div>
+
+<nav class="absolute top-0 w-full z-20 px-6 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="material-icons text-3xl bg-gradient-to-br from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">change_history</span>
+<span class="font-bold text-xl">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;">You Go</span></span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-white hover:text-secondary font-medium transition" href="#features">Features</a>
+<a class="text-white hover:text-secondary font-medium transition" href="#process">Process</a>
+<a class="text-white hover:text-secondary font-medium transition" href="#inspiration">Inspiration</a>
+<div class="flex items-center space-x-4 ml-4">
+<span class="text-white text-sm opacity-90">Hi, ayuh2206</span>
+<button class="text-white font-medium hover:text-gray-200">Sign Out</button>
+<button class="bg-primary hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition transform hover:scale-105">Find Your Trip</button>
+</div>
+</div>
+<button class="md:hidden text-white">
+<span class="material-icons text-3xl">menu</span>
+</button>
+</div>
+</nav>
+<header class="relative h-[600px] flex items-center justify-center text-center px-4 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Woman looking at hot air balloons in Cappadocia" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCd9KAZYJNF0uKHWUg0s_myubG2_WeY4OCdaA6DcKuKjUXQfVCtxVYVG__XOe0MsdOGh3yEzY6XnuFVZKClPCppHRU2EwuYg5SBGMnfzemFN2AM4AIWN6caXLCJ4GND7rsAxc3DuEia0ACOQZQL6ZLIVqWOs69Hi-9nCuObyRmWRhdUvSA5nAaRG0nnOQgVVAxiIEwyKBch3Qi6FilBBPa4JTXl2JIgN6PWKF-bYiuBKoiDo0bwA2OBOt5Zehm3MnjOZPQe0-aa3sf"/>
+<div class="hero-overlay absolute inset-0"></div>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto mt-16">
+<h1 class="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg leading-tight">
+                Your Journey, Perfectly Imagined.
+            </h1>
+<p class="text-lg md:text-xl text-gray-100 mb-10 max-w-2xl mx-auto drop-shadow-md font-light">
+                Unleash your inner explorer. We use AI to translate your personality into unforgettable travel experiences.
+            </p>
+<button class="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl transition transform hover:scale-105 hover:shadow-2xl">
+                Discover Your Travel DNA
+            </button>
+</div>
+</header>
+<section class="py-20 -mt-10 relative z-10 px-4">
+<div class="max-w-7xl mx-auto bg-surface-light dark:bg-surface-dark rounded-3xl shadow-2xl p-8 md:p-12">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    Crafting Your <span class="text-gradient">Unforgettable Journey</span>
+</h2>
+<p class="text-gray-600 dark:text-gray-400">A simple, inspiring process to design the trip of your dreams.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-gray-50 dark:bg-dark-accent p-8 rounded-2xl flex flex-col items-center text-center transition hover:shadow-lg">
+<div class="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-600">
+<span class="material-icons text-secondary text-3xl">assignment</span>
+</div>
+<h3 class="text-xl font-bold mb-3">1. Reveal Your Persona</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Our psychology-backed quiz translates your unique traits into a clear Travel DNA profile.
+                    </p>
+</div>
+<div class="bg-gray-50 dark:bg-dark-accent p-8 rounded-2xl flex flex-col items-center text-center transition hover:shadow-lg">
+<div class="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-600">
+<span class="material-icons text-secondary text-3xl">location_on</span>
+</div>
+<h3 class="text-xl font-bold mb-3">2. Explore Possibilities</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Our AI predicts destinations you'll love, uncovering hidden gems and authentic experiences.
+                    </p>
+</div>
+<div class="bg-gray-50 dark:bg-dark-accent p-8 rounded-2xl flex flex-col items-center text-center transition hover:shadow-lg">
+<div class="w-16 h-16 mb-6 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-600">
+<span class="material-icons text-secondary text-3xl">smartphone</span>
+</div>
+<h3 class="text-xl font-bold mb-3">3. Journey Seamlessly</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Your AI buddy has your itinerary and is ready to guide you. Ask it anything!
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 px-4 bg-gray-50 dark:bg-gray-900/50">
+<div class="max-w-6xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    A Smarter Way to <span class="text-gradient">Explore</span>
+</h2>
+<p class="text-gray-600 dark:text-gray-400">Every detail, personalized for you.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3">AI Predictive Recommendations</h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Our engine analyzes your Travel DNA to suggest destinations you're statistically destined to love.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3">Firestore Data Persistence</h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Sign in to save your persona and itineraries, and pick up right where you left off, anytime.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3">Social Sync Planning</h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Plan group trips without the headache. Our AI merges multiple personalities into one perfect plan.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3 flex items-center gap-2">Hidden Gems Engine <span class="text-yellow-400">✨</span></h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Discover authentic, lesser-known experiences and explore destinations like a local.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3 flex items-center gap-2">Dynamic Live Itinerary <span class="text-yellow-400">✨</span></h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Your plans adapt in real-time to weather, delays, or spontaneous opportunities nearby.
+                    </p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-md transition">
+<h4 class="font-bold text-lg mb-3 flex items-center gap-2">AI Travel Buddy <span class="text-yellow-400">✨</span></h4>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        A conversational assistant that knows your itinerary and provides tips, translations, and guidance.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 px-4">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-12">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    Find Your <span class="text-gradient">Inspiration</span>
+</h2>
+<p class="text-gray-600 dark:text-gray-400">First, take the quiz to reveal your travel persona and unlock personalized suggestions!</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="group relative h-80 rounded-2xl overflow-hidden shadow-lg cursor-pointer">
+<img alt="Mountain landscape" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJePDUTRsWlesf4FySECN8Oay7hxWvFwY9mPC9UHHyIZuwiIz2sLNhLJsJELr3uNFlrDwuwuRiz6E-xod8q2sms6NXE9L5Z0rhZxzlFOdoZGXM0qpQkXp6tscoB3IpjhkLCa7FnJ6gs71HuJ2nM78Jqackq4FcgIxX9Y4l238iv5moXL-2VQgols_nk6gJ1w6CX_nFrMBomHElgwKTkdPTOBvieO2arz2uKxUSFCl7uZ_S3lPvawVsfWBqpbypLjqAj-TLd_IjmoHS"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-2xl font-bold">The Explorer</h3>
+</div>
+</div>
+<div class="group relative h-80 rounded-2xl overflow-hidden shadow-lg cursor-pointer">
+<img alt="Tropical resort beach" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsFMnHEq1Z7ri3D7vSi1_egfiRCuv_EBqzmuhFsHpz0j3101EyhR87bl3yE_7ev4nMsFW_5P5haMGVIkmXlbZx70QS_wX0ZLak6s_t6sxhNVJ5z-mHPgau2dYI-R5n29ySVmc9AAUipNuxV8EjhGNnI1xi2wb20_Snm-GSaS1w3vhqdXLitMajKcYDknZtU6CpMnqcrCEBkJqXuC_JNmerslMjQl78kpijG8saQhmGdf1AxBOJ11DzgEUGX0_3mypZCKBUfUdRPkCU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-2xl font-bold">The Soul Seeker</h3>
+</div>
+</div>
+<div class="group relative h-80 rounded-2xl overflow-hidden shadow-lg cursor-pointer">
+<img alt="Desert landscape" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWXn74oK_5c4N_21fEc2515ei9D7bCoeokIxALrR7Z-Xa3prb4c2OfGy_awLg-nSPDRBbwew_VB505jlb5YVUGJDnzngwVC9G0Uy2bSrQqyuCL67xAj8iUWf81MMLAYeYsjeZ9hQSbBtwA4RknYWYUFPns0RDXxc-xp9cE-o_Mj_hu94ykOgKc1rcU4ViQmRX5NKt5zGt-uNz05FXu7PDcXMHIm5yjcS6rjUYj7Ru2Kxa-qNIz7a3RSTp9Pax6aGGFBYpta3iDgMu4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-2xl font-bold">The Story Collector</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-slate-900 dark:bg-black text-white py-24 px-4 text-center">
+<div class="max-w-3xl mx-auto">
+<h2 class="text-3xl md:text-4xl font-bold mb-6">Ready for a New Way to Travel?</h2>
+<p class="text-gray-400 mb-10 text-lg">Let's build a journey that feels like it was made just for you. Because it was.</p>
+<button class="bg-primary hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg transition transform hover:scale-105">
+                Get Started For Free
+            </button>
+</div>
+</section>
+<footer class="bg-slate-900 dark:bg-black border-t border-slate-800 text-gray-400 py-12 px-6">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+<div class="col-span-1 md:col-span-1">
+<h5 class="text-white font-bold text-lg mb-4">Before You Go</h5>
+<p class="text-sm">AI-Powered Travel, Personalized for You.</p>
+</div>
+<div>
+<h5 class="text-white font-bold text-lg mb-4">Links</h5>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-white transition" href="#features">Features</a></li>
+<li><a class="hover:text-white transition" href="#process">Process</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white font-bold text-lg mb-4">Legal</h5>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-white transition" href="../../pages/public/cookies.html">Privacy Policy</a></li>
+<li><a class="hover:text-white transition" href="../../pages/public/terms.html">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-800 pt-8 text-center text-sm">
+            © 2025 Before You Go. All Rights Reserved.
+        </div>
+</footer>
+
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Find Your Travel DNA | BeforeYouGo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&amp;family=Nunito+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F97316", // Orange color from previous screens
+                        secondary: "#14B8A6", // Teal color mentioned in description
+                        "background-light": "#F0FDFA", // Soft teal gradient base light
+                        "background-dark": "#0F172A", // Dark mode background
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1E293B",
+                        "text-dark": "#334155",
+                        "text-light": "#E2E8F0",
+                    },
+                    fontFamily: {
+                        display: ["Fredoka", "sans-serif"], // Fun, rounded font for headers
+                        body: ["Nunito Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': "1.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body min-h-screen flex flex-col transition-colors duration-300">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../index.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← BeforeYouGo</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Quiz</span>
+    </div>
+
+<header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center relative z-10">
+<div class="flex items-center gap-2">
+<svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="font-display font-semibold text-xl text-secondary dark:text-teal-400">Before You Go</span>
+</div>
+<div class="text-sm font-semibold text-gray-500 dark:text-gray-400">
+            Question 4 of 15
+        </div>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+<span class="material-icons-round text-3xl">close</span>
+</button>
+</header>
+<div class="w-full max-w-3xl mx-auto px-6 mb-8">
+<div class="w-full bg-teal-100 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full transition-all duration-500 ease-out" style="width: 27%;"></div>
+</div>
+</div>
+<main class="flex-grow flex flex-col items-center justify-center px-6 pb-12 w-full max-w-6xl mx-auto">
+<div class="text-center mb-12 max-w-3xl">
+<h1 class="font-display text-4xl md:text-5xl font-semibold text-gray-800 dark:text-white mb-4 leading-tight">
+                What kind of morning person are you?
+            </h1>
+<p class="text-lg text-gray-500 dark:text-gray-400">
+                This helps us gauge how active your itinerary should be.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-12">
+<button class="group relative flex flex-col items-center p-8 bg-white dark:bg-card-dark rounded-xl shadow-sm hover:shadow-xl dark:shadow-none dark:hover:bg-slate-700 border-2 border-secondary transition-all duration-200 transform hover:-translate-y-1">
+<div class="absolute top-4 right-4 text-secondary">
+<span class="material-icons-round">check_circle</span>
+</div>
+<div class="w-20 h-20 rounded-full bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center mb-6 text-secondary group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons-round text-4xl">wb_sunny</span>
+</div>
+<h3 class="font-display text-xl font-semibold text-gray-800 dark:text-white mb-2">Sunrise Hiker</h3>
+<p class="text-sm text-center text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Up before the sun to catch the first light on the peaks.
+                </p>
+</button>
+<button class="group relative flex flex-col items-center p-8 bg-white dark:bg-card-dark rounded-xl shadow-sm hover:shadow-xl dark:shadow-none dark:hover:bg-slate-700 border-2 border-transparent hover:border-teal-200 dark:hover:border-teal-800 transition-all duration-200 transform hover:-translate-y-1">
+<div class="w-20 h-20 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons-round text-4xl">local_cafe</span>
+</div>
+<h3 class="font-display text-xl font-semibold text-gray-800 dark:text-white mb-2">Coffee Dreamer</h3>
+<p class="text-sm text-center text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Slow starts with a latte and people watching.
+                </p>
+</button>
+<button class="group relative flex flex-col items-center p-8 bg-white dark:bg-card-dark rounded-xl shadow-sm hover:shadow-xl dark:shadow-none dark:hover:bg-slate-700 border-2 border-transparent hover:border-teal-200 dark:hover:border-teal-800 transition-all duration-200 transform hover:-translate-y-1">
+<div class="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6 text-blue-500 group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons-round text-4xl">snooze</span>
+</div>
+<h3 class="font-display text-xl font-semibold text-gray-800 dark:text-white mb-2">No Alarm Needed</h3>
+<p class="text-sm text-center text-gray-500 dark:text-gray-400 leading-relaxed">
+                    I wake up naturally whenever my body is ready.
+                </p>
+</button>
+<button class="group relative flex flex-col items-center p-8 bg-white dark:bg-card-dark rounded-xl shadow-sm hover:shadow-xl dark:shadow-none dark:hover:bg-slate-700 border-2 border-transparent hover:border-teal-200 dark:hover:border-teal-800 transition-all duration-200 transform hover:-translate-y-1">
+<div class="w-20 h-20 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center mb-6 text-purple-500 group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons-round text-4xl">fitness_center</span>
+</div>
+<h3 class="font-display text-xl font-semibold text-gray-800 dark:text-white mb-2">Early Burn</h3>
+<p class="text-sm text-center text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Hitting the gym or a run before the day starts.
+                </p>
+</button>
+</div>
+<div class="flex items-center justify-between w-full max-w-3xl mt-auto">
+<button class="flex items-center gap-2 px-6 py-3 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white font-semibold transition-colors">
+<span class="material-icons-round text-xl">arrow_back</span>
+                Back
+            </button>
+<button class="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-orange-600 text-white font-semibold rounded-full shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transform hover:-translate-y-0.5 transition-all">
+                Next Question
+                <span class="material-icons-round text-xl">arrow_forward</span>
+</button>
+</div>
+</main>
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+<div class="absolute -top-20 -left-20 w-96 h-96 bg-teal-100 dark:bg-teal-900/10 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-50"></div>
+<div class="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-100 dark:bg-orange-900/10 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-50"></div>
+</div>
+
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

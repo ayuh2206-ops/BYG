@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Confirmed | BeforeYouGo</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for ticket cutouts */
+        .ticket-cutout-top {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f6f8f8; /* Matches page background */
+            z-index: 10;
+        }
+        .dark .ticket-cutout-top {
+            background-color: #11211f;
+        }
+
+        .ticket-cutout-bottom {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f6f8f8;
+            z-index: 10;
+        }
+        .dark .ticket-cutout-bottom {
+            background-color: #11211f;
+        }
+
+        /* Dashed border mask trick isn't needed with flex layout, using border-r-dashed */
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center font-display text-slate-800 dark:text-slate-200 p-6">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+    <!-- BeforeYouGo Breadcrumb -->
+    <div id="byg-breadcrumb" style="position:sticky;top:60px;z-index:40;background:rgba(249,250,251,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:8px 24px;font-size:13px;font-family:Inter,sans-serif;">
+        <a href="../../pages/traveler/dashboard.html" style="color:#14B8A6;text-decoration:none;font-weight:500;">← Traveler</a>
+        <span style="color:#9CA3AF;margin:0 8px">›</span>
+        <span style="color:#6B7280;">Booking Confirm</span>
+    </div>
+
+<!-- Main Ticket Container -->
+<div class="max-w-4xl w-full mx-auto">
+<!-- Breadcrumbs / Back navigation (Optional context) -->
+<div class="mb-8 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-icons text-lg">arrow_back</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Trip Details</span>
+<span>/</span>
+<span class="font-semibold text-slate-800 dark:text-white">Booking #TRP-88291</span>
+</div>
+<!-- The Ticket Component -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col md:flex-row overflow-hidden relative border border-slate-100 dark:border-slate-700">
+<!-- Left Side: Main Details -->
+<div class="flex-1 p-8 relative">
+<!-- Status & ID Header -->
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-2">
+<span class="material-icons text-sm">check_circle</span>
+                            Confirmed
+                        </div>
+<h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-1">Sunset Kayaking Tour</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Explore the hidden coves of Marina Del Rey</p>
+</div>
+<!-- Mobile QR toggle could go here, but focusing on desktop ticket layout -->
+</div>
+<!-- Provider Info -->
+<div class="flex items-center gap-4 py-6 border-t border-slate-100 dark:border-slate-700/50">
+<div class="relative">
+<img alt="Portrait of Sarah Jenkins, tour guide" class="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-slate-700 shadow-sm" data-alt="Portrait of Sarah Jenkins, tour guide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQUXgtG0b5mKSAFMshjwju5gP0Ld0fu0tlLV-XuHHcepr1pfA7jmxiuTKr86OqPLxCnm3kXL_upPwAK6fHYtmuC2jumcqFpshg3jFG66kkHeodpF9KV_R2iUFWhS9_yLqvlXPFLqf84zCEhfTOw5zzkDyuC3A6duVVCQeeweBJOuxHRtOxcUhTTro3KBDBZTRsE-KoSSn09MtPh2IcI2sbf7azk2ZXRswS9qfqqJG6YJLHGFEGmoj1-hxncO6nPPaxVGjAeNhrx1k3"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">PRO</div>
+</div>
+<div>
+<div class="text-sm text-slate-500 dark:text-slate-400">Hosted by</div>
+<div class="font-bold text-slate-900 dark:text-white">Sarah Jenkins</div>
+<div class="flex items-center text-xs text-yellow-500 mt-0.5">
+<span class="material-icons text-[14px]">star</span>
+<span class="material-icons text-[14px]">star</span>
+<span class="material-icons text-[14px]">star</span>
+<span class="material-icons text-[14px]">star</span>
+<span class="material-icons text-[14px]">star</span>
+<span class="text-slate-400 ml-1">(124 reviews)</span>
+</div>
+</div>
+<div class="ml-auto hidden sm:block">
+<button class="text-primary hover:text-primary/80 text-sm font-semibold flex items-center gap-1 transition-colors border border-slate-200 dark:border-slate-600 rounded px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700">
+<span class="material-icons text-sm">chat_bubble_outline</span>
+                            Message Provider
+                        </button>
+</div>
+</div>
+<!-- Trip Details Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 py-6 border-t border-slate-100 dark:border-slate-700/50">
+<!-- Date & Time -->
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons">calendar_today</span>
+</div>
+<div>
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Date &amp; Time</div>
+<div class="font-bold text-slate-900 dark:text-white mt-0.5">Oct 24, 2023</div>
+<div class="text-sm text-slate-600 dark:text-slate-300">4:00 PM - 8:00 PM (4h)</div>
+</div>
+</div>
+<!-- Meeting Point -->
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons">place</span>
+</div>
+<div>
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Meeting Point</div>
+<div class="font-bold text-slate-900 dark:text-white mt-0.5">Dock 52, Marina Del Rey</div>
+<a class="text-sm text-primary hover:underline font-medium inline-flex items-center gap-1 mt-0.5 group" href="#">
+                                View on Map 
+                                <span class="material-icons text-[14px] group-hover:translate-x-0.5 transition-transform">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Guests -->
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons">group</span>
+</div>
+<div>
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guests</div>
+<div class="font-bold text-slate-900 dark:text-white mt-0.5">2 Adults</div>
+<div class="text-sm text-slate-600 dark:text-slate-300">Standard Ticket</div>
+</div>
+</div>
+<!-- Reference -->
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons">confirmation_number</span>
+</div>
+<div>
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Booking Ref</div>
+<div class="font-bold text-slate-900 dark:text-white mt-0.5 font-mono">#TRP-88291</div>
+<div class="text-sm text-slate-600 dark:text-slate-300">Saved to Trips</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-6 mt-2 border-t border-slate-100 dark:border-slate-700/50">
+<div class="text-sm text-slate-500 mb-4 sm:mb-0 flex items-center gap-2">
+<span class="material-icons text-base">info</span>
+                        Please arrive 15 minutes early.
+                    </div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white text-sm font-medium transition-colors">
+                            Modify Booking
+                        </button>
+<button class="sm:hidden text-primary border border-primary/20 rounded px-4 py-2 text-sm font-semibold w-full">
+                            Message Provider
+                        </button>
+</div>
+</div>
+<!-- Ticket Cutout Simulation (Right Side of Main Card) -->
+<div class="hidden md:block absolute -right-3 top-[30px] w-6 h-6 bg-background-light dark:bg-background-dark rounded-full z-10"></div>
+<div class="hidden md:block absolute -right-3 bottom-[30px] w-6 h-6 bg-background-light dark:bg-background-dark rounded-full z-10"></div>
+</div>
+<!-- Vertical Separator for Desktop -->
+<div class="hidden md:flex flex-col items-center justify-center relative w-[1px] bg-transparent">
+<div class="h-full border-l-2 border-dashed border-slate-200 dark:border-slate-600"></div>
+</div>
+<!-- Horizontal Separator for Mobile -->
+<div class="md:hidden relative w-full h-[1px]">
+<!-- Cutouts for mobile -->
+<div class="absolute -left-3 -top-3 w-6 h-6 bg-background-light dark:bg-background-dark rounded-full z-10"></div>
+<div class="absolute -right-3 -top-3 w-6 h-6 bg-background-light dark:bg-background-dark rounded-full z-10"></div>
+<div class="w-full border-t-2 border-dashed border-slate-200 dark:border-slate-600"></div>
+</div>
+<!-- Right Side: QR Stub -->
+<div class="w-full md:w-80 bg-slate-50 dark:bg-slate-800/50 p-8 flex flex-col items-center justify-center text-center border-l-0 md:border-l border-dashed border-slate-200 dark:border-slate-600 relative">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Boarding Pass</h3>
+<!-- QR Code Container -->
+<div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 dark:border-slate-600 mb-4">
+<img alt="QR Code for check-in scanning" class="w-40 h-40 object-contain mix-blend-multiply dark:mix-blend-normal opacity-90" data-alt="QR Code pattern for check-in scanning" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlOYi3uH5OR1pzY99gs6l2SACM5lm-Gxf4kq1TLEYUOQFAK8U1HDJLdGbXryiEgZ563vuwo9pzwkCnndBxrtbh_-nc5m3QOEuIw0Gcp0qS5T2wFdTYpdBP2pceKoIDDiVfHLPX_si-t6KbJvdnRM2s3fu1f3cNaQUblQa1PykQ48sZ3GzoXko2cs97ElMAXW2SlEqqjYn3f_CF9JMrswtY4Lb76AJXtjGieJ1JgYjDJ2oJqYwpcjsuv8WIMSexJA2vJwD_ojIN2Y6L"/>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-semibold text-slate-800 dark:text-white">Scan at dock</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Order #88291</p>
+</div>
+<div class="mt-8 w-full">
+<button class="w-full py-2.5 rounded-lg bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span class="material-icons text-sm">download</span>
+                        Download Ticket
+                     </button>
+</div>
+</div>
+</div>
+<!-- Mini Map Preview Card below (Contextual hint from "Map Link") -->
+<div class="mt-6 bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 h-48 relative group cursor-pointer">
+<img alt="Map view of Marina Del Rey coastline" class="w-full h-full object-cover opacity-60 group-hover:opacity-70 transition-opacity" data-alt="Map view of Marina Del Rey coastline" data-location="Marina Del Rey" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbHV9m_XYofODW6tXQLzEsQKT-rZXvulZkrr9gil5gRS60BdUK4IJnOVWfxipsrBXuOE-vCDwdutf7va5i2CWeXaWAxorht_3J_LqfR6SEYQg_yzwOWJIpjbWndNiRZOTrO2ZGO-69VxKgAjfpOeBos75eUB6GqbM7xBCqhdcu9a4D3GwX4vXUXXpL48VSzG0nCLfpF_dCArRaISUGTfhq8WH9GQnSqs68DPk99IKLTsfMFwA6tWMPlrg5iw2SYJPWB6UERHjk64CF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent flex items-end p-6">
+<div class="flex items-center justify-between w-full text-white">
+<div>
+<div class="text-xs font-bold uppercase tracking-wider opacity-80 mb-1">Location</div>
+<div class="font-bold text-lg">Marina Del Rey, Dock 52</div>
+</div>
+<div class="w-10 h-10 bg-white text-primary rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-icons">near_me</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">home</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/traveler/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">explore</span><span style="font-size:10px;margin-top:2px">Discover</span></a><a href="../../pages/traveler/past-trips.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">luggage</span><span style="font-size:10px;margin-top:2px">Trips</span></a><a href="../../pages/traveler/notifications.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">notifications</span><span style="font-size:10px;margin-top:2px">Alerts</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agency Dashboard | BeforeYouGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a5",
+                        "primary-dark": "#0d9488",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c2a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for data-dense areas */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+
+<style id="byg-design-system">
+/* ═══════════════════════════════════════════════
+   BeforeYouGo Design System v2
+   Orange-forward, vibrant gradients
+   ═══════════════════════════════════════════════ */
+
+/* ── Gradient Bleed on Body ── */
+body {
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 60%);
+    top: -200px;
+    right: -200px;
+    z-index: -1;
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 60%);
+    bottom: -150px;
+    left: -150px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ── Orange CTA Buttons ── */
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]),
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]):hover,
+a[class*="bg-primary"][class*="text-white"]:not([class*="bg-primary/"]):hover {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 8px 25px -5px rgba(249, 115, 22, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* ── Active Sidebar Items: orange left border ── */
+aside a[class*="bg-primary"],
+aside a[class*="text-primary"][class*="bg-"] {
+    border-left: 3px solid #F97316 !important;
+    background: linear-gradient(90deg, rgba(249,115,22,0.08), rgba(20,184,166,0.06)) !important;
+}
+
+/* ── Card Hover: orange glow ── */
+[class*="rounded-2xl"]:hover,
+[class*="rounded-xl"]:hover {
+    box-shadow: 0 10px 40px -10px rgba(249,115,22,0.12), 
+                0 4px 6px -2px rgba(20,184,166,0.06) !important;
+}
+
+/* ── Progress Bars: teal → orange gradient ── */
+[class*="bg-primary"][class*="h-1"],
+[class*="bg-primary"][class*="h-2"],
+[class*="bg-teal"][class*="h-1"],
+[class*="bg-teal"][class*="h-2"] {
+    background: linear-gradient(90deg, #14B8A6, #F97316) !important;
+    box-shadow: 0 0 8px rgba(249,115,22,0.15);
+}
+
+/* ── Input Focus: orange ring ── */
+input:focus, select:focus, textarea:focus {
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12), 0 0 0 1px #14B8A6 !important;
+}
+
+/* ── Stat Numbers: gradient text ── */
+[class*="text-3xl"][class*="font-bold"],
+[class*="text-4xl"][class*="font-bold"] {
+    background: linear-gradient(135deg, #0F766E, #F97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ── Orange Notification Badge ── */
+[class*="bg-red-500"][class*="rounded-full"],
+[class*="bg-red-400"][class*="rounded-full"] {
+    background: linear-gradient(135deg, #F97316, #EF4444) !important;
+    box-shadow: 0 0 6px rgba(249,115,22,0.4);
+}
+
+/* ── Scrollbar: gradient ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #14B8A6, #F97316);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* ── Sidebar Enhancement ── */
+aside {
+    box-shadow: 1px 0 0 0 rgba(0,0,0,0.04), 
+                4px 0 20px -4px rgba(249,115,22,0.03) !important;
+}
+
+/* ── Table Row Hover ── */
+tr:hover td {
+    background: linear-gradient(90deg, rgba(249,115,22,0.02), rgba(20,184,166,0.02)) !important;
+}
+
+/* ── Loading Spinners: orange ── */
+[class*="animate-spin"] {
+    border-color: rgba(20,184,166,0.15) !important;
+    border-top-color: #F97316 !important;
+}
+
+/* ── Checked States: orange ── */
+[type="checkbox"]:checked, [type="radio"]:checked {
+    background-color: #F97316 !important;
+    border-color: #F97316 !important;
+}
+
+/* ── Tab Active Pill: orange ── */
+[class*="bg-primary"][class*="rounded-full"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-lg"][class*="text-white"],
+[class*="bg-primary"][class*="rounded-md"][class*="text-white"] {
+    background: linear-gradient(135deg, #F97316, #EA580C) !important;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.25) !important;
+}
+
+/* ── Subtle gradient dividers ── */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20,184,166,0.2), rgba(249,115,22,0.2), transparent);
+}
+
+/* ── Badge / Tag Enhancements ── */
+[class*="bg-green-100"], [class*="bg-emerald-100"], [class*="bg-teal-100"] {
+    background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
+}
+
+/* ── Page Section Divider Accent ── */
+[class*="border-b"]::after {
+    /* handled naturally by border-image */
+}
+
+/* ── Mobile Bottom Nav ── */
+#byg-mobile-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
+    border-top: 1px solid rgba(20,184,166,0.1) !important;
+    box-shadow: 0 -4px 20px rgba(249,115,22,0.04) !important;
+}
+
+/* ── Selection Color ── */
+::selection {
+    background: rgba(249,115,22,0.15);
+    color: inherit;
+}
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display antialiased selection:bg-primary/30">
+
+<!-- BeforeYouGo Ambient Gradient Blobs -->
+<div id="byg-ambient-blobs" style="position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.09) 0%,rgba(251,146,60,0.04) 40%,transparent 70%);top:-8%;right:-8%;animation:bygFloat1 20s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.08) 0%,rgba(45,212,191,0.03) 40%,transparent 70%);bottom:5%;left:-5%;animation:bygFloat2 25s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,0.05) 0%,rgba(20,184,166,0.04) 50%,transparent 70%);top:35%;left:45%;animation:bygFloat3 30s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.06) 0%,transparent 60%);top:60%;right:10%;animation:bygFloat2 22s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,0.05) 0%,rgba(249,115,22,0.02) 50%,transparent 70%);top:15%;left:20%;animation:bygFloat1 28s ease-in-out infinite reverse;"></div>
+</div>
+<style>
+@keyframes bygFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-25px, 15px) scale(1.06); }
+    50% { transform: translate(15px, -20px) scale(0.97); }
+    75% { transform: translate(-10px, -10px) scale(1.03); }
+}
+@keyframes bygFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -15px) scale(1.08); }
+    50% { transform: translate(-15px, 20px) scale(0.94); }
+    75% { transform: translate(10px, 5px) scale(1.04); }
+}
+@keyframes bygFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 10px) scale(1.1); }
+    66% { transform: translate(15px, -12px) scale(0.92); }
+}
+</style>
+
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-20 lg:w-64 flex-shrink-0 bg-surface-light dark:bg-surface-dark border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 z-20">
+<div class="h-16 flex items-center justify-center lg:justify-start lg:px-6 border-b border-slate-100 dark:border-slate-800/50">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
+<span class="material-icons text-xl">change_history</span>
+</div>
+<span class="ml-3 font-bold text-lg hidden lg:block tracking-tight">Before <span class="bg-gradient-to-r from-orange-500 to-teal-500 bg-clip-text text-transparent">You Go</span></span>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 space-y-1 px-3">
+<a class="flex items-center px-3 py-2.5 bg-primary/10 text-primary rounded-lg group" href="../../pages/agency/dashboard.html">
+<span class="material-symbols-rounded text-[22px]">dashboard</span>
+<span class="ml-3 font-medium hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-primary rounded-lg group transition-colors" href="../../pages/agency/analytics.html">
+<span class="material-symbols-rounded text-[22px]">analytics</span>
+<span class="ml-3 font-medium hidden lg:block">Analytics</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-primary rounded-lg group transition-colors" href="#">
+<span class="material-symbols-rounded text-[22px]">map</span>
+<span class="ml-3 font-medium hidden lg:block">Tour Builder</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-primary rounded-lg group transition-colors" href="../../pages/agency/participants.html">
+<span class="material-symbols-rounded text-[22px]">confirmation_number</span>
+<span class="ml-3 font-medium hidden lg:block">Bookings</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-primary rounded-lg group transition-colors" href="#">
+<span class="material-symbols-rounded text-[22px]">groups</span>
+<span class="ml-3 font-medium hidden lg:block">CRM</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/50">
+<p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider hidden lg:block mb-2">Tools</p>
+<a class="flex items-center px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-primary rounded-lg group transition-colors" href="../../pages/shared/settings.html">
+<span class="material-symbols-rounded text-[22px]">settings</span>
+<span class="ml-3 font-medium hidden lg:block">Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-3">
+<img class="w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATc0hQzdfw23Xpco_OryuvALWQULSJUPNJ6ZyYCygb7LDqES-cdvPSQ68ybW2d77Ptfbk_vhEt7e2OXyDaP98FcDtt-fCy-EeGy7Ct8NIBjIvz3at1zUpHOqwp1m-7ACZOMSbyFSrqZbCSVuc8CUbagKuqnLsg-eQR-NqDSZfwtHUBO4Trm-qKxEF8tpIZowUsWWURhv8RppzSigp-nAFKyYct4D9AV2__ApCwgJun6xIi3m6ugUOubocqtqRwLp2wdScE4TA0Gko7"/>
+<div class="hidden lg:block overflow-hidden">
+<p class="text-sm font-medium text-slate-700 dark:text-slate-200 truncate">Alex Morgan</p>
+<p class="text-xs text-slate-400 truncate">Lead Agent</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-6 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-10 sticky top-0">
+<div>
+<h1 class="text-xl font-bold text-slate-800 dark:text-white">Agency Overview</h1>
+</div>
+<div class="flex items-center gap-4">
+<!-- Date Range Picker Mockup -->
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:border-primary transition-colors shadow-sm">
+<span class="material-symbols-rounded text-lg">calendar_today</span>
+<span>Oct 1 - Oct 31, 2023</span>
+<span class="material-symbols-rounded text-lg">expand_more</span>
+</button>
+<button class="relative p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-rounded">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-surface-light dark:border-surface-dark"></span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto custom-scroll p-6">
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<!-- Revenue KPI -->
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Total Revenue</p>
+<h3 class="text-2xl font-bold text-slate-800 dark:text-white">$142,850</h3>
+<div class="flex items-center mt-2 text-xs font-medium text-primary">
+<span class="material-symbols-rounded text-sm mr-1">trending_up</span>
+<span>+12.5% vs last month</span>
+</div>
+</div>
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-rounded">payments</span>
+</div>
+</div>
+<!-- Active Tours KPI -->
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Active Tours</p>
+<h3 class="text-2xl font-bold text-slate-800 dark:text-white">24</h3>
+<div class="flex items-center mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span>
+<span>8 departing soon</span>
+</div>
+</div>
+<div class="p-2 bg-purple-500/10 rounded-lg text-purple-600 dark:text-purple-400">
+<span class="material-symbols-rounded">tour</span>
+</div>
+</div>
+<!-- Pending Quotes KPI -->
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Pending Quotes</p>
+<h3 class="text-2xl font-bold text-slate-800 dark:text-white">18</h3>
+<div class="flex items-center mt-2 text-xs font-medium text-orange-500">
+<span class="material-symbols-rounded text-sm mr-1">schedule</span>
+<span>3 urgent requests</span>
+</div>
+</div>
+<div class="p-2 bg-orange-500/10 rounded-lg text-orange-600 dark:text-orange-400">
+<span class="material-symbols-rounded">request_quote</span>
+</div>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column (Chart + Tours + Kanban) -->
+<div class="col-span-12 xl:col-span-9 space-y-6">
+<!-- Revenue Analytics Section -->
+<section class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Revenue Performance</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-xs font-medium bg-primary text-white rounded-md shadow-sm">Monthly</button>
+<button class="px-3 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors">Quarterly</button>
+</div>
+</div>
+<!-- CSS-only Chart Representation -->
+<div class="relative h-64 w-full flex items-end justify-between gap-2 pt-8 pr-2">
+<!-- Y-axis Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none pb-8 pr-4">
+<div class="border-b border-slate-100 dark:border-slate-800 w-full h-0"></div>
+<div class="border-b border-slate-100 dark:border-slate-800 w-full h-0"></div>
+<div class="border-b border-slate-100 dark:border-slate-800 w-full h-0"></div>
+<div class="border-b border-slate-100 dark:border-slate-800 w-full h-0"></div>
+<div class="border-b border-slate-100 dark:border-slate-800 w-full h-0"></div>
+</div>
+<!-- Bars -->
+<div class="w-full flex items-end justify-between h-full z-10 px-2">
+<div class="group relative flex flex-col items-center w-full mx-1">
+<div class="w-full max-w-[40px] bg-primary/30 group-hover:bg-primary/50 transition-all rounded-t-sm h-[40%]"></div>
+<span class="mt-2 text-[10px] text-slate-400">Week 1</span>
+</div>
+<div class="group relative flex flex-col items-center w-full mx-1">
+<div class="w-full max-w-[40px] bg-primary/40 group-hover:bg-primary/60 transition-all rounded-t-sm h-[55%]"></div>
+<span class="mt-2 text-[10px] text-slate-400">Week 2</span>
+</div>
+<div class="group relative flex flex-col items-center w-full mx-1">
+<div class="w-full max-w-[40px] bg-primary/60 group-hover:bg-primary/80 transition-all rounded-t-sm h-[70%]"></div>
+<span class="mt-2 text-[10px] text-slate-400">Week 3</span>
+</div>
+<div class="group relative flex flex-col items-center w-full mx-1">
+<div class="w-full max-w-[40px] bg-primary group-hover:bg-primary-dark transition-all rounded-t-sm h-[85%] relative shadow-lg shadow-primary/20">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">$45k</div>
+</div>
+<span class="mt-2 text-[10px] font-medium text-slate-600 dark:text-slate-300">Week 4</span>
+</div>
+<div class="group relative flex flex-col items-center w-full mx-1">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700 rounded-t-sm h-[60%] pattern-diagonal-lines"></div>
+<span class="mt-2 text-[10px] text-slate-400">Proj.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Tour Packages Grid -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                    Active Tour Packages
+                                    <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-normal text-slate-500">Inventory</span>
+</h3>
+<button class="text-sm font-medium text-primary hover:text-primary-dark">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="h-32 bg-slate-200 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Bali temple gate landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp1FEK0Hy7-yh7KnPP3MMfc2j5xYTM2FYl9ZzL9Pbm82BaUZALhblBaR-q-B1gjlTaamn0BFds6-H-HHZTZjCCjQRVpxcEg4NW6t8vMPYXgbNiCcKCXhW-vuAkiY4FMLxIFxMOuxkaHh4XB4YdWTiR9UC31KqCCStATvpRPXqDk2vPwEk4yXmxQWq3zlR5u_Oar9_T6FlHdUOc7fhKfanRmSytjCh8oZxI9Wsmw2550MWsNkb7N35WL-JYCfYehOwbHjQvNPsh-Hpx"/>
+<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-medium text-white">Selling Fast</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-semibold text-slate-800 dark:text-white line-clamp-1">Bali Wellness Retreat</h4>
+<span class="text-xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">$2,400</span>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+<span>Progress</span>
+<span class="font-medium text-slate-700 dark:text-slate-300">12/20 booked</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mb-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 60%"></div>
+</div>
+<div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeEiZCQVJwYnooryue4MUsgIB5z-N5SXkqKdC3lFW8j3PjcV9uR582oZL7Ec8INmEgsoxQvIOpNUItYi8ZzkF_NRnRIitHSs3QDvRo2x7LiIwtw_AuCUSUYc_Igpw7ndatZv1GHSVkcUw3zEnmpRGVNVF-h5iVhlpcbbQ04uwqTrQ1P4n8HIj3nK8Hh4Z8sMMj7Kj8QmBvPaHu4Wck9KrPdBo1U_lT6m7UIzaV5D6oJQoaLLP8cOepV7ZesYmoQzqN4dsvvvVk0aM7"/>
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvr06RdfyWoSi2Gmo8DxHbBUAdHYhMAqI2vstUutnRaLJzJrT9DbtEVOiZHrj5UCOMQEoNLPn9q5DE6o3PEiKdsWGNJUXXSUjoXYyzABnB8VlKPScEmJrHRG2INqdnjulVEklkGbGuAaS8pmo4ItcUBzg6fUYcPmuRfIIVFM41USY2ZGIfaaPSU0l8I9lac3Runn2NxhKI0qvcFV6tuSRMJSrysaxvbAvgmgC5kFFNus158xf0moMqjLiRSpzMykEa8VSeSrrGCJjK"/>
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaNhbsDIbfn2HP2WUqdl79BgqfNpB-HL9VDZNS3bBdUiuU4YSb_dq13YwrZcmwWXR_NuH0sEuo2P5wLio8KfojdzP8Il-5vKKEKY1xbIoiRyEz6aupV8KSSBnweLzcw_Ddhw4HDZWOjYXtGutXE-faBcRKSai3It41OD_TV3XnlZpblzajN1DkmjmJlJ2NH15IgExXmolImpmD4DIoMiLQZ0KPR2Y5qstZ3yTHHFHYMXyOfskI1YJyx0hxyHzjrEW-t7vv3MAV-kmK"/>
+</div>
+<span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Total: $28.8k</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="h-32 bg-slate-200 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Kyoto street with lanterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHETbHFLgAcJJI91FzwNz6Jc3qCqJQkVH3n3pt5KjXmFlTSIiUdtqQBY7Z7ZUa_AqJKtZt90V44_O4wyVBkSE2vvVpODCUYNx93qrtA-tqN42zrjhhynjZy9aLwt8vx0sx7iA3zr88vZ-EN-1GaUg4Rm_vDUO8gN73HfJL2yzeh2_Xo2lZjKRslS_QFLnfInSzBaKfDfQYEkjzDqXvELLo0Tih0CSw27vobvL-8uvC6TDIIIZN6b1o6qvb11wQswBR0rkbkC4BC4X6"/>
+<div class="absolute top-2 right-2 bg-red-500/90 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-medium text-white">Sold Out</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-semibold text-slate-800 dark:text-white line-clamp-1">Kyoto Cherry Blossom</h4>
+<span class="text-xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">$3,100</span>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+<span>Progress</span>
+<span class="font-medium text-slate-700 dark:text-slate-300">15/15 booked</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mb-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeeXuHpa_w9QyFvt_GWoB_DHkhy80XM9GtcHaPTPz-5ACxJ4qlKO5B6Kw4pvQGcU7nnPFmgcZK9K3BuDrkkUGTNy9nrWmsk_IyJ9lLMx5vAbKSNsMOQ7xBhgkdgQVGBzLyV7IeZwHXt3Z8YI7kicbQ5GfHXFAUnhj4krAv-R1sX4kQxXiVqVwf98dnVpvZOKEurclu-M1z6oF9Ku8O_yT2wsQklKc5PwoJ-AeSPMeloRC5tqTQ50EzSFly-P6Vh8NZFDiYHS-NXgUn"/>
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj7fSyZR_TVu6RAmdrZRa7gJgmtHJvtWWydQ6ZiLJX_weme8aznoOCWby7eO37iAwwZwYoKzS-vkWYhAJ06950bbCWsvWk_3HbaUPqOEx-M2hO9NY8bD6hIke3RQGWQleakp1a1SaIIK9xappvz3WvAA77XnB2DQhIrElYEukZ_1llRcWMkdO6sgz8uOGOgVZZoNNtcssxLeL9GhaRPxph5C3EiiP6pta2HjJyVzK_WnZVldRmKr9XOr_QtfYiufiuJSmhha9SQzi_"/>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800 bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-500">+13</div>
+</div>
+<span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Total: $46.5k</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="h-32 bg-slate-200 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Northern lights aurora borealis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDocMB6x904Qs4BLeao17WUUCNPk3_vNBs2PjXt6N5NR-5bXlEnlXufjTHaKE9r1nKT6S79oKZRKUyxQg8mLqtgm9L2SYA_bGv5O9rQbksu_rBecsvwnZNOoKSoWLpI1C6AZreJdP-ThK8TPvaw2UrnXrRACx8YOPx2G1b9iMubVW_vIwm3MwTS2kCQsywDXFqd8sbCVRG_MbNrlPLI4IiJiHpZYHvxwRWecMGjnhOilVHgXoNe0zgEdPUi0MGaJtCTGwcxrMcPWjC9"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-semibold text-slate-800 dark:text-white line-clamp-1">Iceland Aurora Hunt</h4>
+<span class="text-xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">$1,950</span>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+<span>Progress</span>
+<span class="font-medium text-slate-700 dark:text-slate-300">4/12 booked</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mb-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 33%"></div>
+</div>
+<div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-800" data-alt="avatar 8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDKy9-T7w_nAtk5kQUHlyQpXy3aPf7Bd3vDB1OphDzuWqh_m_VRJfgqOOp4e2sMjdu7uNgjhFCgk59BSvgz96bh4jai2Kez-g6wZCoiPCymCMcBSh4GT-YChlgBVbQeftkdbiZosSD9751vepf39P--LqUt6RtC622n0Bth48-vH3jjPHX5wwqatECrefrCo857mUZCb2O8aLr1qJKsTGn_CInXWnh0u8FWHBrAZYvZbvfeZxZC6yJ1dosqJpIT6ORczMB9mjT_9E9"/>
+</div>
+<span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Total: $7.8k</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Kanban Board (Simplified) -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                    Requests Pipeline
+                                    <span class="material-symbols-rounded text-base text-primary" title="AI Prioritization Active">auto_awesome</span>
+</h3>
+<button class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+<span class="material-symbols-rounded">filter_list</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Column: New -->
+<div class="bg-slate-50/50 dark:bg-slate-800/30 p-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">New Requests (2)</h4>
+<!-- Kanban Item 1 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm mb-2 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-semibold text-sm text-slate-800 dark:text-white">Smith Family Italy</span>
+<span class="w-2 h-2 rounded-full bg-red-500" title="High Priority"></span>
+</div>
+<p class="text-xs text-slate-500 mb-2 truncate">Custom itinerary for 4, July '24</p>
+<div class="flex items-center gap-1.5 bg-primary/5 p-1.5 rounded border border-primary/10">
+<span class="material-symbols-rounded text-primary text-xs">auto_awesome</span>
+<span class="text-[10px] text-primary font-medium">AI Match: 94% confidence</span>
+</div>
+</div>
+<!-- Kanban Item 2 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm mb-2 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-semibold text-sm text-slate-800 dark:text-white">Corp Retreat</span>
+</div>
+<p class="text-xs text-slate-500 mb-2 truncate">Teambuilding, 20pax, Mountain</p>
+<div class="flex justify-between items-center mt-2">
+<span class="text-[10px] text-slate-400">Yesterday</span>
+<img class="w-5 h-5 rounded-full" data-alt="client avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb9VqVsRinZRwXG_9MH1ZlMTUyYnczGkEPssTYH9QAN3rcrwBnhEpWN97OCbLiOcjKXAjOFTfKQ0s_tj_ffwqyqHyy5aaJuf4udJ_Kl8N44suoy4PCf-cnIKmyqIendUpel45LGKaEpGF0boY6OoQ0MLGr7sUDuLHawWFkKkfjJCa_DPdtIpPrn7B1h8Rf2I4f4zWKTL46yU7tRRFhrbZ_BdLGKYuwUv5yMp5jEfEkB4cKeamGIVd1687kjgTfp6saFjFwUr_ERu_6"/>
+</div>
+</div>
+</div>
+<!-- Column: In Progress -->
+<div class="bg-slate-50/50 dark:bg-slate-800/30 p-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Drafting (1)</h4>
+<!-- Kanban Item 3 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm mb-2 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow opacity-75">
+<div class="flex justify-between items-start mb-1">
+<span class="font-semibold text-sm text-slate-800 dark:text-white">Honeymoon Maldives</span>
+</div>
+<p class="text-xs text-slate-500 mb-2 truncate">Flight options pending</p>
+<div class="flex justify-between items-center mt-2">
+<span class="text-[10px] text-slate-400">2d ago</span>
+<div class="flex items-center gap-1">
+<span class="text-[10px] bg-slate-100 dark:bg-slate-700 px-1.5 rounded text-slate-500">Draft</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Sent -->
+<div class="bg-slate-50/50 dark:bg-slate-800/30 p-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 hidden md:block">
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Awaiting Reply (4)</h4>
+<!-- Kanban Item 4 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm mb-2 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow border-l-4 border-l-green-400">
+<div class="flex justify-between items-start mb-1">
+<span class="font-semibold text-sm text-slate-800 dark:text-white">Safari Kenya</span>
+</div>
+<p class="text-xs text-slate-500 mb-2 truncate">Quote sent: $12,400</p>
+<div class="flex justify-between items-center mt-2">
+<span class="text-[10px] text-slate-400">4h ago</span>
+<span class="material-symbols-rounded text-slate-300 text-sm">mail</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Sidebar Widget (Departures) -->
+<div class="col-span-12 xl:col-span-3 space-y-6">
+<!-- Upcoming Departures -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sticky top-6">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white mb-4">Upcoming Departures</h3>
+<div class="space-y-4">
+<div class="flex gap-3 relative pb-4 border-l border-slate-200 dark:border-slate-700 ml-2 pl-4 last:pb-0 last:border-0">
+<div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-white dark:ring-surface-dark"></div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary uppercase mb-1">Tomorrow</p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700">
+<h5 class="font-semibold text-sm text-slate-800 dark:text-slate-200">Paris &amp; Normandy</h5>
+<div class="flex items-center gap-2 mt-2 text-xs text-slate-500">
+<span class="material-symbols-rounded text-sm">group</span>
+<span>14 Travelers</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-xs text-slate-500">
+<span class="material-symbols-rounded text-sm">flight</span>
+<span>AF1124</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3 relative pb-4 border-l border-slate-200 dark:border-slate-700 ml-2 pl-4 last:pb-0 last:border-0">
+<div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-surface-dark"></div>
+<div class="flex-1">
+<p class="text-xs font-bold text-slate-400 uppercase mb-1">Oct 24</p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700">
+<h5 class="font-semibold text-sm text-slate-800 dark:text-slate-200">Costa Rica Eco</h5>
+<div class="flex items-center gap-2 mt-2 text-xs text-slate-500">
+<span class="material-symbols-rounded text-sm">group</span>
+<span>8 Travelers</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3 relative pb-4 border-l border-slate-200 dark:border-slate-700 ml-2 pl-4 last:pb-0 last:border-0">
+<div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-surface-dark"></div>
+<div class="flex-1">
+<p class="text-xs font-bold text-slate-400 uppercase mb-1">Oct 26</p>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700">
+<h5 class="font-semibold text-sm text-slate-800 dark:text-slate-200">Tokyo Express</h5>
+<div class="flex items-center gap-2 mt-2 text-xs text-slate-500">
+<span class="material-symbols-rounded text-sm">group</span>
+<span>20 Travelers</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2.5 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-500 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-rounded text-lg">add</span>
+                                Add Departure
+                            </button>
+</div>
+<!-- Mini Map Widget -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 relative overflow-hidden h-48">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20" data-alt="Abstract world map dots" data-location="World Map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJkBv4qYL3gHLow6FFwnKCOWkhjWuku97Cmt8Wm01uPq0i8gADIov-pAymmq9ztN8T78u2km7NmlBB0Vvhn8eym9Qrx4Zij4pNtULCa_dJnBUm0rNH8KtkseGn9kGpLeiuGIf0SSRFyz4Z0Z3dtsvXFykpDAZRKFOiw_-SEL07IHkRnZ_Et5kpRgd8tvNIFItJ4O3fcjOYa1SvgE4vRbWB2Jr_p0e94xykDR8d-HXFWZY6BOHZqCWv6P6-SgYVfjmM7pEGnUAkBzr"/>
+<div class="relative z-10 flex flex-col justify-between h-full">
+<div>
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Live Operations</h3>
+<p class="text-xs text-slate-500 mt-1">Global traveler tracking</p>
+</div>
+<button class="self-start px-3 py-1.5 bg-slate-800 dark:bg-slate-700 text-white text-xs font-medium rounded-md hover:bg-slate-700 transition-colors">Open Map View</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+    <!-- BeforeYouGo Platform Scripts -->
+    <script src="../../js/env.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../js/shared.js"></script>
+
+
+    <!-- BeforeYouGo Mobile Bottom Nav -->
+    <nav id="byg-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:white;border-top:1px solid #e5e7eb;padding:4px 0 env(safe-area-inset-bottom,8px);box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-around;max-width:480px;margin:0 auto;">
+            <a href="../../pages/agency/dashboard.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#14B8A6;font-weight:600"><span class="material-icons" style="font-size:22px">dashboard</span><span style="font-size:10px;margin-top:2px">Dashboard</span></a><a href="../../pages/agency/tour-builder.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">map</span><span style="font-size:10px;margin-top:2px">Tours</span></a><a href="../../pages/agency/participants.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">groups</span><span style="font-size:10px;margin-top:2px">Clients</span></a><a href="../../pages/agency/analytics.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">analytics</span><span style="font-size:10px;margin-top:2px">Analytics</span></a><a href="../../pages/shared/settings.html" style="flex:1;display:flex;flex-direction:column;align-items:center;text-decoration:none;padding:6px 0;color:#9CA3AF"><span class="material-icons" style="font-size:22px">settings</span><span style="font-size:10px;margin-top:2px">Settings</span></a>
+        </div>
+    </nav>
+    <style>
+        @media (max-width: 768px) {
+            #byg-mobile-nav { display: flex !important; }
+            body { padding-bottom: 72px; }
+            #byg-ai-buddy { bottom: 80px !important; }
+        }
+    </style>
+
+
+    <!-- Role Switcher Modal -->
+    <div id="byg-role-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;font-family:Inter,sans-serif;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:white;border-radius:24px;padding:32px;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease">
+            <h3 style="font-family:Lexend,Poppins,sans-serif;font-size:20px;font-weight:700;margin:0 0 8px;color:#1F2937">Switch Role</h3>
+            <p style="color:#6B7280;font-size:14px;margin:0 0 20px">Select a role to switch your dashboard context.</p>
+            <a href="../../pages/traveler/dashboard.html" onclick="localStorage.setItem('byg_role','traveler')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#DBEAFE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧳</span>
+                <div><strong style="font-size:15px">Traveler</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Plan trips, book guides, discover tours</p></div>
+            </a>
+            <a href="../../pages/guide/dashboard.html" onclick="localStorage.setItem('byg_role','guide')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#D1FAE5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🧭</span>
+                <div><strong style="font-size:15px">Guide</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Manage clients, create itineraries, earn</p></div>
+            </a>
+            <a href="../../pages/agency/dashboard.html" onclick="localStorage.setItem('byg_role','agency')" style="display:flex;align-items:center;gap:16px;padding:16px;border:2px solid #e5e7eb;border-radius:16px;margin-bottom:12px;text-decoration:none;color:inherit;transition:all 0.2s" onmouseover="this.style.borderColor='#14B8A6';this.style.background='#f0fdfa'" onmouseout="this.style.borderColor='#e5e7eb';this.style.background='white'">
+                <span style="width:48px;height:48px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏢</span>
+                <div><strong style="font-size:15px">Agency</strong><p style="font-size:13px;color:#6B7280;margin:4px 0 0">Build tours, manage bookings, analytics</p></div>
+            </a>
+            <button onclick="document.getElementById('byg-role-modal').style.display='none'" style="width:100%;padding:12px;border:none;background:#F3F4F6;border-radius:12px;font-size:14px;color:#6B7280;cursor:pointer;margin-top:4px">Cancel</button>
+        </div>
+    </div>
+    <script>
+        // Wire up role switcher triggers
+        document.addEventListener("click", function(e) {
+            var t = e.target.closest("[data-role-switch], [href*='manage-roles'], [href*='switch']");
+            if (!t) {
+                // Also check text content
+                var el = e.target.closest("a, button");
+                if (el) {
+                    var txt = (el.textContent || "").toLowerCase();
+                    if (txt.includes("switch role") || txt.includes("manage role")) {
+                        e.preventDefault();
+                        document.getElementById("byg-role-modal").style.display = "flex";
+                    }
+                }
+            } else {
+                e.preventDefault();
+                document.getElementById("byg-role-modal").style.display = "flex";
+            }
+        });
+    </script>
+
+    <script src="../../js/brand-enforcer.js"></script>
+</body></html>
