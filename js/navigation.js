@@ -142,7 +142,11 @@
   // ════════════════════════════════════════════
   runWhenDomReady(function () {
     injectLayoutFixes();
-    if (IS_PUBLIC) { fixDeadLinks(); return; }
+    if (IS_PUBLIC) {
+      normalizePublicChrome();
+      fixDeadLinks();
+      return;
+    }
     replaceTopbar();
     fixSidebar();
     fixDeadLinks();
@@ -158,6 +162,11 @@
     style.id = "byg-layout-fixes";
     style.textContent = [
       ".max-w-8xl{max-width:90rem;margin-left:auto;margin-right:auto;}",
+      "body[data-byg-shell='public']{min-height:100vh;overflow-x:hidden;}",
+      "body[data-byg-shell='public'] #byg-breadcrumb{display:none!important;}",
+      "body[data-byg-shell='public'] [data-byg-public-nav='true']{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(226,232,240,0.95);}",
+      "body.dark[data-byg-shell='public'] [data-byg-public-nav='true']{background:rgba(15,23,42,0.88);border-bottom-color:rgba(51,65,85,0.95);}",
+      "body[data-byg-shell='public'] [data-byg-public-nav='true'] + main{position:relative;z-index:1;}",
       "body[data-byg-shell='app']{min-height:100vh;overflow-x:hidden;}",
       "body[data-byg-shell='app'] main{scroll-margin-top:96px;}",
       "body[data-byg-shell='app'] #byg-breadcrumb{display:none!important;}",
@@ -174,6 +183,20 @@
       "@media (max-width:1023px){body[data-byg-shell='app'] .lg\\:grid.lg\\:grid-cols-12{display:block;}}"
     ].join("");
     document.head.appendChild(style);
+  }
+
+  function normalizePublicChrome() {
+    var crumb = document.getElementById("byg-breadcrumb");
+    if (crumb) crumb.style.display = "none";
+
+    var topChrome = document.querySelector("body > nav, body > header");
+    if (!topChrome) return;
+
+    var cls = topChrome.className || "";
+    var isAlreadyAnchored = cls.indexOf("fixed") > -1 || cls.indexOf("sticky") > -1 || cls.indexOf("top-0") > -1;
+    if (!isAlreadyAnchored) {
+      topChrome.setAttribute("data-byg-public-nav", "true");
+    }
   }
 
   function cleanupLegacyChrome() {
