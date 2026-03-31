@@ -133,12 +133,45 @@
   //  MAIN
   // ════════════════════════════════════════════
   document.addEventListener("DOMContentLoaded", function () {
+    injectLayoutFixes();
     if (IS_PUBLIC) { fixDeadLinks(); return; }
     replaceTopbar();
     fixSidebar();
     fixDeadLinks();
     addMobileBottomNav();
+    cleanupLegacyChrome();
   });
+
+  function injectLayoutFixes() {
+    if (document.getElementById("byg-layout-fixes")) return;
+    document.body.setAttribute("data-byg-shell", IS_PUBLIC ? "public" : "app");
+
+    var style = document.createElement("style");
+    style.id = "byg-layout-fixes";
+    style.textContent = [
+      ".max-w-8xl{max-width:90rem;margin-left:auto;margin-right:auto;}",
+      "body[data-byg-shell='app']{min-height:100vh;overflow-x:hidden;}",
+      "body[data-byg-shell='app'] main{scroll-margin-top:96px;}",
+      "body[data-byg-shell='app'] #byg-breadcrumb{display:none!important;}",
+      "body[data-byg-shell='app'] .shadow-soft{box-shadow:0 18px 45px -28px rgba(15,23,42,0.35);}",
+      "body[data-byg-shell='app'] .border-border-light{border-color:rgba(148,163,184,0.24);}",
+      "body[data-byg-shell='app'] .border-border-dark{border-color:rgba(71,85,105,0.55);}",
+      "body[data-byg-shell='app'] .text-muted-light{color:#64748b;}",
+      "body[data-byg-shell='app'] .text-muted-dark{color:#94a3b8;}",
+      "body[data-byg-shell='app'] .text-text-light{color:#0f172a;}",
+      "body[data-byg-shell='app'] .text-text-dark{color:#f8fafc;}",
+      "body[data-byg-shell='app'] #byg-topbar + .max-w-7xl,body[data-byg-shell='app'] #byg-topbar + .max-w-6xl{padding-top:1.5rem;}",
+      "body[data-byg-shell='app'] #byg-topbar + #byg-settings-bar + .max-w-7xl{padding-top:1.25rem;}",
+      "body[data-byg-shell='app'] .flex.h-screen.overflow-hidden{min-height:100vh;}",
+      "@media (max-width:1023px){body[data-byg-shell='app'] .lg\\:grid.lg\\:grid-cols-12{display:block;}}"
+    ].join("");
+    document.head.appendChild(style);
+  }
+
+  function cleanupLegacyChrome() {
+    var crumb = document.getElementById("byg-breadcrumb");
+    if (crumb) crumb.style.display = "none";
+  }
 
   // ── 1. REPLACE TOPBAR ──
   function replaceTopbar() {
@@ -252,8 +285,11 @@
                   || linkTexts.indexOf("discover") > -1 || linkTexts.indexOf("messages") > -1
                   || linkTexts.indexOf("clients") > -1 || linkTexts.indexOf("analytics") > -1
                   || linkTexts.indexOf("explore") > -1;
+      var isBrandBar = linkTexts.indexOf("before you go") > -1 || linkTexts.indexOf("features") > -1
+                    || linkTexts.indexOf("process") > -1 || linkTexts.indexOf("inspiration") > -1
+                    || linkTexts.indexOf("find your trip") > -1;
       
-      if (isNavBar) {
+      if (isNavBar || (PATH.indexOf("/traveler/home") > -1 && isBrandBar)) {
         // This IS a navigation bar - replace it
         existing = el;
         shouldReplace = true;

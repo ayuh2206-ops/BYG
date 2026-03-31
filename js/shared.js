@@ -744,6 +744,29 @@ function getBasePath() {
     return "../".repeat(Math.max(0, depth));
 }
 
+let platformExperiencePromise = null;
+async function loadPlatformExperience(options) {
+    if (!platformExperiencePromise) {
+        platformExperiencePromise = new Promise((resolve, reject) => {
+            if (window.BYGPlatformExperience) {
+                resolve(window.BYGPlatformExperience);
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = `${getBasePath()}js/platform-experience.js`;
+            script.onload = () => resolve(window.BYGPlatformExperience);
+            script.onerror = () => reject(new Error("Failed to load platform experience script"));
+            document.head.appendChild(script);
+        });
+    }
+
+    const platformExperience = await platformExperiencePromise;
+    if (platformExperience && typeof platformExperience.init === "function") {
+        await platformExperience.init(options);
+    }
+}
+
 
 // ═══════════════════════════════════════════════
 // 9. INITIALIZATION
@@ -781,6 +804,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Wire up any existing chat forms
     setupExistingChatForms();
+    
+    // Shared persistence and interaction wiring for the generated pages.
+    await loadPlatformExperience({
+        basePath: getBasePath(),
+        isPublicPage,
+        role: BYG.role
+    });
     
     console.log("🌍 BeforeYouGo initialized | Role:", BYG.role);
 });
