@@ -12,6 +12,14 @@
 (function () {
   "use strict";
 
+  function runWhenDomReady(callback) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", callback, { once: true });
+      return;
+    }
+    callback();
+  }
+
   var PATH = window.location.pathname;
 
   // ── base path helper ──
@@ -132,7 +140,7 @@
   // ════════════════════════════════════════════
   //  MAIN
   // ════════════════════════════════════════════
-  document.addEventListener("DOMContentLoaded", function () {
+  runWhenDomReady(function () {
     injectLayoutFixes();
     if (IS_PUBLIC) { fixDeadLinks(); return; }
     replaceTopbar();

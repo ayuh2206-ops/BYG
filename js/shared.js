@@ -11,6 +11,14 @@
 (function() {
 "use strict";
 
+function runWhenDomReady(callback) {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", callback, { once: true });
+        return;
+    }
+    callback();
+}
+
 // ── Protocol Check: file:// won't work with ES modules ──
 const IS_FILE_PROTOCOL = window.location.protocol === "file:";
 if (IS_FILE_PROTOCOL) {
@@ -20,7 +28,7 @@ if (IS_FILE_PROTOCOL) {
     console.warn("   python3 -m http.server 3000    (Python)");
     
     // Show a helper banner
-    document.addEventListener("DOMContentLoaded", function() {
+    runWhenDomReady(function() {
         const banner = document.createElement("div");
         banner.id = "byg-dev-banner";
         banner.innerHTML = `
@@ -772,7 +780,7 @@ async function loadPlatformExperience(options) {
 // 9. INITIALIZATION
 // ═══════════════════════════════════════════════
 
-document.addEventListener("DOMContentLoaded", async () => {
+runWhenDomReady(async () => {
     // Load marked.js for markdown rendering
     if (!window.marked) {
         const s = document.createElement("script");

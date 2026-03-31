@@ -7,6 +7,14 @@
 (function() {
 "use strict";
 
+function runWhenDomReady(callback) {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", callback, { once: true });
+        return;
+    }
+    callback();
+}
+
 const BRAND = "Before You Go";
 const LOGO_ICON = "change_history";
 
@@ -24,7 +32,7 @@ const WRONG_ICONS = [
     "flight", "airplanemode_active", "language", "map"
 ];
 
-document.addEventListener("DOMContentLoaded", function() {
+runWhenDomReady(function() {
 
     // ─── 1. FIX SIDEBAR LOGO ───
     fixSidebarLogo();
