@@ -100,7 +100,7 @@ async function initFirebase() {
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
         const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInAnonymously, GoogleAuthProvider, signInWithPopup }
             = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
-        const { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs }
+        const { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot }
             = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
 
         firebaseApp = initializeApp({
@@ -123,22 +123,39 @@ async function initFirebase() {
             signInWithGoogle: () => signInWithPopup(firebaseAuth, new GoogleAuthProvider())
         };
         BYG.db = {
-            doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs,
+            doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot,
             instance: firebaseDb
         };
 
         onAuthStateChanged(firebaseAuth, (user) => {
             BYG.user = user;
             updateAuthUI(user);
+            
+            const isPublicPage = window.location.pathname.includes('/public/') || window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
+            
             if (user && !user.isAnonymous) {
                 loadUserProfile(user.uid);
+                
+                // Key Bug 8: Notification badge onSnapshot
+                const notifBadge = document.querySelector('[href*="notifications"] .bg-red-500') || document.querySelector('.bg-red-500.rounded-full');
+                if (notifBadge && window.BYG.db && window.BYG.db.onSnapshot) {
+                    window.BYG.db.onSnapshot(
+                        query(collection(firebaseDb, "notifications", user.uid, "items"), where("read", "==", false)),
+                        (snap) => {
+                            const count = snap.size;
+                            notifBadge.textContent = count > 0 ? count : "";
+                            notifBadge.style.display = count > 0 ? "flex" : "none";
+                        }
+                    );
+                }
+            } else if (!isPublicPage) {
+                // Auth Guard
+                window.location.href = (window.BYG_NAV ? window.BYG_NAV.ROUTES.signin : "/pages/public/signin.html");
             }
         });
 
-        // If no user, sign in anonymously
-        if (!firebaseAuth.currentUser) {
-            await signInAnonymously(firebaseAuth);
-        }
+        // Emit firebase-ready event for pages waiting on auth init
+        window.dispatchEvent(new Event('byg-firebase-ready'));
     } catch (e) {
         console.error("Firebase init failed:", e);
         updateAuthUI(null);
@@ -152,12 +169,36 @@ async function loadUserProfile(uid) {
         const snap = await getDoc(doc(firebaseDb, "users", uid));
         if (snap.exists()) {
             const data = snap.data();
+            BYG.userDocData = data;
             BYG.role = data.activeRole || "traveler";
             localStorage.setItem("byg_role", BYG.role);
-            updateNavForRole(BYG.role);
+            if (typeof updateNavForRole === "function") updateNavForRole(BYG.role);
+        } else {
+            BYG.userDocData = { roles: ["traveler"], activeRole: "traveler" };
         }
     } catch(e) { console.error("Profile load error:", e); }
 }
+
+window.switchRole = async function(newRole) {
+  if (!window.BYG || !window.BYG.user) return;
+  const userRoles = window.BYG.userDocData?.roles || ["traveler"];
+  
+  if (!userRoles.includes(newRole)) {
+    const builderMap = { guide: "gProfile", agency: "aProfile" };
+    if (builderMap[newRole] && window.BYG_NAV) {
+       window.location.href = window.BYG_NAV.ROUTES[builderMap[newRole]];
+    }
+    return;
+  }
+  
+  if (window.BYG.db) {
+    await window.BYG.db.updateDoc(window.BYG.db.doc(window.BYG.db.instance, "users", window.BYG.user.uid), { activeRole: newRole });
+  }
+  localStorage.setItem("byg_role", newRole);
+  
+  const dashMap = { traveler: "tDash", guide: "gDash", agency: "aDash" };
+  window.location.href = window.BYG_NAV ? window.BYG_NAV.ROUTES[dashMap[newRole]] : "/pages/" + newRole + "/dashboard.html";
+};
 
 function updateAuthUI(user) {
     document.querySelectorAll("[data-auth-state]").forEach(el => {
@@ -753,6 +794,7 @@ function getBasePath() {
 }
 
 let platformExperiencePromise = null;
+let marketplaceMvpPromise = null;
 async function loadPlatformExperience(options) {
     if (!platformExperiencePromise) {
         platformExperiencePromise = new Promise((resolve, reject) => {
@@ -772,6 +814,28 @@ async function loadPlatformExperience(options) {
     const platformExperience = await platformExperiencePromise;
     if (platformExperience && typeof platformExperience.init === "function") {
         await platformExperience.init(options);
+    }
+}
+
+async function loadMarketplaceMvp(options) {
+    if (!marketplaceMvpPromise) {
+        marketplaceMvpPromise = new Promise((resolve, reject) => {
+            if (window.BYGMarketplaceMVP) {
+                resolve(window.BYGMarketplaceMVP);
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = `${getBasePath()}js/marketplace-mvp.js`;
+            script.onload = () => resolve(window.BYGMarketplaceMVP);
+            script.onerror = () => reject(new Error("Failed to load marketplace MVP script"));
+            document.head.appendChild(script);
+        });
+    }
+
+    const marketplaceMvp = await marketplaceMvpPromise;
+    if (marketplaceMvp && typeof marketplaceMvp.init === "function") {
+        await marketplaceMvp.init(options);
     }
 }
 
@@ -815,6 +879,11 @@ runWhenDomReady(async () => {
     
     // Shared persistence and interaction wiring for the generated pages.
     await loadPlatformExperience({
+        basePath: getBasePath(),
+        isPublicPage,
+        role: BYG.role
+    });
+    await loadMarketplaceMvp({
         basePath: getBasePath(),
         isPublicPage,
         role: BYG.role

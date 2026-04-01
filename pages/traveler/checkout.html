@@ -170,11 +170,6 @@ hr {
     background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(249,115,22,0.06)) !important;
 }
 
-/* ── Page Section Divider Accent ── */
-[class*="border-b"]::after {
-    /* handled naturally by border-image */
-}
-
 /* ── Mobile Bottom Nav ── */
 #byg-mobile-nav {
     background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,1)) !important;
@@ -381,9 +376,9 @@ hr {
 <label class="text-sm text-gray-600 dark:text-gray-300 cursor-pointer" for="toggle">Save this card for future trips</label>
 </div>
 <!-- Submit Button -->
-<button class="w-full bg-primary hover:bg-[#d96e05] text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 transition-all transform active:scale-[0.99] flex justify-center items-center gap-2 group" type="button">
+<button class="w-full bg-primary hover:bg-[#d96e05] text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 transition-all transform active:scale-[0.99] flex justify-center items-center gap-2 group" type="submit">
 <span>Confirm &amp; Pay</span>
-<span class="font-normal opacity-90">$2,450.00</span>
+<span class="font-normal opacity-90" id="byg-checkout-price">$2,450.00</span>
 <span class="material-icons group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
 </button>
 <!-- Security Badges Footer -->

@@ -400,18 +400,18 @@
   }
 
   function roleDD(){
-    var rs=[{k:"traveler",i:"flight",l:"Traveler",h:R.tDash},{k:"guide",i:"tour",l:"Guide",h:R.gDash},{k:"agency",i:"business",l:"Agency",h:R.aDash}];
+    var rs=[{k:"traveler",i:"flight",l:"Traveler"},{k:"guide",i:"tour",l:"Guide"},{k:"agency",i:"business",l:"Agency"}];
     var h='';
     rs.forEach(function(r){
       var a=r.k===ROLE;
-      var c=a?"bg-teal-500/10 text-teal-600 font-semibold":"text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5";
-      h+='<a class="flex items-center gap-3 px-4 py-2.5 text-sm transition '+c+'" href="'+r.h+'" onclick="localStorage.setItem(\'byg_role\',\''+r.k+'\')">'
+      var c=a?"bg-teal-500/10 text-teal-600 font-semibold":"text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer";
+      h+='<a class="flex items-center gap-3 px-4 py-2.5 text-sm transition '+c+'" onclick="if(window.switchRole) { window.switchRole(\''+r.k+'\'); } else { localStorage.setItem(\'byg_role\',\''+r.k+'\'); window.location.reload(); }">'
         +'<span class="material-icons text-lg">'+r.i+'</span>'+r.l;
       if(a) h+='<span class="ml-auto material-icons text-sm text-teal-500">check</span>';
       h+='</a>';
     });
     h+='<div class="border-t border-slate-100 dark:border-slate-700 mt-1 pt-1">'
-      +'<a class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition" href="'+R.signin+'" onclick="localStorage.clear()">'
+      +'<a class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition cursor-pointer" onclick="if(window.BYG && window.BYG.auth && window.BYG.auth.signOut) { window.BYG.auth.signOut().then(() => { localStorage.clear(); window.location.href=\''+R.home+'\'; }); } else { localStorage.clear(); window.location.href=\''+R.signin+'\'; }">'
       +'<span class="material-icons text-lg">logout</span>Sign Out</a></div>';
     return h;
   }
